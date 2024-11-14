@@ -133,6 +133,26 @@ namespace Dennis.Tools.DialogueGraph
         {
             return node.InstantiatePort(Orientation.Horizontal, portDirection, capacity, typeof(float));
         }
+        /// <summary>
+        /// Connect the ports
+        /// </summary>
+        /// <param name="startPort"></param>
+        /// <param name="nodeAdapter"></param>
+        /// <returns></returns>
+        public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
+        {
+            var compatiblePorts = new List<Port>();
+            ports.ForEach(port =>
+            {
+                if (startPort != port && startPort.node != port.node)
+                {
+                    compatiblePorts.Add(port);
+                }
+            });
+
+            return compatiblePorts;
+        }
+
         #endregion Port
     }
 }
