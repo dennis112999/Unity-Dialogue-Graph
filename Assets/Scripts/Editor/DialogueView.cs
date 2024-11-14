@@ -46,7 +46,7 @@ namespace Dennis.Tools.DialogueGraph
             };
 
             // Add Port
-            Port generatePort = node.InstantiatePort(Orientation.Horizontal, Direction.Output, Capacity.Single, typeof(float));
+            var generatePort = GeneratePort(node, Direction.Output);
             generatePort.portName = "Next";
             node.outputContainer.Add(generatePort);
 
@@ -59,6 +59,10 @@ namespace Dennis.Tools.DialogueGraph
 
             node.SetPosition(new Rect(100, 200, 100, 150));
             return node;
+        }
+        private Port GeneratePort(DialogueNode node, Direction portDirection, Port.Capacity capacity = Port.Capacity.Single)
+        {
+            return node.InstantiatePort(Orientation.Horizontal, portDirection, capacity, typeof(float));
         }
     }
 }
