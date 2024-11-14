@@ -4,13 +4,17 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 using System;
-using static UnityEditor.Experimental.GraphView.Port;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Dennis.Tools.DialogueGraph
 {
     public class DialogueView : GraphView
     {
         public readonly Vector2 defaultNodeSize = new Vector2(150, 200);
+
+        private NodeSearchWindow _searchWindow;
+
         public DialogueView(EditorWindow editorWindow)
         {
             // Load the style Sheets
@@ -30,7 +34,25 @@ namespace Dennis.Tools.DialogueGraph
             grid.StretchToParentSize();
 
             AddElement(GenerateEntryPointNode());
+            AddSearchWindow(editorWindow);
+        }
+
+        private void AddSearchWindow(EditorWindow editorWindow)
+        {
+            _searchWindow = ScriptableObject.CreateInstance<NodeSearchWindow>();
+            _searchWindow.Init(editorWindow, this);
+            nodeCreationRequest = context => SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), _searchWindow);
+        }
+
         #region Node
+
+        /// <summary>
+        /// Create Node
+        /// </summary>
+        /// <param name="nodeName"></param>
+        public void CreateNode(string nodeName, Vector2 pos)
+        {
+            AddElement(CreateDialogueNode(nodeName, pos));
         }
 
         /// <summary>
