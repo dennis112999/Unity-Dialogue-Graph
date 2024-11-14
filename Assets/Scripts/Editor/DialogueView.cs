@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
+using System;
+using static UnityEditor.Experimental.GraphView.Port;
 
 namespace Dennis.Tools.DialogueGraph
 {
@@ -25,6 +27,38 @@ namespace Dennis.Tools.DialogueGraph
             var grid = new GridBackground();
             Insert(0, grid);
             grid.StretchToParentSize();
+
+            AddElement(GenerateEntryPointNode());
+        }
+
+        /// <summary>
+        /// Generate Entry Point Node at init
+        /// </summary>
+        /// <returns>Point Node</returns>
+        private Node GenerateEntryPointNode()
+        {
+            var node = new DialogueNode
+            {
+                title = "START",
+                GUID = Guid.NewGuid().ToString(),
+                DialogueText = "ENTRYPOINT",
+                EntryPoint = true
+            };
+
+            // Add Port
+            Port generatePort = node.InstantiatePort(Orientation.Horizontal, Direction.Output, Capacity.Single, typeof(float));
+            generatePort.portName = "Next";
+            node.outputContainer.Add(generatePort);
+
+            // Set node capabilities to Unmovable and Undeletable
+            node.capabilities &= ~Capabilities.Movable;
+            node.capabilities &= ~Capabilities.Deletable;
+
+            node.RefreshExpandedState();
+            node.RefreshPorts();
+
+            node.SetPosition(new Rect(100, 200, 100, 150));
+            return node;
         }
     }
 }
