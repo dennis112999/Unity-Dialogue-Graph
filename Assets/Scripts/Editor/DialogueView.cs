@@ -10,6 +10,7 @@ namespace Dennis.Tools.DialogueGraph
 {
     public class DialogueView : GraphView
     {
+        public readonly Vector2 defaultNodeSize = new Vector2(150, 200);
         public DialogueView(EditorWindow editorWindow)
         {
             // Load the style Sheets
@@ -29,6 +30,7 @@ namespace Dennis.Tools.DialogueGraph
             grid.StretchToParentSize();
 
             AddElement(GenerateEntryPointNode());
+        #region Node
         }
 
         /// <summary>
@@ -60,9 +62,55 @@ namespace Dennis.Tools.DialogueGraph
             node.SetPosition(new Rect(100, 200, 100, 150));
             return node;
         }
+
+        /// <summary>
+        /// Create Dialogue Node
+        /// </summary>
+        /// <param name="nodeName"></param>
+        /// <param name="nodePos"></param>
+        /// <returns></returns>
+        private DialogueNode CreateDialogueNode(string nodeName, Vector2 nodePos = default(Vector2))
+        {
+            var dialogueNode = new DialogueNode
+            {
+                title = nodeName,
+                DialogueText = nodeName,
+                GUID = Guid.NewGuid().ToString()
+            };
+
+            var inputPort = GeneratePort(dialogueNode, Direction.Input, Port.Capacity.Multi);
+            inputPort.portName = "Input";
+            dialogueNode.inputContainer.Add(inputPort);
+
+            // Load the style Sheets
+            dialogueNode.styleSheets.Add(Resources.Load<StyleSheet>("Node"));
+
+            // Set dialogue text field
+            var textField = new TextField(string.Empty);
+            textField.RegisterValueChangedCallback(evt =>
+            {
+                dialogueNode.DialogueText = evt.newValue;
+                dialogueNode.title = evt.newValue;
+            });
+            textField.SetValueWithoutNotify(dialogueNode.title);
+            dialogueNode.mainContainer.Add(textField);
+
+            // Refresh Node
+            dialogueNode.RefreshExpandedState();
+            dialogueNode.RefreshPorts();
+            dialogueNode.SetPosition(new Rect(nodePos, defaultNodeSize));
+
+            return dialogueNode;
+        }
+
+        #endregion Node
+
+        #region Port
+
         private Port GeneratePort(DialogueNode node, Direction portDirection, Port.Capacity capacity = Port.Capacity.Single)
         {
             return node.InstantiatePort(Orientation.Horizontal, portDirection, capacity, typeof(float));
         }
+        #endregion Port
     }
 }
