@@ -3,6 +3,9 @@ using UnityEngine.UIElements;
 
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEditor.Experimental.GraphView;
+
+using System;
 
 namespace Dennis.Tools.DialogueGraph
 {
@@ -22,6 +25,7 @@ namespace Dennis.Tools.DialogueGraph
         {
             ConstructGraphView();
             GenerateToolbar();
+            GenerateMiniMap();
         }
 
         private void OnDisable()
@@ -60,6 +64,34 @@ namespace Dennis.Tools.DialogueGraph
             toolbar.Add(new Button() { text = "Load Data" });
 
             rootVisualElement.Add(toolbar);
+        }
+
+        private void GenerateMiniMap()
+        {
+            var miniMap = new MiniMap { anchored = true };
+
+            Action updateMiniMapPosition = () =>
+            {
+                float windowWidth = _dialogueView.contentContainer.layout.width;
+
+                if (float.IsNaN(windowWidth))
+                {
+                    Debug.LogError("Window width is NaN. Layout may not be updated.");
+                }
+                else
+                {
+                    var cards = _dialogueView.contentViewContainer.WorldToLocal(new Vector2(windowWidth - 210, 50));
+                    miniMap.SetPosition(new Rect(cards.x, cards.y, 200, 140));
+                }
+            };
+
+            // Schedule the initial position setup
+            _dialogueView.schedule.Execute(updateMiniMapPosition).ExecuteLater(0);
+
+            // Listen to the GeometryChangedEvent to update the position when the window size changes
+            _dialogueView.RegisterCallback<GeometryChangedEvent>(evt => updateMiniMapPosition());
+
+            _dialogueView.Add(miniMap);
         }
     }
 
