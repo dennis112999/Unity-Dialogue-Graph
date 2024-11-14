@@ -63,8 +63,6 @@ namespace Dennis.Tools.DialogueGraph
             toolbar.Add(new Button() { text = "Save Data" });
             toolbar.Add(new Button() { text = "Load Data" });
 
-            toolbar.Add(new Button(() => OnCreateNodeButtonClick()) { text = "Create Node" });
-
             rootVisualElement.Add(toolbar);
         }
 
@@ -95,15 +93,6 @@ namespace Dennis.Tools.DialogueGraph
 
             _dialogueView.Add(miniMap);
         }
-
-        #region Button
-
-        private void OnCreateNodeButtonClick()
-        {
-            _dialogueView.CreateNode("Dualogue Node", new Vector2(0,0));
-        }
-
-        #endregion Button
     }
 
 }

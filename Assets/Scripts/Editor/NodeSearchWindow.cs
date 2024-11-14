@@ -26,16 +26,25 @@ namespace Dennis.Tools.DialogueGraph
 
         #region ISearchWindowProvider
 
+        private SearchTreeEntry AddNodeSearch(string name, BaseNode baseNode)
+        {
+            SearchTreeEntry tmp = new SearchTreeEntry(new GUIContent(name, _indentationIcon))
+            {
+                level = 2,
+                userData = baseNode
+            };
+
+            return tmp;
+        }
+
         public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
         {
             var tree = new List<SearchTreeEntry>()
             {
                 new SearchTreeGroupEntry(new GUIContent("Create Elements"), 0),
                 new SearchTreeGroupEntry(new GUIContent("Dialogue"), 1),
-                new SearchTreeEntry(new GUIContent("Dialogue Node", _indentationIcon))
-                {
-                    userData = new DialogueNode(), level = 2
-                }
+
+                AddNodeSearch("Start",new StartNode()),
             };
 
             return tree;
@@ -50,8 +59,9 @@ namespace Dennis.Tools.DialogueGraph
 
             switch (SearchTreeEntry.userData)
             {
-                case DialogueNode dialogueNode:
-                    _dialogueView.CreateNode("Dualogue Node", localMousePos);
+                case StartNode node:
+                    _dialogueView.CreateStartNode(localMousePos);
+                    return true;
                     return true;
 
                 default:
