@@ -80,6 +80,11 @@ namespace Dennis.Tools.DialogueGraph
             AddElement(new EndNode(position, _dialogueGraphWindow, this));
         }
 
+        public void CreateDialogueNode(Vector2 position)
+        {
+            AddElement(new DialogueNode(position, _dialogueGraphWindow, this));
+        }
+
         #endregion NodeType
     }
 }

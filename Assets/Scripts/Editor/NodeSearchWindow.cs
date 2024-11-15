@@ -46,6 +46,7 @@ namespace Dennis.Tools.DialogueGraph
 
                 AddNodeSearch("Start",new StartNode()),
                 AddNodeSearch("End",new EndNode()),
+                AddNodeSearch("DialogueNode",new DialogueNode()),
             };
 
             return tree;
@@ -66,6 +67,10 @@ namespace Dennis.Tools.DialogueGraph
 
                 case EndNode node:
                     _dialogueView.CreateEndNode(localMousePos);
+                    return true;
+
+                case DialogueNode node:
+                    _dialogueView.CreateDialogueNode(localMousePos);
                     return true;
 
                 default:
