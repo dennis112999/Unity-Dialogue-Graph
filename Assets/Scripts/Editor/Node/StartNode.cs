@@ -18,10 +18,6 @@ namespace Dennis.Tools.DialogueGraph
             SetPosition(new Rect(position, defaultNodeSize));
             guid = Guid.NewGuid().ToString();
 
-            // Set node capabilities to Unmovable and Undeletable
-            capabilities &= ~Capabilities.Movable;
-            capabilities &= ~Capabilities.Deletable;
-
             AddOutputPort("Next", Port.Capacity.Single);
 
             RefreshExpandedState();
