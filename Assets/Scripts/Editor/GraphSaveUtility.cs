@@ -161,6 +161,137 @@ namespace Dennis.Tools.DialogueGraph
 
         #endregion Save
 
+        #region Load
+
+        public void LoadGraph(string fileName)
+        {
+            _containerCache = Resources.Load<DialogueContainer>(fileName);
+
+            if (_containerCache == null)
+            {
+                EditorUtility.DisplayDialog("File not Found!", "Target dialogue graph file does not exists!", "OK");
+                return;
+            }
+
+            ClearGraph();
+            GenerateNodes(_containerCache);
+            ConnectNodes(_containerCache);
+        }
+
+        /// <summary>
+        /// Clear View Graph
+        /// </summary>
+        private void ClearGraph()
+        {
+            _edges.ForEach(edge => _dialogueView.RemoveElement(edge));
+
+            foreach (BaseNode node in _dialogueNodes)
+            {
+                _dialogueView.RemoveElement(node);
+            }
+        }
+
+        /// <summary>
+        /// Generate Nodes
+        /// </summary>
+        /// <param name="dialogueContainer"></param>
+        private void GenerateNodes(DialogueContainer dialogueContainer)
+        {
+            // Start
+            foreach (StartData node in dialogueContainer.StartDatas)
+            {
+                _dialogueView.CreateStartNode(node.Position, node.NodeGuid);
+            }
+
+            // End Node 
+            foreach (EndData node in dialogueContainer.EndDatas)
+            {
+                _dialogueView.CreateEndNode(node.Position, node.NodeGuid);
+            }
+        }
+
+        /// <summary>
+        /// Connects all nodes
+        /// </summary>
+        /// <param name="dialogueContainer"></param>
+        private void ConnectNodes(DialogueContainer dialogueContainer)
+        {
+            // Make connection for all nodes.
+            for (int i = 0; i < _dialogueNodes.Count; i++)
+            {
+                List<NodeLinkData> connections = dialogueContainer.nodeLinkDatas
+                    .Where(edge => edge.BaseNodeGuid == _dialogueNodes[i].GUID)
+                    .ToList();
+
+                if (_dialogueNodes[i].outputContainer == null || !_dialogueNodes[i].outputContainer.Children().Any())
+                {
+                    Debug.LogWarning($"Node {_dialogueNodes[i].GUID} has no output ports.");
+                    continue;
+                }
+
+                List<Port> allOutputPorts = _dialogueNodes[i].outputContainer
+                    .Children()
+                    .Where(x => x is Port)
+                    .Cast<Port>()
+                    .ToList();
+
+                for (int j = 0; j < connections.Count; j++)
+                {
+                    string targetNodeGuid = connections[j].TargetNodeGuid;
+                    BaseNode targetNode = _dialogueNodes.FirstOrDefault(node => node.GUID == targetNodeGuid);
+
+                    if (targetNode == null)
+                    {
+                        Debug.LogWarning($"Target node with GUID {targetNodeGuid} not found.");
+                        continue;
+                    }
+
+                    if (targetNode.inputContainer == null || !targetNode.inputContainer.Children().Any())
+                    {
+                        Debug.LogWarning($"Target node {targetNode.GUID} has no input ports.");
+                        continue;
+                    }
+
+                    foreach (Port item in allOutputPorts)
+                    {
+                        if (item.portName == connections[j].BasePortName)
+                        {
+                            LinkNodes(item, (Port)targetNode.inputContainer[0]);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Creates a link between two nodes
+        /// </summary>
+        /// <param name="outputPort"></param>
+        /// <param name="inputPort"></param>
+        private void LinkNodes(Port outputPort, Port inputPort)
+        {
+            // Create a new edge to connect the two ports
+            Edge tempEdge = new Edge
+            {
+                output = outputPort,
+                input = inputPort
+            };
+
+            // Connect the ports to the edge
+            try
+            {
+                tempEdge.input.Connect(tempEdge);
+                tempEdge.output.Connect(tempEdge);
+
+                _dialogueView.Add(tempEdge);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"LinkNodes failed: An error occurred while linking nodes. Exception: {ex.Message}");
+            }
+        }
+
+        #endregion Load
 
     }
 }

@@ -62,6 +62,9 @@ namespace Dennis.Tools.DialogueGraph
             Button SaveDataButton = CreateButton("Save Data", () => RequestDataOperation(true));
             toolbar.Add(SaveDataButton);
 
+            Button LoadDataButton = CreateButton("Load Data", () => RequestDataOperation(false));
+            toolbar.Add(LoadDataButton);
+
             rootVisualElement.Add(toolbar);
         }
 
