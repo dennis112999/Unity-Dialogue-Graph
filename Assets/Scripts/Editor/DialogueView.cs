@@ -75,9 +75,25 @@ namespace Dennis.Tools.DialogueGraph
             AddElement(new StartNode(position, _dialogueGraphWindow, this));
         }
 
+        public void CreateStartNode(Vector2 position, string GUID)
+        {
+            StartNode tempNode = new StartNode(position, _dialogueGraphWindow, this);
+            tempNode.GUID = GUID;
+
+            AddElement(tempNode);
+        }
+
         public void CreateEndNode(Vector2 position)
         {
             AddElement(new EndNode(position, _dialogueGraphWindow, this));
+        }
+
+        public void CreateEndNode(Vector2 position, string GUID)
+        {
+            EndNode tempNode = new EndNode(position, _dialogueGraphWindow, this);
+            tempNode.GUID = GUID;
+
+            AddElement(tempNode);
         }
 
         public void CreateDialogueNode(Vector2 position)
