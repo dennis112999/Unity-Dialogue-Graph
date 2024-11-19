@@ -18,7 +18,7 @@ namespace Dennis.Tools.DialogueGraph
             SetPosition(new Rect(position, defaultNodeSize));
             guid = Guid.NewGuid().ToString();
 
-            AddInputPort("Previous", Port.Capacity.Single);
+            AddInputPort("Input", Port.Capacity.Multi);
 
             RefreshExpandedState();
             RefreshPorts();
