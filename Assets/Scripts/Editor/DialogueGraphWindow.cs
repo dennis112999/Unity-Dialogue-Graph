@@ -59,9 +59,8 @@ namespace Dennis.Tools.DialogueGraph
             toolbar.Add(fileNameTextField);
 
             // Add Save Data Button and Load Data Button
-            // To Do : Button Save / Load function
-            toolbar.Add(new Button() { text = "Save Data" });
-            toolbar.Add(new Button() { text = "Load Data" });
+            Button SaveDataButton = CreateButton("Save Data", () => RequestDataOperation(true));
+            toolbar.Add(SaveDataButton);
 
             rootVisualElement.Add(toolbar);
         }
@@ -93,6 +92,37 @@ namespace Dennis.Tools.DialogueGraph
 
             _dialogueView.Add(miniMap);
         }
+
+        private void RequestDataOperation(bool save)
+        {
+            if (string.IsNullOrEmpty(_fileName))
+            {
+                EditorUtility.DisplayDialog("Invalid file name!", "Please enter a valid file name", "OK");
+            }
+            else
+            {
+                var saveUtility = GraphSaveUtility.GetInstance(_dialogueView);
+
+                if(save)
+                {
+                    saveUtility.SaveGraph(_fileName);
+                }
+                else
+                {
+                    saveUtility.LoadGraph(_fileName);
+                }
+            }
+        }
+
+        #region UI
+
+        private Button CreateButton(string buttonText, Action onClickAction)
+        {
+            Button button = new Button(onClickAction) { text = buttonText };
+            return button;
+        }
+
+        #endregion UI
     }
 
 }
