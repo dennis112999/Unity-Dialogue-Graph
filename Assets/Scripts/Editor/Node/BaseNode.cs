@@ -46,7 +46,7 @@ namespace Dennis.Tools.DialogueGraph
         {
             Port inputPort = GetPortInstance(Direction.Input, capacity);
             inputPort.portName = name;
-            outputContainer.Add(inputPort);
+            inputContainer.Add(inputPort);
             return inputPort;
         }
 
