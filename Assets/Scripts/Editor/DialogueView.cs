@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
+using Dennis.Tools.DialogueGraph.Data;
 
 namespace Dennis.Tools.DialogueGraph
 {
@@ -99,6 +100,15 @@ namespace Dennis.Tools.DialogueGraph
         public void CreateDialogueNode(Vector2 position)
         {
             AddElement(new DialogueNode(position, _dialogueGraphWindow, this));
+        }
+
+        public void CreateDialogueNode(Vector2 position, DialogueNodeData dialogueNodeData)
+        {
+            DialogueNode tempNode = new DialogueNode(position, _dialogueGraphWindow, this);
+            tempNode.GUID = dialogueNodeData.NodeGuid;
+            tempNode.Init(dialogueNodeData);
+
+            AddElement(tempNode);
         }
 
         #endregion NodeType

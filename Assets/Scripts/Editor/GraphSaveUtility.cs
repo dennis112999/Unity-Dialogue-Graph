@@ -51,6 +51,16 @@ namespace Dennis.Tools.DialogueGraph
             {
                 if (AssetDatabase.LoadAssetAtPath<ScriptableObject>(assetPath) != null)
                 {
+                    tempDialogueContainer.nodeLinkDatas.Clear();
+                    tempDialogueContainer.StartDatas.Clear();
+                    tempDialogueContainer.EndDatas.Clear();
+                    tempDialogueContainer.DialogueNodes.Clear();
+
+                    tempDialogueContainer.nodeLinkDatas = dialogueContainer.nodeLinkDatas;
+                    tempDialogueContainer.StartDatas = dialogueContainer.StartDatas;
+                    tempDialogueContainer.EndDatas = dialogueContainer.EndDatas;
+                    tempDialogueContainer.DialogueNodes = dialogueContainer.DialogueNodes;
+
                     EditorUtility.SetDirty(tempDialogueContainer);
                 }
                 else
@@ -130,6 +140,7 @@ namespace Dennis.Tools.DialogueGraph
             // Clear existing data to prepare for new data
             dialogueContainer.StartDatas.Clear();
             dialogueContainer.EndDatas.Clear();
+            dialogueContainer.DialogueNodes.Clear();
 
             foreach (var node in _dialogueNodes)
             {
@@ -148,6 +159,15 @@ namespace Dennis.Tools.DialogueGraph
                         {
                             NodeGuid = endNode.GUID,
                             Position = endNode.GetPosition().position,
+                        });
+                        break;
+
+                    case DialogueNode dialogueNode:
+                        dialogueContainer.DialogueNodes.Add(new DialogueNodeData
+                        {
+                            NodeGuid = dialogueNode.GUID,
+                            Position = dialogueNode.GetPosition().position,
+                            DialogueText = dialogueNode.DialogueText,
                         });
                         break;
 
@@ -207,6 +227,12 @@ namespace Dennis.Tools.DialogueGraph
             foreach (EndData node in dialogueContainer.EndDatas)
             {
                 _dialogueView.CreateEndNode(node.Position, node.NodeGuid);
+            }
+
+            // Dialogue Node
+            foreach (DialogueNodeData node in dialogueContainer.DialogueNodes)
+            {
+                _dialogueView.CreateDialogueNode(node.Position, node);
             }
         }
 

@@ -6,12 +6,13 @@ using UnityEditor.Experimental.GraphView;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.UIElements;
+using Dennis.Tools.DialogueGraph.Data;
 
 namespace Dennis.Tools.DialogueGraph
 {
     public class DialogueNode : BaseNode
     {
-        public string DialogueText;
+        public string DialogueText = "default";
 
         public DialogueNode() { }
 
@@ -128,7 +129,8 @@ namespace Dennis.Tools.DialogueGraph
             {
                 DialogueText = evt.newValue;
             });
-            textField.SetValueWithoutNotify(title);
+            textField.SetValueWithoutNotify(DialogueText);
+
 
             // Create a remove button
             Button btnRemove = new Button();
@@ -146,7 +148,20 @@ namespace Dennis.Tools.DialogueGraph
             mainContainer.Add(textField);
         }
 
+        #region Init
 
+        public void Init(DialogueNodeData dialogueNodeData)
+        {
+            DialogueText = dialogueNodeData.DialogueText;
+
+            AddDialogueBox();
+
+            // Refresh
+            RefreshPorts();
+            RefreshExpandedState();
+        }
+        
+        #endregion Init
 
     }
 }
