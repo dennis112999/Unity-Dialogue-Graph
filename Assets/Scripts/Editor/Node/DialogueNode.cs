@@ -12,7 +12,8 @@ namespace Dennis.Tools.DialogueGraph
 {
     public class DialogueNode : BaseNode
     {
-        public string DialogueText = "default";
+        private DialogueNodeData _currentNodeData;
+        public DialogueNodeData CurrentNodeData { get { return _currentNodeData; } }
 
         public DialogueNode() { }
 
@@ -20,6 +21,9 @@ namespace Dennis.Tools.DialogueGraph
         {
             base.editorWindow = editorWindow;
             base.graphView = graphView;
+
+            // Init NodeData
+            _currentNodeData = new DialogueNodeData();
 
             // Load the style Sheets
             StyleSheet styleSheet = Resources.Load<StyleSheet>("DialogueNodeStyleSheet");
@@ -88,7 +92,7 @@ namespace Dennis.Tools.DialogueGraph
             ToolbarMenu Menu = new ToolbarMenu();
             Menu.text = "Add Content";
 
-            Menu.menu.AppendAction("Text", new Action<DropdownMenuAction>(x => AddDialogueBox()));
+            Menu.menu.AppendAction("Text", new Action<DropdownMenuAction>(x => AddNewDialogueBox()));
 
             titleButtonContainer.Add(Menu);
         }
@@ -112,7 +116,16 @@ namespace Dennis.Tools.DialogueGraph
             node.RefreshExpandedState();
         }
 
-        private void AddDialogueBox()
+        private void AddNewDialogueBox()
+        {
+            // Create a new DialogueBoxData
+            var dialogueBox = new DialogueBoxData();
+            _currentNodeData.DialogueBoxes.Add(dialogueBox);
+
+            AddDialogueBox(dialogueBox);
+        }
+
+        private void AddDialogueBox(DialogueBoxData dialogueBox)
         {
             // Create a container box
             Box boxContainer = new Box();
@@ -127,9 +140,9 @@ namespace Dennis.Tools.DialogueGraph
             var textField = new TextField(string.Empty);
             textField.RegisterValueChangedCallback(evt =>
             {
-                DialogueText = evt.newValue;
+                dialogueBox.Text = evt.newValue;
             });
-            textField.SetValueWithoutNotify(DialogueText);
+            textField.SetValueWithoutNotify(dialogueBox.Text);
 
 
             // Create a remove button
@@ -138,6 +151,7 @@ namespace Dennis.Tools.DialogueGraph
             btnRemove.AddToClassList("TextRemoveBtn");
             btnRemove.clicked += () =>
             {
+                _currentNodeData.DialogueBoxes.Remove(dialogueBox);
                 mainContainer.Remove(boxContainer); // Remove the entire container
                 mainContainer.Remove(textField);
             };
@@ -152,9 +166,12 @@ namespace Dennis.Tools.DialogueGraph
 
         public void Init(DialogueNodeData dialogueNodeData)
         {
-            DialogueText = dialogueNodeData.DialogueText;
+            _currentNodeData = dialogueNodeData;
 
-            AddDialogueBox();
+            foreach (var dialogueBox in _currentNodeData.DialogueBoxes)
+            {
+                AddDialogueBox(dialogueBox);
+            }
 
             // Refresh
             RefreshPorts();
