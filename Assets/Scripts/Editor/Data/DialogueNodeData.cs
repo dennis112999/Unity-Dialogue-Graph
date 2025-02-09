@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Dennis.Tools.DialogueGraph.Data
 {
@@ -6,6 +7,7 @@ namespace Dennis.Tools.DialogueGraph.Data
     public class DialogueNodeData : BaseData
     {
         public List<DialogueBoxData> DialogueBoxes = new List<DialogueBoxData>();
+        public List<DialogueImagesData> DialogueImagesDatas = new List<DialogueImagesData>();
     }
 
     [System.Serializable]
@@ -17,5 +19,14 @@ namespace Dennis.Tools.DialogueGraph.Data
         {
             Text = text;
         }
+    }
+
+    [System.Serializable]
+    public class DialogueImagesData
+    {
+        public int ID;
+
+        public Sprite Sprite_Left;
+        public Sprite Sprite_Right;
     }
 }

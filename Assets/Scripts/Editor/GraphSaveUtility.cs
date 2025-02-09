@@ -168,6 +168,7 @@ namespace Dennis.Tools.DialogueGraph
                             NodeGuid = dialogueNode.GUID,
                             Position = dialogueNode.GetPosition().position,
                             DialogueBoxes = dialogueNode.CurrentNodeData.DialogueBoxes,
+                            DialogueImagesDatas = dialogueNode.CurrentNodeData.DialogueImagesDatas,
                         });
                         break;
 

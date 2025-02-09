@@ -19,3 +19,28 @@
 	margin-left:auto;
 }
 
+/* ----------------- Images -----------------*/
+.ImageColor{
+	color:blue;
+}
+
+.ImagePreviewRight{
+	margin-left:auto;
+}
+
+.ImagePreviewLeft{
+	margin-right:auto;
+}
+
+.ImagePreview{
+	height:	100px;
+	width:	65px;
+}
+
+.SpriteRight{
+	margin-left:auto;
+}
+
+.SpriteLeft{
+	margin-right:auto;
+}

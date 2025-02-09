@@ -86,7 +86,7 @@ namespace Dennis.Tools.DialogueGraph
             Menu.text = "Add Content";
 
             Menu.menu.AppendAction("Text", new Action<DropdownMenuAction>(x => AddNewDialogueBox()));
-            Menu.menu.AppendAction("Image", new Action<DropdownMenuAction>(x => AddNewDialogueBox()));
+            Menu.menu.AppendAction("Image", new Action<DropdownMenuAction>(x => CreateAndAddDialogueImage()));
 
             titleButtonContainer.Add(Menu);
         }
@@ -115,7 +115,7 @@ namespace Dennis.Tools.DialogueGraph
         private void AddNewDialogueBox()
         {
             // Create a new DialogueBoxData
-            var dialogueBox = new DialogueBoxData();
+            DialogueBoxData dialogueBox = new DialogueBoxData();
             _currentNodeData.DialogueBoxes.Add(dialogueBox);
 
             AddDialogueBox(dialogueBox);
@@ -123,7 +123,7 @@ namespace Dennis.Tools.DialogueGraph
 
         private void AddDialogueBox(DialogueBoxData dialogueBox)
         {
-            // Create a container box
+            // Create a imagesData box
             Box boxContainer = UIHelper.CreateBox("TopBox");
 
             // Add a label
@@ -140,15 +140,111 @@ namespace Dennis.Tools.DialogueGraph
             Button btnRemove = UIHelper.CreateButton("Remove", () =>
             {
                 _currentNodeData.DialogueBoxes.Remove(dialogueBox);
-                mainContainer.Remove(boxContainer); // Remove the entire container
+                mainContainer.Remove(boxContainer); // Remove the entire imagesData
                 mainContainer.Remove(textField);
             }, "TextRemoveBtn");
             boxContainer.Add(btnRemove);
 
-            // Add the container to the main container
+            // Add the imagesData to the main imagesData
             mainContainer.Add(boxContainer);
             mainContainer.Add(textField);
         }
+
+        #endregion Dialogue Box
+
+        #region Dialogue Image
+
+        private void CreateAndAddDialogueImage()
+        {
+            // Create a new DialogueImageData
+            DialogueImagesData dialogueImages = new DialogueImagesData();
+            _currentNodeData.DialogueImagesDatas.Add(dialogueImages);
+
+            AddDialogueImageContainer(dialogueImages);
+        }
+
+        public void AddDialogueImageContainer(DialogueImagesData ImagesData)
+        {
+            Box boxContainer = UIHelper.CreateBox("DialogueBox");
+
+            // Add a label
+            Label label = UIHelper.CreateLabel("Image", "LabelText");
+            boxContainer.Add(label);
+
+            // Create a remove button
+            Button btnRemove = UIHelper.CreateButton("Remove", () =>
+            {
+                _currentNodeData.DialogueImagesDatas.Remove(ImagesData);
+                mainContainer.Remove(boxContainer); // Remove the entire imagesData
+            }, "TextRemoveBtn");
+
+            boxContainer.Add(btnRemove);
+
+            CreateDialogueImagePreview(ImagesData, boxContainer);
+
+            mainContainer.Add(boxContainer);
+        }
+
+        private void CreateDialogueImagePreview(DialogueImagesData imagesData, Box boxContainer)
+        {
+            // Set Up Image Box
+            Box ImagePreviewBox = UIHelper.CreateBox("BoxRow");
+            Box ImagesBox = UIHelper.CreateBox("BoxRow");
+
+            // Set up Image Preview.
+            Image leftImage = UIHelper.CreateImage("ImagePreview");
+            leftImage.AddToClassList("ImagePreviewLeft");
+            ImagePreviewBox.Add(leftImage);
+
+            Image rightImage = UIHelper.CreateImage("ImagePreview");
+            rightImage.AddToClassList("ImagePreviewRight");
+            ImagePreviewBox.Add(rightImage);
+
+            // Set up Sprite
+            ObjectField objectField_Left = GetNewObjectFieldForSprite(
+                () => imagesData.Sprite_Left,
+                (newSprite) => imagesData.Sprite_Left = newSprite,
+                leftImage,
+                "SpriteLeft"
+            );
+
+            ObjectField objectField_Right = GetNewObjectFieldForSprite(
+                () => imagesData.Sprite_Right,
+                (newSprite) => imagesData.Sprite_Right = newSprite,
+                rightImage,
+                "SpriteRight"
+            );
+
+            ImagesBox.Add(objectField_Left);
+            ImagesBox.Add(objectField_Right);
+
+            // Add to box imagesData
+            boxContainer.Add(ImagePreviewBox);
+            boxContainer.Add(ImagesBox);
+        }
+
+        private ObjectField GetNewObjectFieldForSprite(Func<Sprite> getCurrentSprite, Action<Sprite> updateSprite, Image previewImage, string primaryStyle = "", string additionalStyle = "")
+        {
+            ObjectField objectField = UIHelper.CreateObjectField<Sprite>(
+                getCurrentSprite(),
+                (newSprite) =>
+                {
+                    updateSprite(newSprite);
+                    previewImage.image = (newSprite != null ? newSprite.texture : null);
+                },
+                primaryStyle
+            );
+
+            // Set initial image preview
+            previewImage.image = (getCurrentSprite() != null ? getCurrentSprite().texture : null);
+
+            // Set USS class for styling
+            objectField.AddToClassList(additionalStyle);
+
+            return objectField;
+        }
+
+        #endregion Dialogue Image
 
         #region Init
 
@@ -159,6 +255,11 @@ namespace Dennis.Tools.DialogueGraph
             foreach (var dialogueBox in _currentNodeData.DialogueBoxes)
             {
                 AddDialogueBox(dialogueBox);
+            }
+
+            foreach (var imagesData in _currentNodeData.DialogueImagesDatas)
+            {
+                AddDialogueImageContainer(imagesData);
             }
 
             // Refresh
