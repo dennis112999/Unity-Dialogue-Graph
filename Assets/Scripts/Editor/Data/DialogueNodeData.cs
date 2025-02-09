@@ -15,9 +15,12 @@ namespace Dennis.Tools.DialogueGraph.Data
     {
         public string Text;
 
-        public DialogueBoxData(string text = "default")
+        public AudioClip AudioClip;
+
+        public DialogueBoxData(string text = "default", AudioClip audioClip = null)
         {
             Text = text;
+            AudioClip = audioClip;
         }
     }
 

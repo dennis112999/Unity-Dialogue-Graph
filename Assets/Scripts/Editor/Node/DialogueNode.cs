@@ -136,18 +136,29 @@ namespace Dennis.Tools.DialogueGraph
                 dialogueBox.Text = newValue;
             });
 
+            // Create AudioClip selection field
+            ObjectField audioClipField = UIHelper.CreateObjectField<AudioClip>(
+                null,
+                (newAudioClip) =>
+                {
+                    dialogueBox.AudioClip = newAudioClip;
+                }
+            );
+
             // Create a remove button
             Button btnRemove = UIHelper.CreateButton("Remove", () =>
             {
                 _currentNodeData.DialogueBoxes.Remove(dialogueBox);
                 mainContainer.Remove(boxContainer); // Remove the entire imagesData
                 mainContainer.Remove(textField);
+                mainContainer.Remove(audioClipField);
             }, "TextRemoveBtn");
             boxContainer.Add(btnRemove);
 
             // Add the imagesData to the main imagesData
             mainContainer.Add(boxContainer);
             mainContainer.Add(textField);
+            mainContainer.Add(audioClipField);
         }
 
         #endregion Dialogue Box
