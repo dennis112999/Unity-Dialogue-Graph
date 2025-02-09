@@ -1,5 +1,6 @@
 using System;
 using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 
 namespace Dennis.Tools
 {
@@ -70,6 +71,34 @@ namespace Dennis.Tools
             Image image = new Image();
             AddClassIfNotEmpty(image, className);
             return image;
+        }
+
+        /// <summary>
+        /// Create Object Field
+        /// </summary>
+        /// <param name="initialValue">initial value of the object field</param>
+        /// <param name="onValueChanged">action - value changes</param>
+        /// <param name="classNames">class USS name to add</param>
+        /// <returns></returns>
+        public static ObjectField CreateObjectField<T>(T initialValue, Action<T> onValueChanged, string classNames = null) where T : UnityEngine.Object
+        {
+            // Create the ObjectField
+            ObjectField objectField = new ObjectField
+            {
+                objectType = typeof(T),
+                allowSceneObjects = false,
+                value = initialValue
+            };
+
+            // Register a value change callback
+            objectField.RegisterValueChangedCallback(value =>
+            {
+                onValueChanged?.Invoke(value.newValue as T);
+            });
+
+            AddClassIfNotEmpty(objectField, classNames);
+
+            return objectField;
         }
 
         /// <summary>
