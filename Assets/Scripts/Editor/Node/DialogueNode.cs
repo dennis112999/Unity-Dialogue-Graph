@@ -47,12 +47,10 @@ namespace Dennis.Tools.DialogueGraph
         private void AddChoiceButton()
         {
             // Create ChoiceButton
-            Button addChoiceButton = new Button
+            Button addChoiceButton = UIHelper.CreateButton("Add Choice", () =>
             {
-                text = "Add Choice"
-            };
-            addChoiceButton.AddToClassList("TopBtn");
-            addChoiceButton.clicked += () => AddChoicePort(this);
+                AddChoicePort(this);
+            }, "TopBtn");
 
             titleButtonContainer.Add(addChoiceButton);
         }
@@ -63,20 +61,15 @@ namespace Dennis.Tools.DialogueGraph
             Port port = GetPortInstance(Direction.Output);
 
             // Delete button
-            {
-                Button deleteButton = new Button(() => DeletePort(baseNode, port))
-                {
-                    text = "X",
-                };
-                port.contentContainer.Add(deleteButton);
-            }
+            Button deleteButton = UIHelper.CreateButton("X", () => DeletePort(baseNode, port));
+            port.contentContainer.Add(deleteButton);
 
             // Add Choice Port
             port.portName = "Next";
             Label portNameLabel = port.contentContainer.Q<Label>("type"); 
             portNameLabel.AddToClassList("PortName");
 
-            // Set color of the port.
+            // Set color of the port
             port.portColor = Color.yellow;
 
             baseNode.outputContainer.Add(port);
@@ -93,6 +86,7 @@ namespace Dennis.Tools.DialogueGraph
             Menu.text = "Add Content";
 
             Menu.menu.AppendAction("Text", new Action<DropdownMenuAction>(x => AddNewDialogueBox()));
+            Menu.menu.AppendAction("Image", new Action<DropdownMenuAction>(x => AddNewDialogueBox()));
 
             titleButtonContainer.Add(Menu);
         }
@@ -116,6 +110,8 @@ namespace Dennis.Tools.DialogueGraph
             node.RefreshExpandedState();
         }
 
+        #region Dialogue Box
+
         private void AddNewDialogueBox()
         {
             // Create a new DialogueBoxData
@@ -128,33 +124,25 @@ namespace Dennis.Tools.DialogueGraph
         private void AddDialogueBox(DialogueBoxData dialogueBox)
         {
             // Create a container box
-            Box boxContainer = new Box();
-            boxContainer.AddToClassList("TopBox");
+            Box boxContainer = UIHelper.CreateBox("TopBox");
 
             // Add a label
-            Label labelName = new Label("Dialogue");
-            labelName.AddToClassList("LabelText");
-            boxContainer.Add(labelName);
+            Label label = UIHelper.CreateLabel("Dialogue", "LabelText");
+            boxContainer.Add(label);
 
             // Set dialogue text field
-            var textField = new TextField(string.Empty);
-            textField.RegisterValueChangedCallback(evt =>
+            var textField = UIHelper.CreateTextField(dialogueBox.Text, newValue =>
             {
-                dialogueBox.Text = evt.newValue;
+                dialogueBox.Text = newValue;
             });
-            textField.SetValueWithoutNotify(dialogueBox.Text);
-
 
             // Create a remove button
-            Button btnRemove = new Button();
-            btnRemove.text = "Remove"; // Add descriptive button text
-            btnRemove.AddToClassList("TextRemoveBtn");
-            btnRemove.clicked += () =>
+            Button btnRemove = UIHelper.CreateButton("Remove", () =>
             {
                 _currentNodeData.DialogueBoxes.Remove(dialogueBox);
                 mainContainer.Remove(boxContainer); // Remove the entire container
                 mainContainer.Remove(textField);
-            };
+            }, "TextRemoveBtn");
             boxContainer.Add(btnRemove);
 
             // Add the container to the main container

@@ -59,10 +59,10 @@ namespace Dennis.Tools.DialogueGraph
             toolbar.Add(fileNameTextField);
 
             // Add Save Data Button and Load Data Button
-            Button SaveDataButton = CreateButton("Save Data", () => RequestDataOperation(true));
+            Button SaveDataButton = UIHelper.CreateButton("Save Data", () => RequestDataOperation(true));
             toolbar.Add(SaveDataButton);
 
-            Button LoadDataButton = CreateButton("Load Data", () => RequestDataOperation(false));
+            Button LoadDataButton = UIHelper.CreateButton("Load Data", () => RequestDataOperation(false));
             toolbar.Add(LoadDataButton);
 
             rootVisualElement.Add(toolbar);
@@ -116,16 +116,6 @@ namespace Dennis.Tools.DialogueGraph
                 }
             }
         }
-
-        #region UI
-
-        private Button CreateButton(string buttonText, Action onClickAction)
-        {
-            Button button = new Button(onClickAction) { text = buttonText };
-            return button;
-        }
-
-        #endregion UI
     }
 
 }
