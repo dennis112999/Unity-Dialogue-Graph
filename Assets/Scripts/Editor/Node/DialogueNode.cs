@@ -352,18 +352,30 @@ namespace Dennis.Tools.DialogueGraph
 
         private void RemoveElement(DialogueElementBase element)
         {
-            if (_currentNodeData.AllDialogueElements.Contains(element))
+            if (!_currentNodeData.AllDialogueElements.Contains(element)) return;
+
+            // Remove from AllDialogueElements
+            _currentNodeData.AllDialogueElements.Remove(element);
+
+            // Also remove from specific lists
+            switch (element)
             {
-                _currentNodeData.AllDialogueElements.Remove(element);
+                case DialogueBoxData dialogueBox:
+                    _currentNodeData.DialogueBoxes.Remove(dialogueBox);
+                    break;
 
-                int order = 0;
-                foreach (var e in _currentNodeData.AllDialogueElements)
-                {
-                    e.OrderIndex = order++;
-                }
-
-                RefreshUI();
+                case DialogueImagesData dialogueImage:
+                    _currentNodeData.DialogueImagesDatas.Remove(dialogueImage);
+                    break;
             }
+
+            // Reassign OrderIndex
+            for (int i = 0; i < _currentNodeData.AllDialogueElements.Count; i++)
+            {
+                _currentNodeData.AllDialogueElements[i].OrderIndex = i;
+            }
+
+            RefreshUI();
         }
 
         private void RefreshUI()
