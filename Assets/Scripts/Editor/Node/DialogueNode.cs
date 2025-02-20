@@ -1,4 +1,4 @@
-using UnityEngine.UIElements;
+﻿using UnityEngine.UIElements;
 using UnityEngine;
 
 using System;
@@ -14,6 +14,8 @@ namespace Dennis.Tools.DialogueGraph
     {
         private DialogueNodeData _currentNodeData;
         public DialogueNodeData CurrentNodeData { get { return _currentNodeData; } }
+
+        private List<VisualElement> _dialogueElements = new List<VisualElement>();
 
         public DialogueNode() { }
 
@@ -44,6 +46,8 @@ namespace Dennis.Tools.DialogueGraph
             RefreshExpandedState();
         }
 
+        #region Choice Management
+
         private void AddChoiceButton()
         {
             // Create ChoiceButton
@@ -54,7 +58,6 @@ namespace Dennis.Tools.DialogueGraph
 
             titleButtonContainer.Add(addChoiceButton);
         }
-
 
         public Port AddChoicePort(BaseNode baseNode)
         {
@@ -110,6 +113,8 @@ namespace Dennis.Tools.DialogueGraph
             node.RefreshExpandedState();
         }
 
+        #endregion Choice Management
+
         #region Dialogue Box
 
         private void AddNewDialogueBox()
@@ -117,48 +122,49 @@ namespace Dennis.Tools.DialogueGraph
             // Create a new DialogueBoxData
             DialogueBoxData dialogueBox = new DialogueBoxData();
             _currentNodeData.DialogueBoxes.Add(dialogueBox);
+            _currentNodeData.AllDialogueElements.Add(dialogueBox);
 
             AddDialogueBox(dialogueBox);
         }
-
         private void AddDialogueBox(DialogueBoxData dialogueBox)
         {
-            // Create a imagesData box
-            Box boxContainer = UIHelper.CreateBox("TopBox");
+            Box boxContainer = UIHelper.CreateBox("DialogueBox");
+            boxContainer.AddToClassList("DialogueBox");
 
-            // Add a label
-            Label label = UIHelper.CreateLabel("Dialogue", "LabelText");
-            boxContainer.Add(label);
+            // Create the title section
+            Box titleContainer = UIHelper.CreateBox("DialogueBoxTitle");
 
-            // Set dialogue text field
+            // Title label
+            Label label = UIHelper.CreateLabel("Dialogue Text", "LabelText");
+            titleContainer.Add(label);
+
+            // Add "Move Up", "Move Down", and "Remove" buttons
+            titleContainer.Add(CreateMoveAndRemoveButtons(dialogueBox));
+
+            boxContainer.Add(titleContainer);
+
+            // Background container
+            Box contentBox = UIHelper.CreateBox("DialogueContentBox");
+
+            // Input field
             var textField = UIHelper.CreateTextField(dialogueBox.Text, newValue =>
             {
                 dialogueBox.Text = newValue;
             });
+            textField.AddToClassList("TextField");
+            contentBox.Add(textField);
 
-            // Create AudioClip selection field
+            // Audio selection field
             ObjectField audioClipField = UIHelper.CreateObjectField<AudioClip>(
                 null,
-                (newAudioClip) =>
-                {
-                    dialogueBox.AudioClip = newAudioClip;
-                }
+                (newAudioClip) => dialogueBox.AudioClip = newAudioClip
             );
+            audioClipField.AddToClassList("AudioClipField");
+            contentBox.Add(audioClipField);
 
-            // Create a remove button
-            Button btnRemove = UIHelper.CreateButton("Remove", () =>
-            {
-                _currentNodeData.DialogueBoxes.Remove(dialogueBox);
-                mainContainer.Remove(boxContainer); // Remove the entire imagesData
-                mainContainer.Remove(textField);
-                mainContainer.Remove(audioClipField);
-            }, "TextRemoveBtn");
-            boxContainer.Add(btnRemove);
-
-            // Add the imagesData to the main imagesData
+            boxContainer.Add(contentBox);
             mainContainer.Add(boxContainer);
-            mainContainer.Add(textField);
-            mainContainer.Add(audioClipField);
+            _dialogueElements.Add(boxContainer);
         }
 
         #endregion Dialogue Box
@@ -170,48 +176,52 @@ namespace Dennis.Tools.DialogueGraph
             // Create a new DialogueImageData
             DialogueImagesData dialogueImages = new DialogueImagesData();
             _currentNodeData.DialogueImagesDatas.Add(dialogueImages);
+            _currentNodeData.AllDialogueElements.Add(dialogueImages);
 
             AddDialogueImageContainer(dialogueImages);
         }
 
-        public void AddDialogueImageContainer(DialogueImagesData ImagesData)
+        public void AddDialogueImageContainer(DialogueImagesData imagesData)
         {
             Box boxContainer = UIHelper.CreateBox("DialogueBox");
+            boxContainer.AddToClassList("DialogueBox");
 
-            // Add a label
+            // Create the title section
+            Box titleContainer = UIHelper.CreateBox("DialogueBoxTitle");
+
+            // Title label
             Label label = UIHelper.CreateLabel("Image", "LabelText");
-            boxContainer.Add(label);
+            titleContainer.Add(label);
 
-            // Create a remove button
-            Button btnRemove = UIHelper.CreateButton("Remove", () =>
-            {
-                _currentNodeData.DialogueImagesDatas.Remove(ImagesData);
-                mainContainer.Remove(boxContainer); // Remove the entire imagesData
-            }, "TextRemoveBtn");
+            // Add "Move Up", "Move Down", and "Remove" buttons
+            titleContainer.Add(CreateMoveAndRemoveButtons(imagesData));
 
-            boxContainer.Add(btnRemove);
+            boxContainer.Add(titleContainer);
 
-            CreateDialogueImagePreview(ImagesData, boxContainer);
+            // Create the image preview section
+            CreateDialogueImagePreview(imagesData, boxContainer);
 
+            // Add the container to the main UI
             mainContainer.Add(boxContainer);
+            _dialogueElements.Add(boxContainer);
         }
 
         private void CreateDialogueImagePreview(DialogueImagesData imagesData, Box boxContainer)
         {
-            // Set Up Image Box
-            Box ImagePreviewBox = UIHelper.CreateBox("BoxRow");
-            Box ImagesBox = UIHelper.CreateBox("BoxRow");
+            // Set up the Image Preview Box
+            Box imagePreviewBox = UIHelper.CreateBox("ImagePreviewBox");
+            Box imagesBox = UIHelper.CreateBox("ImagesBox");
 
-            // Set up Image Preview.
+            // Left and right image previews
             Image leftImage = UIHelper.CreateImage("ImagePreview");
             leftImage.AddToClassList("ImagePreviewLeft");
-            ImagePreviewBox.Add(leftImage);
+            imagePreviewBox.Add(leftImage);
 
             Image rightImage = UIHelper.CreateImage("ImagePreview");
             rightImage.AddToClassList("ImagePreviewRight");
-            ImagePreviewBox.Add(rightImage);
+            imagePreviewBox.Add(rightImage);
 
-            // Set up Sprite
+            // Sprite selection fields
             ObjectField objectField_Left = GetNewObjectFieldForSprite(
                 () => imagesData.Sprite_Left,
                 (newSprite) => imagesData.Sprite_Left = newSprite,
@@ -226,12 +236,14 @@ namespace Dennis.Tools.DialogueGraph
                 "SpriteRight"
             );
 
-            ImagesBox.Add(objectField_Left);
-            ImagesBox.Add(objectField_Right);
+            objectField_Left.AddToClassList("SpriteLeft");
+            objectField_Right.AddToClassList("SpriteRight");
 
-            // Add to box imagesData
-            boxContainer.Add(ImagePreviewBox);
-            boxContainer.Add(ImagesBox);
+            imagesBox.Add(objectField_Left);
+            imagesBox.Add(objectField_Right);
+
+            boxContainer.Add(imagePreviewBox);
+            boxContainer.Add(imagesBox);
         }
 
         private ObjectField GetNewObjectFieldForSprite(Func<Sprite> getCurrentSprite, Action<Sprite> updateSprite, Image previewImage, string primaryStyle = "", string additionalStyle = "")
@@ -263,22 +275,117 @@ namespace Dennis.Tools.DialogueGraph
         {
             _currentNodeData = dialogueNodeData;
 
-            foreach (var dialogueBox in _currentNodeData.DialogueBoxes)
+            var elementsCopy = _currentNodeData.AllDialogueElements.ToList();
+            foreach (var element in elementsCopy)
             {
-                AddDialogueBox(dialogueBox);
-            }
-
-            foreach (var imagesData in _currentNodeData.DialogueImagesDatas)
-            {
-                AddDialogueImageContainer(imagesData);
+                AddDialogueElement(element);
             }
 
             // Refresh
             RefreshPorts();
             RefreshExpandedState();
         }
-        
+
         #endregion Init
 
+        private Box CreateMoveAndRemoveButtons(DialogueElementBase element)
+        {
+            Box buttonContainer = UIHelper.CreateBox("ButtonGroup");
+
+            // Move Up Button
+            Button btnUp = UIHelper.CreateButton("▲", () =>
+            {
+                MoveElement(element, -1);
+            }, "MoveUpBtn");
+            buttonContainer.Add(btnUp);
+
+            // Move Down Button
+            Button btnDown = UIHelper.CreateButton("▼", () =>
+            {
+                MoveElement(element, 1);
+            }, "MoveDownBtn");
+            buttonContainer.Add(btnDown);
+
+            // Remove Button
+            Button btnRemove = UIHelper.CreateButton("Remove", () =>
+            {
+                RemoveElement(element);
+            }, "TextRemoveBtn");
+            buttonContainer.Add(btnRemove);
+
+            return buttonContainer;
+        }
+
+        #region Element Management
+
+        private void AddDialogueElement(DialogueElementBase element)
+        {
+            switch (element)
+            {
+                case DialogueImagesData imageData:
+                    AddDialogueImageContainer(imageData);
+                    break;
+                case DialogueBoxData dialogueData:
+                    AddDialogueBox(dialogueData);
+                    break;
+            }
+        }
+
+        private void MoveElement(DialogueElementBase element, int direction)
+        {
+            int index = _currentNodeData.AllDialogueElements.IndexOf(element);
+            int newIndex = index + direction;
+
+            if (newIndex < 0 || newIndex >= _currentNodeData.AllDialogueElements.Count)
+                return;
+
+            (_currentNodeData.AllDialogueElements[index], _currentNodeData.AllDialogueElements[newIndex]) =
+                (_currentNodeData.AllDialogueElements[newIndex], _currentNodeData.AllDialogueElements[index]);
+
+            for (int i = 0; i < _currentNodeData.AllDialogueElements.Count; i++)
+            {
+                _currentNodeData.AllDialogueElements[i].OrderIndex = i;
+            }
+
+            RefreshUI();
+        }
+
+        private void RemoveElement(DialogueElementBase element)
+        {
+            if (_currentNodeData.AllDialogueElements.Contains(element))
+            {
+                _currentNodeData.AllDialogueElements.Remove(element);
+
+                int order = 0;
+                foreach (var e in _currentNodeData.AllDialogueElements)
+                {
+                    e.OrderIndex = order++;
+                }
+
+                RefreshUI();
+            }
+        }
+
+        private void RefreshUI()
+        {
+            var elementsToRemove = _dialogueElements.ToList();
+
+            foreach (var element in elementsToRemove)
+            {
+                if (mainContainer.Contains(element))
+                {
+                    mainContainer.Remove(element);
+                }
+            }
+
+            _dialogueElements.Clear();
+
+            foreach (var element in _currentNodeData.AllDialogueElements)
+            {
+                AddDialogueElement(element);
+            }
+        }
+
+        #endregion Element Management
     }
 }

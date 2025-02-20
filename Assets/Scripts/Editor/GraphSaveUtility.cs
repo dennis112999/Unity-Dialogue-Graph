@@ -68,6 +68,8 @@ namespace Dennis.Tools.DialogueGraph
                     AssetDatabase.CreateAsset(dialogueContainer, assetPath);
                 }
                 AssetDatabase.SaveAssets();
+
+                EditorUtility.DisplayDialog("Save Successful", $"File '{fileName}.asset' has been saved successfully!", "OK");
             }
             else
             {
@@ -165,6 +167,7 @@ namespace Dennis.Tools.DialogueGraph
                     case DialogueNode dialogueNode:
                         dialogueContainer.DialogueNodes.Add(new DialogueNodeData
                         {
+                            AllDialogueElements = dialogueNode.CurrentNodeData.AllDialogueElements,
                             NodeGuid = dialogueNode.GUID,
                             Position = dialogueNode.GetPosition().position,
                             DialogueBoxes = dialogueNode.CurrentNodeData.DialogueBoxes,

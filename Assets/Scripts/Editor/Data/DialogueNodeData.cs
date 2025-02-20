@@ -6,29 +6,28 @@ namespace Dennis.Tools.DialogueGraph.Data
     [System.Serializable]
     public class DialogueNodeData : BaseData
     {
+        public List<DialogueElementBase> AllDialogueElements = new List<DialogueElementBase>();
+
         public List<DialogueBoxData> DialogueBoxes = new List<DialogueBoxData>();
         public List<DialogueImagesData> DialogueImagesDatas = new List<DialogueImagesData>();
     }
 
     [System.Serializable]
-    public class DialogueBoxData
+    public abstract class DialogueElementBase
     {
-        public string Text;
-
-        public AudioClip AudioClip;
-
-        public DialogueBoxData(string text = "default", AudioClip audioClip = null)
-        {
-            Text = text;
-            AudioClip = audioClip;
-        }
+        public int OrderIndex;
     }
 
     [System.Serializable]
-    public class DialogueImagesData
+    public class DialogueBoxData : DialogueElementBase
     {
-        public int ID;
+        public string Text;
+        public AudioClip AudioClip;
+    }
 
+    [System.Serializable]
+    public class DialogueImagesData : DialogueElementBase
+    {
         public Sprite Sprite_Left;
         public Sprite Sprite_Right;
     }
