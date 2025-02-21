@@ -1,0 +1,17 @@
+.ChoiceNodeLabel {
+    font-size: 15px;
+    padding-top: 0px;
+    padding-left: 1px;
+}
+
+.ChoiceNodeEnum {
+    width: 70px;
+}
+
+.ChoiceNode #title {
+    background-color: #FFFEB2;
+}
+
+.ChoiceNode #title #title-label {
+    color: #000000;
+}
