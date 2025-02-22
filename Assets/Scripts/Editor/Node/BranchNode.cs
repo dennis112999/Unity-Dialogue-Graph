@@ -1,41 +1,40 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+
 using System;
-using UnityEngine.UIElements;
+using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using Dennis.Tools.DialogueGraph.Data;
+using UnityEngine.UIElements;
 
 namespace Dennis.Tools.DialogueGraph
 {
-    public class ChoiceNode : BaseNode
+    public class BranchNode : BaseNode
     {
-        private ChoiceNodeData _currentNodeData;
-        public ChoiceNodeData CurrentNodeData => _currentNodeData;
+        private BranchNodeData _currentNodeData;
+        public BranchNodeData CurrentNodeData { get { return _currentNodeData; } }
 
-        private Box _choiceStateEnumBox;
+        public BranchNode() { }
 
-        public ChoiceNode() { }
-
-        public ChoiceNode(Vector2 position, DialogueGraphWindow editorWindow, DialogueView graphView)
+        public BranchNode(Vector2 position, DialogueGraphWindow editorWindow, DialogueView graphView)
         {
             base.editorWindow = editorWindow;
             base.graphView = graphView;
 
-            _currentNodeData = new ChoiceNodeData();
-
-            // Load style sheet
-            StyleSheet styleSheet = Resources.Load<StyleSheet>("ChoiceNodeStyleSheet");
-            styleSheets.Add(styleSheet);
+            _currentNodeData = new BranchNodeData();
 
             // Initialize node
-            title = "Choice Node";
+            title = "Branch Node";
             SetPosition(new Rect(position, defaultNodeSize));
             guid = Guid.NewGuid().ToString();
 
+            // Load the style Sheets
+            StyleSheet styleSheet = Resources.Load<StyleSheet>("BranchNodeStyleSheet");
+            styleSheets.Add(styleSheet);
+
             // Set up ports
-            Port inputPort = AddInputPort("Input", Port.Capacity.Multi);
-            inputPort.portColor = Color.yellow;
-            AddOutputPort("Output", Port.Capacity.Single);
+            AddInputPort("Previous", Port.Capacity.Multi);
+            AddOutputPort("True");
+            AddOutputPort("False");
 
             // Create UI Components
             AddDropdownMenu();
@@ -45,54 +44,12 @@ namespace Dennis.Tools.DialogueGraph
             RefreshPorts();
         }
 
-        #region UI Creation
-
         private void AddDropdownMenu()
         {
             ToolbarMenu menu = new ToolbarMenu { text = "Add Content" };
             menu.menu.AppendAction("Add Condition", _ => AddCondition());
             titleButtonContainer.Add(menu);
         }
-
-        private void CreateTextFieldBox()
-        {
-            Box boxContainer = UIHelper.CreateBox("TextLineBox");
-
-            // Input field
-            var textField = UIHelper.CreateTextField(_currentNodeData.Text, newValue =>
-            {
-                _currentNodeData.Text = newValue;
-            });
-            boxContainer.Add(textField);
-
-            // Audio selection field
-            ObjectField audioClipField = UIHelper.CreateObjectField<AudioClip>(
-                null, newAudioClip => _currentNodeData.AudioClip = newAudioClip
-            );
-            boxContainer.Add(audioClipField);
-
-            mainContainer.Add(boxContainer);
-        }
-
-        private void CreateChoiceStateEnumBox()
-        {
-            _choiceStateEnumBox = UIHelper.CreateBox("BoxRow");
-
-            EnumField choiceStateEnumField = UIHelper.CreateEnumField(_currentNodeData.ChoiceNodeFailAction, newValue =>
-            {
-                _currentNodeData.ChoiceNodeFailAction = newValue;
-            });
-
-            Label enumLabel = UIHelper.CreateLabel("If the condition fails", "ChoiceLabel");
-
-            _choiceStateEnumBox.Add(choiceStateEnumField);
-            _choiceStateEnumBox.Add(enumLabel);
-            mainContainer.Add(_choiceStateEnumBox);
-        }
-
-        #endregion
-
-        #region Condition Management
 
         private void AddCondition()
         {
@@ -105,8 +62,6 @@ namespace Dennis.Tools.DialogueGraph
             // Add to UI
             mainContainer.Add(boxContainer);
             _currentNodeData.ConditionDatas.Add(conditionData);
-
-            ShowHideChoiceEnum();
         }
 
         private void RestoreCondition(ConditionData conditionData)
@@ -157,24 +112,11 @@ namespace Dennis.Tools.DialogueGraph
         {
             _currentNodeData.ConditionDatas.Remove(conditionData);
             mainContainer.Remove(boxContainer);
-            ShowHideChoiceEnum();
         }
 
-        #endregion
-
-        #region Initialization
-
-        public void Init(ChoiceNodeData choiceNodeData = null)
+        public void Init(BranchNodeData branchNodeData)
         {
-            if(choiceNodeData != null)
-            {
-                _currentNodeData = choiceNodeData;
-            }
-
-            // Create Text and Audio UI
-            CreateTextFieldBox();
-
-            CreateChoiceStateEnumBox();
+            _currentNodeData = branchNodeData;
 
             // Restore all existing conditions
             foreach (var condition in _currentNodeData.ConditionDatas)
@@ -182,19 +124,10 @@ namespace Dennis.Tools.DialogueGraph
                 RestoreCondition(condition);
             }
 
-            // Ensure the UI reflects the correct state
-            ShowHideChoiceEnum();
-
             // Refresh Node
             RefreshPorts();
             RefreshExpandedState();
         }
-
-        private void ShowHideChoiceEnum()
-        {
-            _choiceStateEnumBox.style.display = _currentNodeData.ConditionDatas.Count > 0 ? DisplayStyle.Flex : DisplayStyle.None;
-        }
-
-        #endregion
     }
+
 }

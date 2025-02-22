@@ -189,6 +189,15 @@ namespace Dennis.Tools.DialogueGraph
                         });
                         break;
 
+                    case BranchNode branchNode:
+                        dialogueContainer.BranchNodes.Add(new BranchNodeData
+                        {
+                            NodeGuid = branchNode.GUID,
+                            Position = branchNode.GetPosition().position,
+                            ConditionDatas = branchNode.CurrentNodeData.ConditionDatas,
+                        });
+                        break;
+
                     default:
                         Debug.LogWarning($"Unhandled node type: {node.GetType()} - Node GUID: {node.GUID}");
                         break;
@@ -257,6 +266,12 @@ namespace Dennis.Tools.DialogueGraph
             foreach (ChoiceNodeData node in dialogueContainer.ChoiceNodes)
             {
                 _dialogueView.CreateChoiceNode(node.Position, node);
+            }
+
+            // Branch Node
+            foreach (BranchNodeData node in dialogueContainer.BranchNodes)
+            {
+                _dialogueView.CreateBranchNode(node.Position, node);
             }
         }
 

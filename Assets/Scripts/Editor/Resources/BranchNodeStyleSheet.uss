@@ -1,0 +1,40 @@
+.node #title{
+	background-color: #D2691E;
+}
+
+.node #title #title-label{
+	color: white;
+}
+
+/* ----------------- Choice Condition ----------------- */
+.ConditionContainer {
+    width: 100%;
+    padding: 10px;
+    background-color: #1a1a1a;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+}
+
+.TextField {
+    flex-grow: 1;
+    min-width: 100px;
+    padding: 2px;
+}
+
+.Enum {
+    flex-grow: 1;
+    min-width: 100px;
+}
+
+/* ----------------- Remove Button ----------------- */
+.RemoveButton {
+    background-color: #ff6b6b;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.RemoveButton:hover {
+    background-color: #e84141;
+}

@@ -1,3 +1,4 @@
+using Dennis.Tools.DialogueGraph.Data;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -62,5 +63,30 @@ namespace Dennis.Tools.DialogueGraph
         }
 
         #endregion
+
+        protected void AddComparisonValueField(ConditionData conditionData, Box boxContainer, ConditionType conditionType)
+        {
+            switch (conditionType)
+            {
+                case ConditionType.Equal:
+                case ConditionType.GreaterOrEqual:
+                case ConditionType.LessOrEqual:
+                case ConditionType.Greater:
+                case ConditionType.Less:
+                    FloatField valueField = UIHelper.CreateFloatField(conditionData.ComparisonValue, newValue =>
+                    {
+                        conditionData.ComparisonValue = newValue;
+                    });
+
+                    boxContainer.Add(valueField);
+                    break;
+
+                default:
+                case ConditionType.IsTrue:
+                case ConditionType.IsFalse:
+                    // No additional input field needed
+                    break;
+            }
+        }
     }
 }

@@ -128,6 +128,21 @@ namespace Dennis.Tools.DialogueGraph
             AddElement(tempNode);
         }
 
+        public void CreateBranchNode(Vector2 position)
+        {
+            BranchNode tempNode = new BranchNode(position, _dialogueGraphWindow, this);
+            AddElement(tempNode);
+        }
+
+        public void CreateBranchNode(Vector2 position, BranchNodeData branchNodeData)
+        {
+            BranchNode tempNode = new BranchNode(position, _dialogueGraphWindow, this);
+            tempNode.GUID = branchNodeData.NodeGuid;
+            tempNode.Init(branchNodeData);
+
+            AddElement(tempNode);
+        }
+
         #endregion NodeType
     }
 }
