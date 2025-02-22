@@ -62,6 +62,22 @@ namespace Dennis.Tools
         }
 
         /// <summary>
+        /// Create FloatField
+        /// </summary>
+        /// <param name="initialValue">initial text value of the field</param>
+        /// <param name="onValueChanged">action - the value changes</param>
+        /// <param name="className">class USS name to add</param>
+        /// <returns>FloatField with properties</returns>
+        public static FloatField CreateFloatField(float initialValue, Action<float> onValueChanged, string className = null)
+        {
+            FloatField floatField = new FloatField();
+            floatField.SetValueWithoutNotify(initialValue);
+            floatField.RegisterValueChangedCallback(evt => onValueChanged(evt.newValue));
+            AddClassIfNotEmpty(floatField, className);
+            return floatField;
+        }
+
+        /// <summary>
         /// Create Image
         /// </summary>
         /// <param name="className">class USS name to add</param>
