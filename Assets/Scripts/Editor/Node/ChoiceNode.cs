@@ -96,7 +96,7 @@ namespace Dennis.Tools.DialogueGraph
 
         private void AddCondition()
         {
-            ChoiceConditionData conditionData = new ChoiceConditionData();
+            ConditionData conditionData = new ConditionData();
             Box boxContainer = UIHelper.CreateBox("ChoiceNodeConditionContainer");
 
             // Initialize UI
@@ -109,7 +109,7 @@ namespace Dennis.Tools.DialogueGraph
             ShowHideChoiceEnum();
         }
 
-        private void RestoreCondition(ChoiceConditionData conditionData)
+        private void RestoreCondition(ConditionData conditionData)
         {
             Box boxContainer = UIHelper.CreateBox("ChoiceNodeConditionContainer");
 
@@ -120,7 +120,7 @@ namespace Dennis.Tools.DialogueGraph
             mainContainer.Add(boxContainer);
         }
 
-        private void OnConditionTypeChanged(ChoiceConditionData conditionData, Box boxContainer, ConditionType newValue)
+        private void OnConditionTypeChanged(ConditionData conditionData, Box boxContainer, ConditionType newValue)
         {
             conditionData.ConditionType = newValue;
             boxContainer.Clear();
@@ -153,7 +153,7 @@ namespace Dennis.Tools.DialogueGraph
             boxContainer.Add(removeButton);
         }
 
-        private void AddComparisonValueField(ChoiceConditionData conditionData, Box boxContainer, ConditionType conditionType)
+        private void AddComparisonValueField(ConditionData conditionData, Box boxContainer, ConditionType conditionType)
         {
             switch (conditionType)
             {
@@ -178,7 +178,7 @@ namespace Dennis.Tools.DialogueGraph
             }
         }
 
-        private void OnRemoveButtonClick(Box boxContainer, ChoiceConditionData conditionData)
+        private void OnRemoveButtonClick(Box boxContainer, ConditionData conditionData)
         {
             _currentNodeData.ConditionDatas.Remove(conditionData);
             mainContainer.Remove(boxContainer);

@@ -11,11 +11,11 @@ namespace Dennis.Tools.DialogueGraph.Data
 
         public ChoiceNodeFailAction ChoiceNodeFailAction = ChoiceNodeFailAction.Hide;
 
-        public List<ChoiceConditionData> ConditionDatas = new List<ChoiceConditionData>();
+        public List<ConditionData> ConditionDatas = new List<ConditionData>();
     }
 
     [System.Serializable]
-    public class ChoiceConditionData
+    public class ConditionData
     {
         public string ConditionText = "String Event";
         public ConditionType ConditionType = ConditionType.IsFalse;
