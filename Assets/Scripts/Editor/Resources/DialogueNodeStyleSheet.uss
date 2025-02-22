@@ -1,13 +1,13 @@
-/* ----------------- Node  ----------------- */
+/* ----------------- Node Title ----------------- */
 .node #title {
-    background-color: #008C00;
+    background-color: #1E90FF;
 }
 
 .node #title #title-label {
     color: black;
 }
 
-/* ----------------- DialogueBoxTitle ----------------- */
+/* ----------------- Dialogue Box Title ----------------- */
 .DialogueBoxTitle {
     display: flex;
     flex-direction: row;
@@ -20,7 +20,6 @@
     padding: 5px 10px;
     background-color: #d9d9d9;
     border-radius: 5px;
-    border-bottom: 2px solid #b0b0b0;
 }
 
 /* ----------------- Dialogue Box ----------------- */
@@ -30,35 +29,26 @@
     align-items: flex-start;
     width: 100%;
     padding: 10px;
-    background-color: #f0f0f0;
+    background-color: #1A1A1A;
     border-radius: 5px;
-}
-
-.DialogueBox > * {
-    margin-bottom: 5px;
 }
 
 /* ----------------- Text & Audio ----------------- */
-.TextField {
+.TextField, .AudioClipField {
     width: 80%;
 }
 
-.AudioClipField {
-    width: 80%;
-}
-
+/* ----------------- Content Box ----------------- */
 .DialogueContentBox {
     width: 100%;
     padding: 10px;
-    background-color: #e6e6e6;
+    background-color: #404040;
     border-radius: 5px;
-    border: 1px solid #b0b0b0;
     display: flex;
     flex-direction: column;
-    gap: 5px;
 }
 
-/* ----------------- Image Box ----------------- */
+/* ----------------- Image Preview ----------------- */
 .ImagePreviewBox {
     display: flex;
     flex-direction: row;
@@ -67,16 +57,13 @@
     width: 100%;
     height: 120px;
     padding: 10px;
-    background-color: #d0d0d0;
+    background-color: #404040;
     border-radius: 5px;
 }
 
 .ImagePreview {
     max-width: 65px;
     max-height: 100px;
-    border-width: 1px;
-    border-color: #AAA;
-    border-style: solid;
     border-radius: 5px;
     background-color: white;
 }
@@ -85,46 +72,40 @@
 .ImagesBox {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
 }
 
-.ImagesBox > * {
-    margin-right: 10px;
-}
-
-/* ----------------- Image Positioning ----------------- */
 .SpriteLeft, .SpriteRight {
     width: 45%;
 }
 
-/* ----------------- Button  --------------------------- */
+/* ----------------- Button Group ----------------- */
 .ButtonGroup {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 5px;
 }
 
 .MoveUpBtn, .MoveDownBtn {
     width: 25px;
     height: 25px;
     font-size: 14px;
-    text-align: center;
     background-color: #d9d9d9;
-    border: 1px solid #b0b0b0;
     border-radius: 3px;
+    color: #000000;
 }
 
 .MoveUpBtn:hover, .MoveDownBtn:hover {
     background-color: #c0c0c0;
+    color: #FFFFFF;
 }
 
+/* Remove Button */
 .TextRemoveBtn {
     background-color: #ff6b6b;
     color: white;
-    border: none;
     border-radius: 5px;
     padding: 5px 10px;
 }

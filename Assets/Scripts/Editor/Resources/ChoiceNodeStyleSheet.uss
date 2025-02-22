@@ -1,6 +1,6 @@
 /* ----------------- Choice Node ----------------- */
 .node #title {
-    background-color: #FFFEB2;
+    background-color: #FFD700;
 }
 
 .node #title #title-label {
@@ -16,18 +16,6 @@
     padding: 10px;
     background-color: #f8f8d2;
     border-radius: 5px;
-    border: 1px solid #d4d4a3;
-}
-
-.ChoiceBox > * {
-    margin-bottom: 5px;
-}
-
-/* ----------------- Choice Title ----------------- */
-.ChoiceBoxTitle {
-    border-bottom-width: 2px;
-    border-bottom-color: #b0b080;
-    border-bottom-style: solid;
 }
 
 /* ----------------- Box Row ----------------- */
@@ -48,42 +36,38 @@
 
 .ChoiceLabel {
     flex-grow: 1;
-    text-align: left;
     padding-left: 5px;
 }
 
 /* ----------------- Choice Condition ----------------- */
-.ChoiceNodeConditionContainer {
+.ConditionContainer {
     width: 100%;
     padding: 10px;
     background-color: #1a1a1a;
     border-radius: 5px;
-    border: 1px solid #b0b0b0;
     display: flex;
     flex-direction: row;
-    gap: 5px;
 }
 
-.ChoiceNodeTextField {
+.TextField {
     flex-grow: 1;
     min-width: 100px;
     padding: 2px;
 }
 
-.ChoiceNodeEnum {
+.Enum {
     flex-grow: 1;
     min-width: 100px;
 }
 
 /* ----------------- Remove Button ----------------- */
-.ChoiceNodeRemoveButton {
+.RemoveButton {
     background-color: #ff6b6b;
     color: white;
-    border: none;
     border-radius: 5px;
     padding: 5px 10px;
 }
 
-.ChoiceNodeRemoveButton:hover {
+.RemoveButton:hover {
     background-color: #e84141;
 }
