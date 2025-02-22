@@ -102,6 +102,31 @@ namespace Dennis.Tools
         }
 
         /// <summary>
+        /// Creates an EnumField UI element
+        /// </summary>
+        /// <typeparam name="T">Enum type</typeparam>
+        /// <param name="initialValue">Initial selected value</param>
+        /// <param name="onValueChanged">Action triggered when value changes</param>
+        /// <param name="className">USS class name to add</param>
+        /// <returns>EnumField UI element</returns>
+        public static EnumField CreateEnumField<T>(T initialValue, Action<T> onValueChanged, string className = null) where T : Enum
+        {
+            EnumField enumField = new EnumField(initialValue);
+
+            enumField.RegisterValueChangedCallback(evt =>
+            {
+                if (evt.newValue is T newValue)
+                {
+                    onValueChanged?.Invoke(newValue);
+                }
+            });
+
+            AddClassIfNotEmpty(enumField, className);
+
+            return enumField;
+        }
+
+        /// <summary>
         /// Adds a USS class to a VisualElement
         /// </summary>
         /// <param name="element">The UI element to add the class to</param>
