@@ -13,5 +13,6 @@ namespace Dennis.Tools.DialogueGraph.Data
         public List<StartData> StartDatas = new List<StartData>();
         public List<EndData> EndDatas = new List<EndData>();
         public List<DialogueNodeData> DialogueNodes = new List<DialogueNodeData>();
+        public List<ChoiceNodeData> ChoiceNodes = new List<ChoiceNodeData>();
     }
 }

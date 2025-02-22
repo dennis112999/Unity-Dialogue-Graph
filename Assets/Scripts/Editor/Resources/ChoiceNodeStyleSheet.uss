@@ -1,17 +1,89 @@
-.ChoiceNodeLabel {
-    font-size: 15px;
-    padding-top: 0px;
-    padding-left: 1px;
-}
-
-.ChoiceNodeEnum {
-    width: 70px;
-}
-
-.ChoiceNode #title {
+/* ----------------- Choice Node ----------------- */
+.node #title {
     background-color: #FFFEB2;
 }
 
-.ChoiceNode #title #title-label {
+.node #title #title-label {
     color: #000000;
+}
+
+/* ----------------- Choice Box ----------------- */
+.ChoiceBox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding: 10px;
+    background-color: #f8f8d2;
+    border-radius: 5px;
+    border: 1px solid #d4d4a3;
+}
+
+.ChoiceBox > * {
+    margin-bottom: 5px;
+}
+
+/* ----------------- Choice Title ----------------- */
+.ChoiceBoxTitle {
+    border-bottom-width: 2px;
+    border-bottom-color: #b0b080;
+    border-bottom-style: solid;
+}
+
+/* ----------------- Box Row ----------------- */
+.BoxRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow: visible;
+}
+
+.BoxRow .unity-base-field {
+    min-width: 30px;
+    max-width: 120px;
+}
+
+.ChoiceLabel {
+    flex-grow: 1;
+    text-align: left;
+    padding-left: 5px;
+}
+
+/* ----------------- Choice Condition ----------------- */
+.ChoiceNodeConditionContainer {
+    width: 100%;
+    padding: 10px;
+    background-color: #1a1a1a;
+    border-radius: 5px;
+    border: 1px solid #b0b0b0;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.ChoiceNodeTextField {
+    flex-grow: 1;
+    min-width: 100px;
+    padding: 2px;
+}
+
+.ChoiceNodeEnum {
+    flex-grow: 1;
+    min-width: 100px;
+}
+
+/* ----------------- Remove Button ----------------- */
+.ChoiceNodeRemoveButton {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.ChoiceNodeRemoveButton:hover {
+    background-color: #e84141;
 }

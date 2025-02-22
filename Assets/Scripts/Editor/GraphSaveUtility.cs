@@ -55,11 +55,13 @@ namespace Dennis.Tools.DialogueGraph
                     tempDialogueContainer.StartDatas.Clear();
                     tempDialogueContainer.EndDatas.Clear();
                     tempDialogueContainer.DialogueNodes.Clear();
+                    tempDialogueContainer.ChoiceNodes.Clear();
 
                     tempDialogueContainer.nodeLinkDatas = dialogueContainer.nodeLinkDatas;
                     tempDialogueContainer.StartDatas = dialogueContainer.StartDatas;
                     tempDialogueContainer.EndDatas = dialogueContainer.EndDatas;
                     tempDialogueContainer.DialogueNodes = dialogueContainer.DialogueNodes;
+                    tempDialogueContainer.ChoiceNodes = dialogueContainer.ChoiceNodes;
 
                     EditorUtility.SetDirty(tempDialogueContainer);
                 }
@@ -175,6 +177,18 @@ namespace Dennis.Tools.DialogueGraph
                         });
                         break;
 
+                    case ChoiceNode choiceNode:
+                        dialogueContainer.ChoiceNodes.Add(new ChoiceNodeData
+                        {
+                            NodeGuid = choiceNode.GUID,
+                            Position = choiceNode.GetPosition().position,
+                            Text = choiceNode.CurrentNodeData.Text,
+                            AudioClip = choiceNode.CurrentNodeData.AudioClip,
+                            ChoiceNodeFailAction = choiceNode.CurrentNodeData.ChoiceNodeFailAction,
+                            ConditionDatas = choiceNode.CurrentNodeData.ConditionDatas,
+                        });
+                        break;
+
                     default:
                         Debug.LogWarning($"Unhandled node type: {node.GetType()} - Node GUID: {node.GUID}");
                         break;
@@ -237,6 +251,12 @@ namespace Dennis.Tools.DialogueGraph
             foreach (DialogueNodeData node in dialogueContainer.DialogueNodes)
             {
                 _dialogueView.CreateDialogueNode(node.Position, node);
+            }
+
+            // Choice Node
+            foreach (ChoiceNodeData node in dialogueContainer.ChoiceNodes)
+            {
+                _dialogueView.CreateChoiceNode(node.Position, node);
             }
         }
 

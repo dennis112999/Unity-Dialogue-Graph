@@ -111,6 +111,23 @@ namespace Dennis.Tools.DialogueGraph
             AddElement(tempNode);
         }
 
+        public void CreateChoiceNode(Vector2 position)
+        {
+            ChoiceNode tempNode = new ChoiceNode(position, _dialogueGraphWindow, this);
+            tempNode.Init();
+
+            AddElement(tempNode);
+        }
+
+        public void CreateChoiceNode(Vector2 position, ChoiceNodeData choiceNodeData)
+        {
+            ChoiceNode tempNode = new ChoiceNode(position, _dialogueGraphWindow, this);
+            tempNode.GUID = choiceNodeData.NodeGuid;
+            tempNode.Init(choiceNodeData);
+
+            AddElement(tempNode);
+        }
+
         #endregion NodeType
     }
 }
