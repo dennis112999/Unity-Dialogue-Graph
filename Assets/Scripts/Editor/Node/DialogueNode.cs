@@ -59,21 +59,67 @@ namespace Dennis.Tools.DialogueGraph
             titleButtonContainer.Add(addChoiceButton);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="baseNode"></param>
+        /// <returns></returns>
         public Port AddChoicePort(BaseNode baseNode)
+        {
+            // Create a new dialogue data port
+            DialogueDataPort newDialoguePort = new DialogueDataPort
+            {
+                PortGuid = Guid.NewGuid().ToString()
+            };
+
+            // Call the method to create and configure the port
+            return CreateAndConfigurePort(baseNode, newDialoguePort, true);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="baseNode"></param>
+        /// <param name="dialogueDataPort"></param>
+        /// <returns></returns>
+        public Port SetChoicePort(BaseNode baseNode, DialogueDataPort dialogueDataPort)
+        {
+            // Ensure the existing data is passed
+            if (dialogueDataPort == null)
+            {
+                Debug.LogWarning("SetChoicePort called with null DialogueDataPort.");
+                return null;
+            }
+
+            return CreateAndConfigurePort(baseNode, dialogueDataPort, false);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="baseNode"></param>
+        /// <param name="dialogueDataPort"></param>
+        /// <param name="isNew"></param>
+        /// <returns></returns>
+        private Port CreateAndConfigurePort(BaseNode baseNode, DialogueDataPort dialogueDataPort, bool isNew)
         {
             Port port = GetPortInstance(Direction.Output);
 
             // Delete button
-            Button deleteButton = UIHelper.CreateButton("X", () => DeletePort(baseNode, port));
+            Button deleteButton = UIHelper.CreateButton("Remove", () =>
+            {
+                DeletePort(baseNode, port);
+            }, "Remove");
             port.contentContainer.Add(deleteButton);
 
-            // Add Choice Port
-            port.portName = "Next";
-            Label portNameLabel = port.contentContainer.Q<Label>("type"); 
+            // Configure the port
+            port.portName = "Choice";
+            Label portNameLabel = port.contentContainer.Q<Label>("type");
             portNameLabel.AddToClassList("PortName");
-
-            // Set color of the port
             port.portColor = Color.yellow;
+
+            // Add to data if new and only add to outputContainer if it's a new port
+            if (isNew) _currentNodeData.DialogueDataPorts.Add(dialogueDataPort);
 
             baseNode.outputContainer.Add(port);
 
@@ -96,6 +142,11 @@ namespace Dennis.Tools.DialogueGraph
 
         private void DeletePort(BaseNode node, Port port)
         {
+            // Remove Data
+            DialogueDataPort tmp = CurrentNodeData.DialogueDataPorts.Find(findPort => findPort.PortGuid == port.portName);
+            CurrentNodeData.DialogueDataPorts.Remove(tmp);
+
+            // Remove Port
             IEnumerable<Edge> portEdge = graphView.edges.ToList().Where(edge => edge.output == port);
 
             if (portEdge.Any())
@@ -275,10 +326,17 @@ namespace Dennis.Tools.DialogueGraph
         {
             _currentNodeData = dialogueNodeData;
 
+            // 
             var elementsCopy = _currentNodeData.AllDialogueElements.ToList();
             foreach (var element in elementsCopy)
             {
                 AddDialogueElement(element);
+            }
+
+            // 
+            foreach (DialogueDataPort port in _currentNodeData.DialogueDataPorts)
+            {
+                SetChoicePort(this, port);
             }
 
             // Refresh

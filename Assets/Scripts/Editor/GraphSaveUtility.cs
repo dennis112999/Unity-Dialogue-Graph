@@ -135,7 +135,6 @@ namespace Dennis.Tools.DialogueGraph
             }
         }
 
-
         /// <summary>
         /// Saves node data into the DialogueContainer
         /// </summary>
@@ -146,6 +145,9 @@ namespace Dennis.Tools.DialogueGraph
             dialogueContainer.StartDatas.Clear();
             dialogueContainer.EndDatas.Clear();
             dialogueContainer.DialogueNodes.Clear();
+            dialogueContainer.ChoiceNodes.Clear();
+            dialogueContainer.BranchNodes.Clear();
+            dialogueContainer.EventNodes.Clear();
 
             foreach (var node in _dialogueNodes)
             {
@@ -168,14 +170,7 @@ namespace Dennis.Tools.DialogueGraph
                         break;
 
                     case DialogueNode dialogueNode:
-                        dialogueContainer.DialogueNodes.Add(new DialogueNodeData
-                        {
-                            AllDialogueElements = dialogueNode.CurrentNodeData.AllDialogueElements,
-                            NodeGuid = dialogueNode.GUID,
-                            Position = dialogueNode.GetPosition().position,
-                            DialogueBoxes = dialogueNode.CurrentNodeData.DialogueBoxes,
-                            DialogueImagesDatas = dialogueNode.CurrentNodeData.DialogueImagesDatas,
-                        });
+                        dialogueContainer.DialogueNodes.Add(SaveDialogueNodeData(dialogueNode));
                         break;
 
                     case ChoiceNode choiceNode:
@@ -214,6 +209,50 @@ namespace Dennis.Tools.DialogueGraph
                 }
             }
         }
+
+        /// <summary>
+        /// Saves the DialogueNode data into a DialogueNodeData object
+        /// </summary>
+        /// <param name="node">The DialogueNode to save</param>
+        /// <returns>The saved DialogueNodeData object</returns>
+        private DialogueNodeData SaveDialogueNodeData(DialogueNode node)
+        {
+            // Initialize new DialogueNodeData
+            DialogueNodeData dialogueData = new DialogueNodeData
+            {
+                NodeGuid = node.GUID,
+                Position = node.GetPosition().position,
+                AllDialogueElements = node.CurrentNodeData.AllDialogueElements,
+                DialogueBoxes = node.CurrentNodeData.DialogueBoxes,
+                DialogueImagesDatas = node.CurrentNodeData.DialogueImagesDatas
+            };
+
+            // Process each port in the node
+            foreach (DialogueDataPort port in node.CurrentNodeData.DialogueDataPorts)
+            {
+                DialogueDataPort portData = new DialogueDataPort
+                {
+                    PortGuid = port.PortGuid,
+                    OutputGuid = string.Empty,
+                    InputGuid = string.Empty
+                };
+
+                // Match the edge to set Output and Input GUIDs
+                foreach (Edge edge in _edges)
+                {
+                    if (edge.output.portName == port.PortGuid)
+                    {
+                        portData.OutputGuid = (edge.output.node as BaseNode)?.GUID ?? string.Empty;
+                        portData.InputGuid = (edge.input.node as BaseNode)?.GUID ?? string.Empty;
+                    }
+                }
+
+                dialogueData.DialogueDataPorts.Add(portData);
+            }
+
+            return dialogueData;
+        }
+
 
         #endregion Save
 
@@ -319,8 +358,6 @@ namespace Dennis.Tools.DialogueGraph
 
                     continue;
                 }
-
-
 
                 List<Port> allOutputPorts = _dialogueNodes[i].outputContainer
                     .Children()

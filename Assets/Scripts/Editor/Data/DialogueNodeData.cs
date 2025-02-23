@@ -10,6 +10,8 @@ namespace Dennis.Tools.DialogueGraph.Data
 
         public List<DialogueBoxData> DialogueBoxes = new List<DialogueBoxData>();
         public List<DialogueImagesData> DialogueImagesDatas = new List<DialogueImagesData>();
+
+        public List<DialogueDataPort> DialogueDataPorts = new List<DialogueDataPort>();
     }
 
     [System.Serializable]
@@ -30,5 +32,13 @@ namespace Dennis.Tools.DialogueGraph.Data
     {
         public Sprite Sprite_Left;
         public Sprite Sprite_Right;
+    }
+
+    [System.Serializable]
+    public class DialogueDataPort
+    {
+        public string PortGuid;
+        public string InputGuid;
+        public string OutputGuid;
     }
 }
