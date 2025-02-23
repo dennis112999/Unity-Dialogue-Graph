@@ -143,6 +143,21 @@ namespace Dennis.Tools.DialogueGraph
             AddElement(tempNode);
         }
 
+        public void CreateEventNode(Vector2 position)
+        {
+            EventNode tempNode = new EventNode(position, _dialogueGraphWindow, this);
+            AddElement(tempNode);
+        }
+
+        public void CreateEventNode(Vector2 position, EventNodeData eventNodeData)
+        {
+            EventNode tempNode = new EventNode(position, _dialogueGraphWindow, this);
+            tempNode.GUID = eventNodeData.NodeGuid;
+            tempNode.Init(eventNodeData);
+
+            AddElement(tempNode);
+        }
+
         #endregion NodeType
     }
 }

@@ -6,7 +6,6 @@ using System.Linq;
 using UnityEditor;
 using Dennis.Tools.DialogueGraph.Data;
 
-
 namespace Dennis.Tools.DialogueGraph
 {
     public class GraphSaveUtility
@@ -51,17 +50,19 @@ namespace Dennis.Tools.DialogueGraph
             {
                 if (AssetDatabase.LoadAssetAtPath<ScriptableObject>(assetPath) != null)
                 {
-                    tempDialogueContainer.nodeLinkDatas.Clear();
+                    tempDialogueContainer.NodeLinkDatas.Clear();
                     tempDialogueContainer.StartDatas.Clear();
                     tempDialogueContainer.EndDatas.Clear();
                     tempDialogueContainer.DialogueNodes.Clear();
                     tempDialogueContainer.ChoiceNodes.Clear();
+                    tempDialogueContainer.EventNodes.Clear();
 
-                    tempDialogueContainer.nodeLinkDatas = dialogueContainer.nodeLinkDatas;
+                    tempDialogueContainer.NodeLinkDatas = dialogueContainer.NodeLinkDatas;
                     tempDialogueContainer.StartDatas = dialogueContainer.StartDatas;
                     tempDialogueContainer.EndDatas = dialogueContainer.EndDatas;
                     tempDialogueContainer.DialogueNodes = dialogueContainer.DialogueNodes;
                     tempDialogueContainer.ChoiceNodes = dialogueContainer.ChoiceNodes;
+                    tempDialogueContainer.EventNodes = dialogueContainer.EventNodes;
 
                     EditorUtility.SetDirty(tempDialogueContainer);
                 }
@@ -110,7 +111,7 @@ namespace Dennis.Tools.DialogueGraph
         /// <param name="dialogueContainer">The target container to store edge data</param>
         private void SaveEdges(DialogueContainer dialogueContainer)
         {
-            dialogueContainer.nodeLinkDatas.Clear();
+            dialogueContainer.NodeLinkDatas.Clear();
 
             Edge[] connectedEdges = _edges.Where(edge => edge.input.node != null).ToArray();
             for (int i = 0; i < connectedEdges.Length; i++)
@@ -124,7 +125,7 @@ namespace Dennis.Tools.DialogueGraph
                     continue;
                 }
 
-                dialogueContainer.nodeLinkDatas.Add(new NodeLinkData
+                dialogueContainer.NodeLinkDatas.Add(new NodeLinkData
                 {
                     BaseNodeGuid = outputNode.GUID,
                     BasePortName = connectedEdges[i].output.portName,
@@ -198,13 +199,21 @@ namespace Dennis.Tools.DialogueGraph
                         });
                         break;
 
+                    case EventNode eventNode:
+                        dialogueContainer.EventNodes.Add(new EventNodeData
+                        {
+                            NodeGuid = eventNode.GUID,
+                            Position = eventNode.GetPosition().position,
+                            VariableOperationDatas = eventNode.CurrentNodeData.VariableOperationDatas,
+                        });
+                        break;
+
                     default:
                         Debug.LogWarning($"Unhandled node type: {node.GetType()} - Node GUID: {node.GUID}");
                         break;
                 }
             }
         }
-
 
         #endregion Save
 
@@ -273,6 +282,12 @@ namespace Dennis.Tools.DialogueGraph
             {
                 _dialogueView.CreateBranchNode(node.Position, node);
             }
+
+            // Event Node
+            foreach (EventNodeData node in dialogueContainer.EventNodes)
+            {
+                _dialogueView.CreateEventNode(node.Position, node);
+            }
         }
 
         /// <summary>
@@ -284,15 +299,28 @@ namespace Dennis.Tools.DialogueGraph
             // Make connection for all nodes.
             for (int i = 0; i < _dialogueNodes.Count; i++)
             {
-                List<NodeLinkData> connections = dialogueContainer.nodeLinkDatas
+                List<NodeLinkData> connections = dialogueContainer.NodeLinkDatas
                     .Where(edge => edge.BaseNodeGuid == _dialogueNodes[i].GUID)
                     .ToList();
 
                 if (_dialogueNodes[i].outputContainer == null || !_dialogueNodes[i].outputContainer.Children().Any())
                 {
-                    Debug.LogWarning($"Node {_dialogueNodes[i].GUID} has no output ports.");
+                    if (_dialogueNodes[i] is EndNode) continue;
+
+                    string nodeTitle = _dialogueNodes[i].title;
+                    string nodeType = _dialogueNodes[i].GetType().Name;
+                    int outputPortCount = _dialogueNodes[i].outputContainer?.Children().Count() ?? 0;
+
+                    Debug.LogWarning($"[DEBUG] Node Issue Detected: \n" +
+                                     $"- GUID: {_dialogueNodes[i].GUID} \n" +
+                                     $"- Title: {nodeTitle} \n" +
+                                     $"- Type: {nodeType} \n" +
+                                     $"- Current Output Port Count: {outputPortCount}");
+
                     continue;
                 }
+
+
 
                 List<Port> allOutputPorts = _dialogueNodes[i].outputContainer
                     .Children()

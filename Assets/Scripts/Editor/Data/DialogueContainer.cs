@@ -7,7 +7,7 @@ namespace Dennis.Tools.DialogueGraph.Data
     [Serializable]
     public class DialogueContainer : ScriptableObject
     {
-        public List<NodeLinkData>  nodeLinkDatas = new List<NodeLinkData>();
+        public List<NodeLinkData>  NodeLinkDatas = new List<NodeLinkData>();
 
         // Node Data
         public List<StartData> StartDatas = new List<StartData>();
@@ -15,5 +15,6 @@ namespace Dennis.Tools.DialogueGraph.Data
         public List<DialogueNodeData> DialogueNodes = new List<DialogueNodeData>();
         public List<ChoiceNodeData> ChoiceNodes = new List<ChoiceNodeData>();
         public List<BranchNodeData> BranchNodes = new List<BranchNodeData>();
+        public List<EventNodeData> EventNodes = new List<EventNodeData>();
     }
 }

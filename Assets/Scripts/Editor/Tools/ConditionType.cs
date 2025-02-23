@@ -16,4 +16,14 @@ namespace Dennis.Tools.DialogueGraph
         Hide,
         Disable
     }
+
+    public enum VariableOperationType
+    {
+        SetTrue,
+        SetFalse,
+        Add,
+        Subtract,
+        Multiply,
+        Divide,
+    }
 }
