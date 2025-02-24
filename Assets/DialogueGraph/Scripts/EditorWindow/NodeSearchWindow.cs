@@ -57,10 +57,21 @@ namespace Dennis.Tools.DialogueGraph
 
         public bool OnSelectEntry(SearchTreeEntry SearchTreeEntry, SearchWindowContext context)
         {
-            // Get the mouse pos
-            var worldMousePos = _editorWindow.rootVisualElement.ChangeCoordinatesTo(_editorWindow.rootVisualElement.parent,
-                context.screenMousePosition - _editorWindow.position.position);
-            var localMousePos = _dialogueView.contentContainer.WorldToLocal(worldMousePos);
+            // Get the mouse position on the screen
+            Vector2 screenMousePos = context.screenMousePosition;
+
+            // Convert the screen position to world coordinates
+            Vector2 worldMousePos = _editorWindow.rootVisualElement.ChangeCoordinatesTo(
+                _editorWindow.rootVisualElement.parent,
+                screenMousePos - _editorWindow.position.position
+            );
+
+            // Convert the world coordinates to local coordinates relative to _dialogueView
+            Vector2 localMousePos = _dialogueView.contentContainer.WorldToLocal(worldMousePos);
+
+            // Adjust for viewport panning and zooming
+            localMousePos -= (Vector2)_dialogueView.viewTransform.position;
+            localMousePos /= _dialogueView.viewTransform.scale;
 
             switch (SearchTreeEntry.userData)
             {
