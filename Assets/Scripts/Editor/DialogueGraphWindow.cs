@@ -65,6 +65,9 @@ namespace Dennis.Tools.DialogueGraph
             Button LoadDataButton = UIHelper.CreateButton("Load Data", () => RequestDataOperation(false));
             toolbar.Add(LoadDataButton);
 
+            Button clearButton = UIHelper.CreateButton("Clear", () => ClearNode());
+            toolbar.Add(clearButton);
+
             rootVisualElement.Add(toolbar);
         }
 
@@ -115,6 +118,12 @@ namespace Dennis.Tools.DialogueGraph
                     saveUtility.LoadGraph(_fileName);
                 }
             }
+        }
+
+        private void ClearNode()
+        {
+            var saveUtility = GraphSaveUtility.GetInstance(_dialogueView);
+            saveUtility.ClearGraph();
         }
     }
 

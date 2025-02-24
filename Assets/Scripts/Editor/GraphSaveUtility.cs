@@ -276,7 +276,7 @@ namespace Dennis.Tools.DialogueGraph
         /// <summary>
         /// Clear View Graph
         /// </summary>
-        private void ClearGraph()
+        public void ClearGraph()
         {
             _edges.ForEach(edge => _dialogueView.RemoveElement(edge));
 
