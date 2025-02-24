@@ -1,5 +1,4 @@
 using Dennis.Tools.DialogueGraph.Data;
-using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -28,7 +27,7 @@ namespace Dennis.Tools.DialogueGraph
             styleSheets.Add(styleSheet);
 
             // Initialize node
-            title = "Choice Node";
+            title = "Event Node";
             SetPosition(new Rect(position, defaultNodeSize));
             guid = Guid.NewGuid().ToString();
 
