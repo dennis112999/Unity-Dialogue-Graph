@@ -51,18 +51,18 @@ namespace Dennis.Tools.DialogueGraph
                 if (AssetDatabase.LoadAssetAtPath<ScriptableObject>(assetPath) != null)
                 {
                     tempDialogueContainer.NodeLinkDatas.Clear();
-                    tempDialogueContainer.StartDatas.Clear();
-                    tempDialogueContainer.EndDatas.Clear();
-                    tempDialogueContainer.DialogueNodes.Clear();
-                    tempDialogueContainer.ChoiceNodes.Clear();
-                    tempDialogueContainer.EventNodes.Clear();
+                    tempDialogueContainer.StartNodeDatas.Clear();
+                    tempDialogueContainer.EndNodesDatas.Clear();
+                    tempDialogueContainer.DialogueNodesDatas.Clear();
+                    tempDialogueContainer.ChoiceNodesDatas.Clear();
+                    tempDialogueContainer.EventNodesDatas.Clear();
 
                     tempDialogueContainer.NodeLinkDatas = dialogueContainer.NodeLinkDatas;
-                    tempDialogueContainer.StartDatas = dialogueContainer.StartDatas;
-                    tempDialogueContainer.EndDatas = dialogueContainer.EndDatas;
-                    tempDialogueContainer.DialogueNodes = dialogueContainer.DialogueNodes;
-                    tempDialogueContainer.ChoiceNodes = dialogueContainer.ChoiceNodes;
-                    tempDialogueContainer.EventNodes = dialogueContainer.EventNodes;
+                    tempDialogueContainer.StartNodeDatas = dialogueContainer.StartNodeDatas;
+                    tempDialogueContainer.EndNodesDatas = dialogueContainer.EndNodesDatas;
+                    tempDialogueContainer.DialogueNodesDatas = dialogueContainer.DialogueNodesDatas;
+                    tempDialogueContainer.ChoiceNodesDatas = dialogueContainer.ChoiceNodesDatas;
+                    tempDialogueContainer.EventNodesDatas = dialogueContainer.EventNodesDatas;
 
                     EditorUtility.SetDirty(tempDialogueContainer);
                 }
@@ -142,19 +142,19 @@ namespace Dennis.Tools.DialogueGraph
         private void SaveNodesDatas(DialogueContainer dialogueContainer)
         {
             // Clear existing data to prepare for new data
-            dialogueContainer.StartDatas.Clear();
-            dialogueContainer.EndDatas.Clear();
-            dialogueContainer.DialogueNodes.Clear();
-            dialogueContainer.ChoiceNodes.Clear();
+            dialogueContainer.StartNodeDatas.Clear();
+            dialogueContainer.EndNodesDatas.Clear();
+            dialogueContainer.DialogueNodesDatas.Clear();
+            dialogueContainer.ChoiceNodesDatas.Clear();
             dialogueContainer.BranchNodes.Clear();
-            dialogueContainer.EventNodes.Clear();
+            dialogueContainer.EventNodesDatas.Clear();
 
             foreach (var node in _dialogueNodes)
             {
                 switch (node)
                 {
                     case StartNode startNode:
-                        dialogueContainer.StartDatas.Add(new StartData
+                        dialogueContainer.StartNodeDatas.Add(new StartData
                         {
                             NodeGuid = startNode.GUID,
                             Position = startNode.GetPosition().position,
@@ -162,7 +162,7 @@ namespace Dennis.Tools.DialogueGraph
                         break;
 
                     case EndNode endNode:
-                        dialogueContainer.EndDatas.Add(new EndData
+                        dialogueContainer.EndNodesDatas.Add(new EndData
                         {
                             NodeGuid = endNode.GUID,
                             Position = endNode.GetPosition().position,
@@ -170,11 +170,11 @@ namespace Dennis.Tools.DialogueGraph
                         break;
 
                     case DialogueNode dialogueNode:
-                        dialogueContainer.DialogueNodes.Add(SaveDialogueNodeData(dialogueNode));
+                        dialogueContainer.DialogueNodesDatas.Add(SaveDialogueNodeData(dialogueNode));
                         break;
 
                     case ChoiceNode choiceNode:
-                        dialogueContainer.ChoiceNodes.Add(new ChoiceNodeData
+                        dialogueContainer.ChoiceNodesDatas.Add(new ChoiceNodeData
                         {
                             NodeGuid = choiceNode.GUID,
                             Position = choiceNode.GetPosition().position,
@@ -195,7 +195,7 @@ namespace Dennis.Tools.DialogueGraph
                         break;
 
                     case EventNode eventNode:
-                        dialogueContainer.EventNodes.Add(new EventNodeData
+                        dialogueContainer.EventNodesDatas.Add(new EventNodeData
                         {
                             NodeGuid = eventNode.GUID,
                             Position = eventNode.GetPosition().position,
@@ -293,25 +293,25 @@ namespace Dennis.Tools.DialogueGraph
         private void GenerateNodes(DialogueContainer dialogueContainer)
         {
             // Start
-            foreach (StartData node in dialogueContainer.StartDatas)
+            foreach (StartData node in dialogueContainer.StartNodeDatas)
             {
                 _dialogueView.CreateStartNode(node.Position, node.NodeGuid);
             }
 
             // End Node 
-            foreach (EndData node in dialogueContainer.EndDatas)
+            foreach (EndData node in dialogueContainer.EndNodesDatas)
             {
                 _dialogueView.CreateEndNode(node.Position, node.NodeGuid);
             }
 
             // Dialogue Node
-            foreach (DialogueNodeData node in dialogueContainer.DialogueNodes)
+            foreach (DialogueNodeData node in dialogueContainer.DialogueNodesDatas)
             {
                 _dialogueView.CreateDialogueNode(node.Position, node);
             }
 
             // Choice Node
-            foreach (ChoiceNodeData node in dialogueContainer.ChoiceNodes)
+            foreach (ChoiceNodeData node in dialogueContainer.ChoiceNodesDatas)
             {
                 _dialogueView.CreateChoiceNode(node.Position, node);
             }
@@ -323,7 +323,7 @@ namespace Dennis.Tools.DialogueGraph
             }
 
             // Event Node
-            foreach (EventNodeData node in dialogueContainer.EventNodes)
+            foreach (EventNodeData node in dialogueContainer.EventNodesDatas)
             {
                 _dialogueView.CreateEventNode(node.Position, node);
             }

@@ -10,11 +10,27 @@ namespace Dennis.Tools.DialogueGraph.Data
         public List<NodeLinkData>  NodeLinkDatas = new List<NodeLinkData>();
 
         // Node Data
-        public List<StartData> StartDatas = new List<StartData>();
-        public List<EndData> EndDatas = new List<EndData>();
-        public List<DialogueNodeData> DialogueNodes = new List<DialogueNodeData>();
-        public List<ChoiceNodeData> ChoiceNodes = new List<ChoiceNodeData>();
+        public List<StartData> StartNodeDatas = new List<StartData>();
+        public List<EndData> EndNodesDatas = new List<EndData>();
+        public List<DialogueNodeData> DialogueNodesDatas = new List<DialogueNodeData>();
+        public List<ChoiceNodeData> ChoiceNodesDatas = new List<ChoiceNodeData>();
         public List<BranchNodeData> BranchNodes = new List<BranchNodeData>();
-        public List<EventNodeData> EventNodes = new List<EventNodeData>();
+        public List<EventNodeData> EventNodesDatas = new List<EventNodeData>();
+
+        public List<BaseData> GetAllDatas
+        {
+            get
+            {
+                List<BaseData> tmpBaseDatas = new List<BaseData>();
+                tmpBaseDatas.AddRange(EndNodesDatas);
+                tmpBaseDatas.AddRange(StartNodeDatas);
+                tmpBaseDatas.AddRange(EventNodesDatas);
+                tmpBaseDatas.AddRange(BranchNodes);
+                tmpBaseDatas.AddRange(DialogueNodesDatas);
+                tmpBaseDatas.AddRange(ChoiceNodesDatas);
+
+                return tmpBaseDatas;
+            }
+        }
     }
 }

@@ -1,24 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-// using Dennis.Tools.DialogueGraph.Data;
+using Dennis.Tools.DialogueGraph.Data;
 
 namespace Dennis.Tools.DialogueGraph
 {
     public class DialogueFlowHandler : MonoBehaviour
     {
-        // [SerializeField] protected DialogueContainer dialogueContainer;
+        [SerializeField] protected DialogueContainer DialogueContainer;
 
-        // Start is called before the first frame update
-        void Start()
+        protected BaseData GetNodeByGuid(string targetNodeGuid)
         {
-
+            return DialogueContainer.GetAllDatas.Find(node => node.NodeGuid == targetNodeGuid);
         }
 
-        // Update is called once per frame
-        void Update()
+        protected BaseData GetNodeByNodePort(DialogueData_Port nodePort)
         {
+            return DialogueContainer.GetAllDatas.Find(node => node.NodeGuid == nodePort.InputGuid);
+        }
 
+        protected BaseData GetNextNode(BaseData baseNodeData)
+        {
+            NodeLinkData nodeLinkData = DialogueContainer.NodeLinkDatas.Find(egde => egde.BaseNodeGuid == baseNodeData.NodeGuid);
+
+            return GetNodeByGuid(nodeLinkData.TargetNodeGuid);
         }
     }
 }
