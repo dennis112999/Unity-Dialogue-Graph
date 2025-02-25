@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Linq;
 using UnityEngine;
 
 namespace Dennis.Tools.DialogueGraph.Data
@@ -9,10 +9,17 @@ namespace Dennis.Tools.DialogueGraph.Data
     {
         public List<DialogueElementBase> AllDialogueElements = new List<DialogueElementBase>();
 
-        public List<DialogueBoxData> DialogueBoxes = new List<DialogueBoxData>();
-        public List<DialogueImagesData> DialogueImagesDatas = new List<DialogueImagesData>();
-
         public List<DialogueDataPort> DialogueDataPorts = new List<DialogueDataPort>();
+
+        public List<DialogueBoxData> GetDialogueBoxes()
+        {
+            return AllDialogueElements.OfType<DialogueBoxData>().ToList();
+        }
+
+        public List<DialogueImagesData> GetDialogueImages()
+        {
+            return AllDialogueElements.OfType<DialogueImagesData>().ToList();
+        }
     }
 
     [System.Serializable]

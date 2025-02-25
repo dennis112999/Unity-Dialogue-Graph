@@ -172,7 +172,6 @@ namespace Dennis.Tools.DialogueGraph
         {
             // Create a new DialogueBoxData
             DialogueBoxData dialogueBox = new DialogueBoxData();
-            _currentNodeData.DialogueBoxes.Add(dialogueBox);
             _currentNodeData.AllDialogueElements.Add(dialogueBox);
 
             AddDialogueBox(dialogueBox);
@@ -226,7 +225,6 @@ namespace Dennis.Tools.DialogueGraph
         {
             // Create a new DialogueImageData
             DialogueImagesData dialogueImages = new DialogueImagesData();
-            _currentNodeData.DialogueImagesDatas.Add(dialogueImages);
             _currentNodeData.AllDialogueElements.Add(dialogueImages);
 
             AddDialogueImageContainer(dialogueImages);
@@ -412,22 +410,8 @@ namespace Dennis.Tools.DialogueGraph
         {
             if (!_currentNodeData.AllDialogueElements.Contains(element)) return;
 
-            // Remove from AllDialogueElements
             _currentNodeData.AllDialogueElements.Remove(element);
 
-            // Also remove from specific lists
-            switch (element)
-            {
-                case DialogueBoxData dialogueBox:
-                    _currentNodeData.DialogueBoxes.Remove(dialogueBox);
-                    break;
-
-                case DialogueImagesData dialogueImage:
-                    _currentNodeData.DialogueImagesDatas.Remove(dialogueImage);
-                    break;
-            }
-
-            // Reassign OrderIndex
             for (int i = 0; i < _currentNodeData.AllDialogueElements.Count; i++)
             {
                 _currentNodeData.AllDialogueElements[i].OrderIndex = i;

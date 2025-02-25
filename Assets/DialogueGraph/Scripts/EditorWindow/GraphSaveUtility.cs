@@ -223,8 +223,6 @@ namespace Dennis.Tools.DialogueGraph
                 NodeGuid = node.GUID,
                 Position = node.GetPosition().position,
                 AllDialogueElements = node.CurrentNodeData.AllDialogueElements,
-                DialogueBoxes = node.CurrentNodeData.DialogueBoxes,
-                DialogueImagesDatas = node.CurrentNodeData.DialogueImagesDatas
             };
 
             // Process each port in the node
@@ -252,7 +250,6 @@ namespace Dennis.Tools.DialogueGraph
 
             return dialogueData;
         }
-
 
         #endregion Save
 
