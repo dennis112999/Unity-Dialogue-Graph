@@ -136,6 +136,7 @@ namespace Dennis.Tools.DialogueGraph
 
             Menu.menu.AppendAction("Text", new Action<DropdownMenuAction>(x => AddNewDialogueBox()));
             Menu.menu.AppendAction("Image", new Action<DropdownMenuAction>(x => CreateAndAddDialogueImage()));
+            Menu.menu.AppendAction("Name", new Action<DropdownMenuAction>(x => CreateAndAddDialogueName()));
 
             titleButtonContainer.Add(Menu);
         }
@@ -176,41 +177,43 @@ namespace Dennis.Tools.DialogueGraph
 
             AddDialogueBox(dialogueBox);
         }
+
         private void AddDialogueBox(DialogueBoxData dialogueBox)
         {
-            Box boxContainer = UIHelper.CreateBox("DialogueBox");
-            boxContainer.AddToClassList("DialogueBox");
-
-            // Create the title section
-            Box titleContainer = UIHelper.CreateBox("DialogueBoxTitle");
-
-            // Title label
-            Label label = UIHelper.CreateLabel("Dialogue Text", "LabelText");
-            titleContainer.Add(label);
-
-            // Add "Move Up", "Move Down", and "Remove" buttons
-            titleContainer.Add(CreateMoveAndRemoveButtons(dialogueBox));
-
-            boxContainer.Add(titleContainer);
+            Box boxContainer = CreateDialogueSection("Dialogue Text", dialogueBox);
 
             // Background container
             Box contentBox = UIHelper.CreateBox("DialogueContentBox");
+
+            // Background container
+            Box textBox = UIHelper.CreateBox("NameRow");
+
+            // Name label (left side)
+            Label nameLabel = UIHelper.CreateLabel("Content:", "LabelText");
+            textBox.Add(nameLabel);
 
             // Input field
             var textField = UIHelper.CreateTextField(dialogueBox.Text, newValue =>
             {
                 dialogueBox.Text = newValue;
-            });
-            textField.AddToClassList("TextField");
-            contentBox.Add(textField);
+            }, "TextField");
+            textBox.Add(textField);
+
+            Box audioBox = UIHelper.CreateBox("NameRow");
+
+            // Name label (left side)
+            Label audioLabel = UIHelper.CreateLabel("Audio:", "LabelText");
+            audioBox.Add(audioLabel);
 
             // Audio selection field
             ObjectField audioClipField = UIHelper.CreateObjectField<AudioClip>(
                 null,
                 (newAudioClip) => dialogueBox.AudioClip = newAudioClip
-            );
-            audioClipField.AddToClassList("AudioClipField");
-            contentBox.Add(audioClipField);
+            , "AudioClipField");
+            audioBox.Add(audioClipField);
+
+            contentBox.Add(textBox);
+            contentBox.Add(audioBox);
 
             boxContainer.Add(contentBox);
             mainContainer.Add(boxContainer);
@@ -232,20 +235,7 @@ namespace Dennis.Tools.DialogueGraph
 
         public void AddDialogueImageContainer(DialogueImagesData imagesData)
         {
-            Box boxContainer = UIHelper.CreateBox("DialogueBox");
-            boxContainer.AddToClassList("DialogueBox");
-
-            // Create the title section
-            Box titleContainer = UIHelper.CreateBox("DialogueBoxTitle");
-
-            // Title label
-            Label label = UIHelper.CreateLabel("Image", "LabelText");
-            titleContainer.Add(label);
-
-            // Add "Move Up", "Move Down", and "Remove" buttons
-            titleContainer.Add(CreateMoveAndRemoveButtons(imagesData));
-
-            boxContainer.Add(titleContainer);
+            Box boxContainer = CreateDialogueSection("Images", imagesData);
 
             // Create the image preview section
             CreateDialogueImagePreview(imagesData, boxContainer);
@@ -318,6 +308,44 @@ namespace Dennis.Tools.DialogueGraph
 
         #endregion Dialogue Image
 
+        #region Dialogue Name
+
+        private void CreateAndAddDialogueName()
+        {
+            // Create a new DialogueNameData
+            DialogueNameData dialogueName = new DialogueNameData();
+            _currentNodeData.AllDialogueElements.Add(dialogueName);
+
+            AddDialogueName(dialogueName);
+        }
+
+        private void AddDialogueName(DialogueNameData dialogueName)
+        {
+            Box boxContainer = CreateDialogueSection("Name", dialogueName);
+
+            // Background container
+            Box contentBox = UIHelper.CreateBox("NameRow");
+
+            // Name label (left side)
+            Label nameLabel = UIHelper.CreateLabel("Name:", "LabelText");
+            contentBox.Add(nameLabel);
+
+            // Input field (right side)
+            var textField = UIHelper.CreateTextField(dialogueName.Name, newValue =>
+            {
+                dialogueName.Name = newValue;
+            }, "TextField");
+            contentBox.Add(textField);
+
+            boxContainer.Add(contentBox);
+
+            // Add the container to the main UI
+            mainContainer.Add(boxContainer);
+            _dialogueElements.Add(boxContainer);
+        }
+
+        #endregion Dialogue Name
+
         #region Init
 
         public void Init(DialogueNodeData dialogueNodeData)
@@ -372,6 +400,33 @@ namespace Dennis.Tools.DialogueGraph
             return buttonContainer;
         }
 
+        /// <summary>
+        /// Creates a dialogue box UI section, including a title and control buttons
+        /// </summary>
+        /// <param name="titleText">The text displayed as the title</param>
+        /// <param name="element">DialogueElementBase</param>
+        /// <returns>dialogue box container</returns>
+        private Box CreateDialogueSection(string titleText, DialogueElementBase element)
+        {
+            // Create the main dialogue box container
+            Box boxContainer = UIHelper.CreateBox("DialogueBox");
+            boxContainer.AddToClassList("DialogueBox");
+
+            // Create the title container
+            Box titleContainer = UIHelper.CreateBox("DialogueBoxTitle");
+
+            Label label = UIHelper.CreateLabel(titleText, "LabelText");
+            titleContainer.Add(label);
+
+            // Add "Move Up", "Move Down", and "Remove" buttons
+            titleContainer.Add(CreateMoveAndRemoveButtons(element));
+
+            boxContainer.Add(titleContainer);
+
+            return boxContainer;
+        }
+
+
         #region Element Management
 
         private void AddDialogueElement(DialogueElementBase element)
@@ -383,6 +438,9 @@ namespace Dennis.Tools.DialogueGraph
                     break;
                 case DialogueBoxData dialogueData:
                     AddDialogueBox(dialogueData);
+                    break;
+                case DialogueNameData dialogueName:
+                    AddDialogueName(dialogueName);
                     break;
             }
         }

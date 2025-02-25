@@ -2,9 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+using System;
+
 namespace Dennis.Tools.DialogueGraph.Data
 {
-    [System.Serializable]
+    [Serializable]
     public class DialogueNodeData : BaseData
     {
         public List<DialogueElementBase> AllDialogueElements = new List<DialogueElementBase>();
@@ -16,33 +18,44 @@ namespace Dennis.Tools.DialogueGraph.Data
             return AllDialogueElements.OfType<DialogueBoxData>().ToList();
         }
 
+        public List<DialogueNameData> GetDialogueNames()
+        {
+            return AllDialogueElements.OfType<DialogueNameData>().ToList();
+        }
+
         public List<DialogueImagesData> GetDialogueImages()
         {
             return AllDialogueElements.OfType<DialogueImagesData>().ToList();
         }
     }
 
-    [System.Serializable]
+    [Serializable]
     public abstract class DialogueElementBase
     {
         public int OrderIndex;
     }
 
-    [System.Serializable]
+    [Serializable]
     public class DialogueBoxData : DialogueElementBase
     {
         public string Text;
         public AudioClip AudioClip;
     }
 
-    [System.Serializable]
+    [Serializable]
+    public class DialogueNameData : DialogueElementBase
+    {
+        public string Name;
+    }
+
+    [Serializable]
     public class DialogueImagesData : DialogueElementBase
     {
         public Sprite Sprite_Left;
         public Sprite Sprite_Right;
     }
 
-    [System.Serializable]
+    [Serializable]
     public class DialogueDataPort
     {
         public string PortGuid;

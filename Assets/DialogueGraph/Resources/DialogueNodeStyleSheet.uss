@@ -81,6 +81,16 @@
     width: 45%;
 }
 
+/* ----------------- Name Row ----------------- */
+.NameRow {
+    width: 100%;
+    padding: 10px;
+    background-color: #404040;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+}
+
 /* ----------------- Button Group ----------------- */
 .ButtonGroup {
     display: flex;
