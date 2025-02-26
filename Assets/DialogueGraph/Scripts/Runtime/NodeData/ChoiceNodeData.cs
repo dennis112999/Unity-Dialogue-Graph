@@ -4,14 +4,12 @@ using UnityEngine;
 namespace Dennis.Tools.DialogueGraph.Data
 {
     [System.Serializable]
-    public class ChoiceNodeData : BaseData
+    public class ChoiceNodeData : BaseData, IConditionHolder
     {
         public string Text;
         public AudioClip AudioClip;
-
         public ChoiceNodeFailAction ChoiceNodeFailAction = ChoiceNodeFailAction.Hide;
-
-        public List<ConditionData> ConditionDatas = new List<ConditionData>();
+        public List<ConditionData> ConditionDatas { get; set; } = new List<ConditionData>();
     }
 
     [System.Serializable]

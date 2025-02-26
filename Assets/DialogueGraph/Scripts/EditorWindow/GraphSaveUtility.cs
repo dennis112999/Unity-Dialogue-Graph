@@ -5,6 +5,8 @@ using UnityEditor.Experimental.GraphView;
 using System.Linq;
 using UnityEditor;
 using Dennis.Tools.DialogueGraph.Data;
+using System;
+using Dennis.Tools.DialogueGraph.Utilities;
 
 namespace Dennis.Tools.DialogueGraph
 {
@@ -55,6 +57,7 @@ namespace Dennis.Tools.DialogueGraph
                     tempDialogueContainer.EndNodesDatas.Clear();
                     tempDialogueContainer.DialogueNodesDatas.Clear();
                     tempDialogueContainer.ChoiceNodesDatas.Clear();
+                    tempDialogueContainer.BranchNodes.Clear();
                     tempDialogueContainer.EventNodesDatas.Clear();
 
                     tempDialogueContainer.NodeLinkDatas = dialogueContainer.NodeLinkDatas;
@@ -62,6 +65,7 @@ namespace Dennis.Tools.DialogueGraph
                     tempDialogueContainer.EndNodesDatas = dialogueContainer.EndNodesDatas;
                     tempDialogueContainer.DialogueNodesDatas = dialogueContainer.DialogueNodesDatas;
                     tempDialogueContainer.ChoiceNodesDatas = dialogueContainer.ChoiceNodesDatas;
+                    tempDialogueContainer.BranchNodes = dialogueContainer.BranchNodes;
                     tempDialogueContainer.EventNodesDatas = dialogueContainer.EventNodesDatas;
 
                     EditorUtility.SetDirty(tempDialogueContainer);
@@ -98,7 +102,7 @@ namespace Dennis.Tools.DialogueGraph
                 SaveNodesDatas(dialogueContainer);
                 return true;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Debug.LogError($"SaveNodes failed: An error occurred while saving nodes. Exception: {ex.Message}");
                 return false;
@@ -304,25 +308,25 @@ namespace Dennis.Tools.DialogueGraph
             // Dialogue Node
             foreach (DialogueNodeData node in dialogueContainer.DialogueNodesDatas)
             {
-                _dialogueView.CreateDialogueNode(node.Position, node);
+                _dialogueView.CreateDialogueNode(node.Position, DialogueCloneUtility.CloneNode(node));
             }
 
             // Choice Node
             foreach (ChoiceNodeData node in dialogueContainer.ChoiceNodesDatas)
             {
-                _dialogueView.CreateChoiceNode(node.Position, node);
+                _dialogueView.CreateChoiceNode(node.Position, DialogueCloneUtility.CloneChoiceNode(node));
             }
 
             // Branch Node
             foreach (BranchNodeData node in dialogueContainer.BranchNodes)
             {
-                _dialogueView.CreateBranchNode(node.Position, node);
+                _dialogueView.CreateBranchNode(node.Position, DialogueCloneUtility.CloneBranchNode(node));
             }
 
             // Event Node
             foreach (EventNodeData node in dialogueContainer.EventNodesDatas)
             {
-                _dialogueView.CreateEventNode(node.Position, node);
+                _dialogueView.CreateEventNode(node.Position, DialogueCloneUtility.CloneEventNode(node));
             }
         }
 
