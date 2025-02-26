@@ -38,6 +38,9 @@ namespace Dennis.Tools.DialogueGraph
             var dialogueContainer = ScriptableObject.CreateInstance<DialogueContainer>();
             if (!SaveNodes(dialogueContainer)) return;
 
+            // Validate graph before saving
+            if (!ValidateGraphBeforeSaving(dialogueContainer)) return;
+
             // Auto Create folder
             if (!AssetDatabase.IsValidFolder("Assets/Resources"))
             {
@@ -53,7 +56,7 @@ namespace Dennis.Tools.DialogueGraph
                 if (AssetDatabase.LoadAssetAtPath<ScriptableObject>(assetPath) != null)
                 {
                     tempDialogueContainer.NodeLinkDatas.Clear();
-                    tempDialogueContainer.StartNodeDatas.Clear();
+                    tempDialogueContainer.StartNodeData = null;
                     tempDialogueContainer.EndNodesDatas.Clear();
                     tempDialogueContainer.DialogueNodesDatas.Clear();
                     tempDialogueContainer.ChoiceNodesDatas.Clear();
@@ -61,7 +64,7 @@ namespace Dennis.Tools.DialogueGraph
                     tempDialogueContainer.EventNodesDatas.Clear();
 
                     tempDialogueContainer.NodeLinkDatas = dialogueContainer.NodeLinkDatas;
-                    tempDialogueContainer.StartNodeDatas = dialogueContainer.StartNodeDatas;
+                    tempDialogueContainer.StartNodeData = dialogueContainer.StartNodeData;
                     tempDialogueContainer.EndNodesDatas = dialogueContainer.EndNodesDatas;
                     tempDialogueContainer.DialogueNodesDatas = dialogueContainer.DialogueNodesDatas;
                     tempDialogueContainer.ChoiceNodesDatas = dialogueContainer.ChoiceNodesDatas;
@@ -84,6 +87,29 @@ namespace Dennis.Tools.DialogueGraph
                 Debug.LogError("Asset not found. Cannot modify the data.");
 #endif
             }
+        }
+
+        private bool ValidateGraphBeforeSaving(DialogueContainer dialogueContainer)
+        {
+            // Check if StartNode exists before saving
+            if (dialogueContainer.StartNodeData == null)
+            {
+#if UNITY_EDITOR
+                EditorUtility.DisplayDialog("Save Warning", "The graph must contain a Start Node before saving.", "OK");
+#endif
+                return false;
+            }
+
+            // Check if at least one EndNode exists before saving
+            if (dialogueContainer.EndNodesDatas.Count == 0)
+            {
+#if UNITY_EDITOR
+                EditorUtility.DisplayDialog("Save Warning", "The graph must contain at least one End Node before saving.", "OK");
+#endif
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -146,7 +172,7 @@ namespace Dennis.Tools.DialogueGraph
         private void SaveNodesDatas(DialogueContainer dialogueContainer)
         {
             // Clear existing data to prepare for new data
-            dialogueContainer.StartNodeDatas.Clear();
+            dialogueContainer.StartNodeData = null;
             dialogueContainer.EndNodesDatas.Clear();
             dialogueContainer.DialogueNodesDatas.Clear();
             dialogueContainer.ChoiceNodesDatas.Clear();
@@ -158,11 +184,11 @@ namespace Dennis.Tools.DialogueGraph
                 switch (node)
                 {
                     case StartNode startNode:
-                        dialogueContainer.StartNodeDatas.Add(new StartData
+                        dialogueContainer.StartNodeData = new StartData
                         {
                             NodeGuid = startNode.GUID,
                             Position = startNode.GetPosition().position,
-                        });
+                        };
                         break;
 
                     case EndNode endNode:
@@ -293,11 +319,9 @@ namespace Dennis.Tools.DialogueGraph
         /// <param name="dialogueContainer"></param>
         private void GenerateNodes(DialogueContainer dialogueContainer)
         {
-            // Start
-            foreach (StartData node in dialogueContainer.StartNodeDatas)
-            {
-                _dialogueView.CreateStartNode(node.Position, node.NodeGuid);
-            }
+            // Start Node
+            if(dialogueContainer.StartNodeData != null)
+                _dialogueView.CreateStartNode(dialogueContainer.StartNodeData.Position, dialogueContainer.StartNodeData.NodeGuid);
 
             // End Node 
             foreach (EndData node in dialogueContainer.EndNodesDatas)

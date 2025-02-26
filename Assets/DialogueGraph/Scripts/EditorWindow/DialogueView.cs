@@ -15,6 +15,8 @@ namespace Dennis.Tools.DialogueGraph
         private NodeSearchWindow _searchWindow;
         private DialogueGraphWindow _dialogueGraphWindow;
 
+        private bool _hasStartNode = false;
+
         public DialogueView(EditorWindow editorWindow)
         {
             // Load the style Sheets
@@ -71,13 +73,27 @@ namespace Dennis.Tools.DialogueGraph
 
         #region NodeType
 
-        public void CreateStartNode(Vector2 position)
+        public bool CreateStartNode(Vector2 position)
         {
+            if(_hasStartNode) return false;
+
+            _hasStartNode = true;
             AddElement(new StartNode(position, _dialogueGraphWindow, this));
+
+            return true;
         }
 
         public void CreateStartNode(Vector2 position, string GUID)
         {
+            if (_hasStartNode)
+            {
+#if UNITY_EDITOR
+                Debug.LogWarning("A StartNode already exists in the graph. Skipping creation.");
+#endif
+            }
+
+            _hasStartNode = true;
+
             StartNode tempNode = new StartNode(position, _dialogueGraphWindow, this);
             tempNode.GUID = GUID;
 

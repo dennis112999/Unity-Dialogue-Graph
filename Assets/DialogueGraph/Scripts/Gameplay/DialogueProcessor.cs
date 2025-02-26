@@ -15,12 +15,12 @@ namespace Dennis.Tools.DialogueGraph
         public void StartDialogue()
         {
             _dialogueControllerUI.ShowDialogueUI(true);
-            ProcessNodeType(GetNextNode(DialogueContainer.StartNodeDatas[0]));
+            ProcessNodeType(GetNextNode(DialogueContainer.StartNodeData));
         }
 
         private void RunNode(StartData nodeData)
         {
-            ProcessNodeType(GetNextNode(DialogueContainer.StartNodeDatas[0]));
+            ProcessNodeType(GetNextNode(DialogueContainer.StartNodeData));
         }
 
         private void ProcessNodeType(BaseData baseNodeData)

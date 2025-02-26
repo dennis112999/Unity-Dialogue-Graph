@@ -76,7 +76,13 @@ namespace Dennis.Tools.DialogueGraph
             switch (SearchTreeEntry.userData)
             {
                 case StartNode node:
-                    _dialogueView.CreateStartNode(localMousePos);
+                    if(!_dialogueView.CreateStartNode(localMousePos))
+                    {
+#if UNITY_EDITOR
+                        EditorUtility.DisplayDialog("Start Node Exists",
+                            "A Start Node is already present in the graph. Only one Start Node is allowed.", "OK");
+#endif
+                    }
                     return true;
 
                 case EndNode node:
