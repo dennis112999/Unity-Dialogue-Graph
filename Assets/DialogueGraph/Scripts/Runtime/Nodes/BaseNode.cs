@@ -21,6 +21,12 @@ namespace Dennis.Tools.DialogueGraph
             styleSheets.Add(styleSheet);
         }
 
+        protected void RefeshUI()
+        {
+            RefreshExpandedState();
+            RefreshPorts();
+        }
+
         #region Port
 
         /// <summary>

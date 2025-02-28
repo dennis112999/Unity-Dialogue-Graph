@@ -37,8 +37,7 @@ namespace Dennis.Tools.DialogueGraph
             AddDropdownMenu();
 
             // Refresh UI
-            RefreshExpandedState();
-            RefreshPorts();
+            base.RefeshUI();
         }
 
         private void AddDropdownMenu()
@@ -59,8 +58,7 @@ namespace Dennis.Tools.DialogueGraph
             }
 
             // Refresh Node
-            RefreshPorts();
-            RefreshExpandedState();
+            base.RefeshUI();
         }
     }
 }

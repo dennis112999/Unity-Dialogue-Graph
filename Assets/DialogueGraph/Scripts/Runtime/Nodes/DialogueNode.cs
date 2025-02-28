@@ -42,8 +42,7 @@ namespace Dennis.Tools.DialogueGraph
             AddDropdownMenu();
 
             // Refresh
-            RefreshPorts();
-            RefreshExpandedState();
+            base.RefeshUI();
         }
 
         #region Choice Management
@@ -366,8 +365,7 @@ namespace Dennis.Tools.DialogueGraph
             }
 
             // Refresh
-            RefreshPorts();
-            RefreshExpandedState();
+            base.RefeshUI();
         }
 
         #endregion Init

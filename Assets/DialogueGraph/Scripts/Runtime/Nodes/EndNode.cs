@@ -20,8 +20,8 @@ namespace Dennis.Tools.DialogueGraph
 
             AddInputPort("Input", Port.Capacity.Multi);
 
-            RefreshExpandedState();
-            RefreshPorts();
+            base.RefeshUI();
+        }
         }
     }
 
