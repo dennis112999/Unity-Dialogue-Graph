@@ -424,7 +424,6 @@ namespace Dennis.Tools.DialogueGraph
             return boxContainer;
         }
 
-
         #region Element Management
 
         private void AddDialogueElement(DialogueElementBase element)

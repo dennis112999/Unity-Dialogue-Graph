@@ -9,9 +9,24 @@ namespace Dennis.Tools.DialogueGraph.Utilities
     public static class DialogueCloneUtility
     {
         /// <summary>
+        /// Creates a deep copy of a EndNodeData instance
+        /// </summary>
+        /// <param name="original"></param>
+        /// <returns></returns>
+        public static EndNodeData CloneEndNode(EndNodeData original)
+        {
+            return new EndNodeData
+            {
+                NodeGuid = original.NodeGuid,
+                Position = original.Position,
+                EndNodeType = original.EndNodeType
+            };
+        }
+
+        /// <summary>
         /// Creates a deep copy of a DialogueNodeData instance
         /// </summary>
-        public static DialogueNodeData CloneNode(DialogueNodeData original)
+        public static DialogueNodeData CloneDialogueNode(DialogueNodeData original)
         {
             return new DialogueNodeData
             {

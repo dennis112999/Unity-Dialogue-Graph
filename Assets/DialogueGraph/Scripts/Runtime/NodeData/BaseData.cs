@@ -16,9 +16,9 @@ namespace Dennis.Tools.DialogueGraph.Data
     }
 
     [System.Serializable]
-    public class EndData : BaseData
+    public class EndNodeData : BaseData
     {
-
+        public EndNodeType EndNodeType = EndNodeType.End;
     }
 
     [System.Serializable]
@@ -28,5 +28,15 @@ namespace Dennis.Tools.DialogueGraph.Data
         public string BasePortName;
         public string TargetNodeGuid;
         public string TargetPortName;
+    }
+
+    /// <summary>
+    /// End Node Type
+    /// </summary>
+    public enum EndNodeType
+    {
+        End,
+        RetrunToStart,
+        Repeat,
     }
 }

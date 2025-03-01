@@ -31,7 +31,7 @@ namespace Dennis.Tools.DialogueGraph
                     RunNode(startNode);
                     break;
 
-                case EndData endNode:
+                case EndNodeData endNode:
                     break;
 
                 case DialogueNodeData dialogueNode:

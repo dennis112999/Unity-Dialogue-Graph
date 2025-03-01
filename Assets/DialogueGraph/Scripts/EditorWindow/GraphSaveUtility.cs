@@ -192,10 +192,11 @@ namespace Dennis.Tools.DialogueGraph
                         break;
 
                     case EndNode endNode:
-                        dialogueContainer.EndNodesDatas.Add(new EndData
+                        dialogueContainer.EndNodesDatas.Add(new EndNodeData
                         {
                             NodeGuid = endNode.GUID,
                             Position = endNode.GetPosition().position,
+                            EndNodeType = endNode.CurrentNodeData.EndNodeType
                         });
                         break;
 
@@ -324,15 +325,15 @@ namespace Dennis.Tools.DialogueGraph
                 _dialogueView.CreateStartNode(dialogueContainer.StartNodeData.Position, dialogueContainer.StartNodeData.NodeGuid);
 
             // End Node 
-            foreach (EndData node in dialogueContainer.EndNodesDatas)
+            foreach (EndNodeData node in dialogueContainer.EndNodesDatas)
             {
-                _dialogueView.CreateEndNode(node.Position, node.NodeGuid);
+                _dialogueView.CreateEndNode(node.Position, DialogueCloneUtility.CloneEndNode(node));
             }
 
             // Dialogue Node
             foreach (DialogueNodeData node in dialogueContainer.DialogueNodesDatas)
             {
-                _dialogueView.CreateDialogueNode(node.Position, DialogueCloneUtility.CloneNode(node));
+                _dialogueView.CreateDialogueNode(node.Position, DialogueCloneUtility.CloneDialogueNode(node));
             }
 
             // Choice Node

@@ -102,13 +102,17 @@ namespace Dennis.Tools.DialogueGraph
 
         public void CreateEndNode(Vector2 position)
         {
-            AddElement(new EndNode(position, _dialogueGraphWindow, this));
+            EndNode tempNode = new EndNode(position, _dialogueGraphWindow, this);
+            tempNode.Init();
+
+            AddElement(tempNode);
         }
 
-        public void CreateEndNode(Vector2 position, string GUID)
+        public void CreateEndNode(Vector2 position, EndNodeData endNodeData)
         {
             EndNode tempNode = new EndNode(position, _dialogueGraphWindow, this);
-            tempNode.GUID = GUID;
+            tempNode.GUID = endNodeData.NodeGuid;
+            tempNode.Init(endNodeData);
 
             AddElement(tempNode);
         }
