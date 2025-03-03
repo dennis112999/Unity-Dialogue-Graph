@@ -64,10 +64,31 @@ namespace Dennis.Tools.DialogueGraph
                 RestoreCondition(condition);
             }
 
+            CreateTextFieldBox();
             ShowHideChoiceEnum();
 
             // Refresh Node
             base.RefeshUI();
+        }
+
+        private void CreateTextFieldBox()
+        {
+            Box boxContainer = UIHelper.CreateBox("TextLineBox");
+
+            // Input field
+            var textField = UIHelper.CreateTextField(_currentNodeData.Text, newValue =>
+            {
+                _currentNodeData.Text = newValue;
+            });
+            boxContainer.Add(textField);
+
+            // Audio selection field
+            ObjectField audioClipField = UIHelper.CreateObjectField<AudioClip>(
+                null, newAudioClip => _currentNodeData.AudioClip = newAudioClip
+            );
+            boxContainer.Add(audioClipField);
+
+            mainContainer.Add(boxContainer);
         }
 
         protected override void ShowHideChoiceEnum()
