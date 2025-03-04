@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Dennis.Tools.DialogueGraph.UI;
 
+using Dennis.Tools.DialogueGraph.Event;
+
 namespace Dennis.Tools.DialogueGraph
 {
     public class DialogueProcessor : DialogueFlowHandler
@@ -37,6 +39,8 @@ namespace Dennis.Tools.DialogueGraph
 
                     break;
 
+                case EventNodeData eventNodeData:
+                    ExecuteEventNode(eventNodeData);
                     break;
 
                 case BranchNodeData branchNode:
@@ -50,6 +54,28 @@ namespace Dennis.Tools.DialogueGraph
                     break;
             }
         }
+
+        #region Event Node
+
+        /// <summary>
+        /// Executes event node
+        /// </summary>
+        /// <param name="eventNodeData">event node data</param>
+        private void ExecuteEventNode(EventNodeData eventNodeData)
+        {
+            List<VariableOperationData> variableOperations = eventNodeData.VariableOperationDatas;
+
+            // Publish all variable operations to notify relevant event handlers
+            foreach (VariableOperationData operation in variableOperations)
+            {
+                Events.OnVariableOperationEvents.Publish(operation);
+            }
+
+            // Determine the next event node and process it
+            ProcessNodeType(GetNextNode(eventNodeData));
+        }
+
+        #endregion Event Node
 
         #region Dialogue Node
 
