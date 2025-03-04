@@ -18,7 +18,7 @@ namespace Dennis.Tools.DialogueGraph
             ProcessNodeType(GetNextNode(DialogueContainer.StartNodeData));
         }
 
-        private void RunNode(StartData nodeData)
+        private void ExecuteStartNode()
         {
             ProcessNodeType(GetNextNode(DialogueContainer.StartNodeData));
         }
@@ -27,21 +27,20 @@ namespace Dennis.Tools.DialogueGraph
         {
             switch (baseNodeData)
             {
-                case StartData startNode:
-                    RunNode(startNode);
+                case StartData startNodeData:
+                    ExecuteStartNode();
                     break;
 
-                case EndNodeData endNode:
+                case EndNodeData endNodeData:
+                    ExecuteEndNode(endNodeData);
                     break;
 
-                case DialogueNodeData dialogueNode:
-                    RunNode(dialogueNode);
                     break;
 
-                case EventNodeData eventNode:
                     break;
 
                 case BranchNodeData branchNode:
+                case BranchNodeData branchNodeData:
                     break;
 
                 default:
@@ -56,7 +55,6 @@ namespace Dennis.Tools.DialogueGraph
 
         private void RunNode(DialogueNodeData dialogueNode)
         {
-            _baseContainers = dialogueNode.AllDialogueElements;
             _currentIndex = 0;
 
             _baseContainers.Sort(delegate (DialogueElementBase x, DialogueElementBase y)
@@ -89,5 +87,36 @@ namespace Dennis.Tools.DialogueGraph
         }
 
         #endregion Dialogue Node
+
+        #region End Node
+
+        private void ExecuteEndNode(EndNodeData endNodeData)
+        {
+            switch (endNodeData.EndNodeType)
+            {
+                case EndNodeType.End:
+                    // Close the DialogueUI 
+                    _dialogueControllerUI.ShowDialogueUI(false);
+                    break;
+
+                case EndNodeType.RetrunToStart:
+                    // Return to the Start Node
+                    ExecuteStartNode();
+                    break;
+
+                case EndNodeType.Repeat:
+                    // Repeat the current dialogue node 
+                    ProcessNodeType(GetNodeByGuid(_currentDialogueNodeData.NodeGuid));
+                    break;
+
+                default:
+#if UNITY_EDITOR
+                    Debug.LogWarning($"Unhandled EndNodeType: {endNodeData.EndNodeType}");
+#endif
+                    break;
+            }
+        }
+
+        #endregion End Node
     }
 }
