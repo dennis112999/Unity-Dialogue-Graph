@@ -43,8 +43,9 @@ namespace Dennis.Tools.DialogueGraph
                     ExecuteEventNode(eventNodeData);
                     break;
 
-                case BranchNodeData branchNode:
                 case BranchNodeData branchNodeData:
+                    ExecuteBranchNode(branchNodeData);
+                    break;
                     break;
 
                 default:
@@ -77,9 +78,29 @@ namespace Dennis.Tools.DialogueGraph
 
         #endregion Event Node
 
+        #region Branch Node
+
+        private void ExecuteBranchNode(BranchNodeData branchNodeData)
+        {
+            // Iterate through all conditions in the branch node
+            foreach (ConditionData conditionData in branchNodeData.ConditionDatas)
+            {
+                // If any condition is NOT met, execute the False branch and return early
+                if (!VariableManager.EvaluateCondition(conditionData))
+                {
+                    ProcessNodeType(GetNodeByGuid(branchNodeData.FalseGuidNode));
+                    return;
+                }
+            }
+
+            // If all conditions are met, execute the True branch
+            ProcessNodeType(GetNodeByGuid(branchNodeData.TrueGuidNode));
+        }
+
+        #endregion Branch Node
+
         #region Dialogue Node
 
-        private void RunNode(DialogueNodeData dialogueNode)
         {
             _currentIndex = 0;
 

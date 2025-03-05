@@ -20,5 +20,19 @@ namespace Dennis.Tools
 #endif
             return a;
         }
+
+        public static bool IsTrue(float value) => value == 1;
+
+        public static bool IsFalse(float value) => value == 0;
+
+        public static bool IsEqual(float value, float target) => value == target;
+
+        public static bool IsGreaterOrEqual(float value, float target) => value >= target;
+
+        public static bool IsLessOrEqual(float value, float target) => value <= target;
+
+        public static bool IsGreater(float value, float target) => value > target;
+
+        public static bool IsLess(float value, float target) => value < target;
     }
 }
