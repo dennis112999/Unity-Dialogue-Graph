@@ -225,15 +225,6 @@ namespace Dennis.Tools.DialogueGraph
                         });
                         break;
 
-                    case EventNode eventNode:
-                        dialogueContainer.EventNodesDatas.Add(new EventNodeData
-                        {
-                            NodeGuid = eventNode.GUID,
-                            Position = eventNode.GetPosition().position,
-                            VariableOperationDatas = eventNode.CurrentNodeData.VariableOperationDatas,
-                        });
-                        break;
-
                     default:
                         Debug.LogWarning($"Unhandled node type: {node.GetType()} - Node GUID: {node.GUID}");
                         break;
@@ -306,6 +297,8 @@ namespace Dennis.Tools.DialogueGraph
         /// </summary>
         public void ClearGraph()
         {
+            _dialogueView.ResetGraph();
+            
             _edges.ForEach(edge => _dialogueView.RemoveElement(edge));
 
             foreach (BaseNode node in _dialogueNodes)

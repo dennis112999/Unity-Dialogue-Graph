@@ -47,6 +47,11 @@ namespace Dennis.Tools.DialogueGraph
             nodeCreationRequest = context => SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), _searchWindow);
         }
 
+        public void ResetGraph()
+        {
+            _hasStartNode = false;
+        }
+
         #region Port
 
         /// <summary>
