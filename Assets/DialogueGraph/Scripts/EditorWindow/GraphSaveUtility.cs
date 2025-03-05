@@ -217,10 +217,17 @@ namespace Dennis.Tools.DialogueGraph
                         break;
 
                     case BranchNode branchNode:
+                        List<Edge> tmpEdges = _edges.Where(x => x.output.node == node).Cast<Edge>().ToList();
+
+                        Edge trueOutput = tmpEdges.FirstOrDefault(x => x.output.portName == "True");
+                        Edge falseOutput = tmpEdges.FirstOrDefault(x => x.output.portName == "False");
+
                         dialogueContainer.BranchNodes.Add(new BranchNodeData
                         {
                             NodeGuid = branchNode.GUID,
                             Position = branchNode.GetPosition().position,
+                            TrueGuidNode = GetNodeGuidFromEdge(trueOutput),
+                            FalseGuidNode = GetNodeGuidFromEdge(falseOutput),
                             ConditionDatas = branchNode.CurrentNodeData.ConditionDatas,
                         });
                         break;
@@ -271,6 +278,13 @@ namespace Dennis.Tools.DialogueGraph
             }
 
             return dialogueData;
+        }
+
+        private string GetNodeGuidFromEdge(Edge edge)
+        {
+            return edge?.input?.node is BaseNode baseNode && !string.IsNullOrEmpty(baseNode.GUID)
+                ? baseNode.GUID
+                : string.Empty;
         }
 
         #endregion Save
