@@ -58,13 +58,14 @@ namespace Dennis.Tools.DialogueGraph
 
             CreateChoiceStateEnumBox();
 
+            CreateTextFieldBox();
+
             // Restore all existing conditions
             foreach (var condition in _currentNodeData.ConditionDatas)
             {
                 RestoreCondition(condition);
             }
 
-            CreateTextFieldBox();
             ShowHideChoiceEnum();
 
             // Refresh Node
