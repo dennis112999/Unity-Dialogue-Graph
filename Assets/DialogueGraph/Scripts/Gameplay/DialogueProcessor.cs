@@ -92,20 +92,35 @@ namespace Dennis.Tools.DialogueGraph
 
         #region Branch Node
 
+        /// <summary>
+        /// Executes branch node
+        /// </summary>
+        /// <param name="branchNodeData">The branch node data containing conditions and next node references</param>
         private void ExecuteBranchNode(BranchNodeData branchNodeData)
         {
-            // Iterate through all conditions in the branch node
-            foreach (ConditionData conditionData in branchNodeData.ConditionDatas)
+            string nextNodeGuid = IsConditionFulfilled(branchNodeData.ConditionDatas)
+                ? branchNodeData.TrueGuidNode
+                : branchNodeData.FalseGuidNode;
+
+            ProcessNodeType(GetNodeByGuid(nextNodeGuid));
+        }
+
+        private bool IsConditionFulfilled(List<ConditionData> conditionDatas)
+        {
+            if (conditionDatas == null) return true;
+
+            // Iterate through all conditions
+            foreach (ConditionData conditionData in conditionDatas)
             {
-                // If any condition is NOT met, execute the False branch and return early
+                // If any condition is NOT met, execute the False and return early
                 if (!VariableManager.EvaluateCondition(conditionData))
                 {
-                    ProcessNodeType(GetNodeByGuid(branchNodeData.FalseGuidNode));
-                    return;
+                    return false;
                 }
             }
 
             // If all conditions are met, execute the True branch
+            return true;
         }
 
         #endregion Branch Node
