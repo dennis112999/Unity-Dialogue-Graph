@@ -7,12 +7,16 @@ using UnityEditor.Experimental.GraphView;
 
 using System;
 
+using Dennis.Tools.DialogueGraph.Data;
+
 namespace Dennis.Tools.DialogueGraph
 {
     public class DialogueGraphWindow : EditorWindow
     {
         private DialogueView _dialogueView;
         private string _fileName = "New Narrative";
+
+        private Blackboard _blackBoard;
 
         [MenuItem("Graph/Dialogue Graph")]
         public static void OpenDialogueGraphWindow()
@@ -26,6 +30,7 @@ namespace Dennis.Tools.DialogueGraph
             ConstructGraphView();
             GenerateToolbar();
             GenerateMiniMap();
+            GenerateBlackBoard();
         }
 
         private void OnDisable()
@@ -98,6 +103,63 @@ namespace Dennis.Tools.DialogueGraph
 
             _dialogueView.Add(miniMap);
         }
+
+        #region Black Board
+
+        private void GenerateBlackBoard()
+        {
+            _blackBoard = new Blackboard(_dialogueView);
+
+            ResetBlackboard();
+
+            _blackBoard.SetPosition(new Rect(10, 30, 200, 300));
+
+            _blackBoard.addItemRequested = (_) => ShowSOSelectionWindow();
+
+            _dialogueView.Add(_blackBoard);
+        }
+
+        private void ShowSOSelectionWindow()
+        {
+            EditorGUIUtility.ShowObjectPicker<VariableData>(null, false, "", 0);
+
+            EditorApplication.update += CheckSOSelection;
+        }
+
+        private void CheckSOSelection()
+        {
+            VariableData selectedData = EditorGUIUtility.GetObjectPickerObject() as VariableData;
+
+            if (selectedData != null)
+            {
+                AddVariableDataToBlackboard(selectedData);
+
+                EditorApplication.update -= CheckSOSelection;
+            }
+        }
+
+        private void AddVariableDataToBlackboard(VariableData variableData)
+        {
+            ResetBlackboard();
+
+            foreach (var variable in variableData.Variables)
+            {
+                var field = new BlackboardField { text = $"{variable.Name} = {variable.Value}", typeText = "Float" };
+                _blackBoard.Add(field);
+            }
+        }
+
+        private void ResetBlackboard()
+        {
+            _blackBoard.Clear();
+
+            _blackBoard.Add(new BlackboardSection { title = "Variable Datas" });
+
+            BlackboardSection section = new BlackboardSection { title = "Variables" };
+            _blackBoard.Add(section);
+        }
+
+        #endregion Black Board
 
         private void RequestDataOperation(bool save)
         {
