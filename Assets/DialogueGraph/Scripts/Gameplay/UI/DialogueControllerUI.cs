@@ -89,8 +89,6 @@ namespace Dennis.Tools.DialogueGraph.UI
 
         public void SetupDialogueOptions(List<DialogueOption> dialogueOptions)
         {
-            _choicePanel.SetActive(true);
-
             DeleteChoiceManagerChildren();
 
             for (int i = 0; i < dialogueOptions.Count; i++)
@@ -108,6 +106,8 @@ namespace Dennis.Tools.DialogueGraph.UI
 #endif
                 }
             }
+
+            _choicePanel.SetActive(true);
         }
 
         public void OnChoiceButtonClick()
