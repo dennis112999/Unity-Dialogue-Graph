@@ -9,7 +9,7 @@ namespace Dennis.Tools.DialogueGraph.Data
     [Serializable]
     public class DialogueNodeData : BaseData
     {
-        public List<DialogueElementBase> AllDialogueElements = new List<DialogueElementBase>();
+        [SerializeReference]  public List<DialogueElementBase> AllDialogueElements = new List<DialogueElementBase>();
 
         public List<DialogueDataPort> DialogueDataPorts = new List<DialogueDataPort>();
 

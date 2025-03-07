@@ -264,13 +264,12 @@ namespace Dennis.Tools.DialogueGraph
                     InputGuid = string.Empty
                 };
 
-                // Match the edge to set Output and Input GUIDs
                 foreach (Edge edge in _edges)
                 {
                     if (edge.output.portName == port.PortGuid)
                     {
-                        portData.OutputGuid = (edge.output.node as BaseNode)?.GUID ?? string.Empty;
-                        portData.InputGuid = (edge.input.node as BaseNode)?.GUID ?? string.Empty;
+                        portData.OutputGuid = (edge.output.node as BaseNode).GUID;
+                        portData.InputGuid = (edge.input.node as BaseNode).GUID;
                     }
                 }
 

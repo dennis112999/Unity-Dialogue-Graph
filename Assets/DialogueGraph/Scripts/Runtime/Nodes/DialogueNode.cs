@@ -112,7 +112,7 @@ namespace Dennis.Tools.DialogueGraph
             port.contentContainer.Add(deleteButton);
 
             // Configure the port
-            port.portName = "Choice";
+            port.portName = dialogueDataPort.PortGuid;
             Label portNameLabel = port.contentContainer.Q<Label>("type");
             portNameLabel.AddToClassList("PortName");
             port.portColor = Color.yellow;
