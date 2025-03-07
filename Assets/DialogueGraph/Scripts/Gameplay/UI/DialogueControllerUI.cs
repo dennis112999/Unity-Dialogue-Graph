@@ -10,8 +10,8 @@ namespace Dennis.Tools.DialogueGraph.UI
 {
     public class DialogueControllerUI : MonoBehaviour
     {
-        [Header("Controller")] 
-        private GameObject _dialogueControllerUI;
+        [Header("Controller")]
+        [SerializeField] private GameObject _dialogueControllerUI;
 
         [Header("Text")]
         [SerializeField] private TextMeshProUGUI _nameText;
@@ -22,6 +22,7 @@ namespace Dennis.Tools.DialogueGraph.UI
         [SerializeField] private Image _rightImage;
 
         [Header("Buttons")]
+        [SerializeField] private GameObject _choicePanel;
         [SerializeField] private Transform _choiceManagerTransform;
         [SerializeField] private GameObject _choiceButtonPrefab;
 
@@ -35,17 +36,44 @@ namespace Dennis.Tools.DialogueGraph.UI
 
         public void SetName(string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+#if UNITY_EDITOR
+                Debug.LogWarning("SetName: The name string is null or empty.");
+#endif
+                name = "Forget to write the name string";
+            }
+
             _nameText.text = name;
         }
 
         public void SetImage(Sprite leftSprite, Sprite rightSprite)
         {
-            if(leftSprite != null)  _leftImage.sprite = leftSprite;
-            if(rightSprite != null) _rightImage.sprite = rightSprite;
+            // Handle left image
+            _leftImage.gameObject.SetActive(leftSprite != null);
+            if (leftSprite != null)
+            {
+                _leftImage.sprite = leftSprite;
+            }
+
+            // Handle right image
+            _rightImage.gameObject.SetActive(rightSprite != null);
+            if (rightSprite != null)
+            {
+                _rightImage.sprite = rightSprite;
+            }
         }
 
         public void SetContentText(string text)
         {
+            if (string.IsNullOrEmpty(text))
+            {
+#if UNITY_EDITOR
+                Debug.LogWarning("SetContentText: The content text string is null or empty.");
+#endif
+                text = "Forget to write the content text string";
+            }
+
             _contentText.text = text;
         }
 
@@ -59,17 +87,19 @@ namespace Dennis.Tools.DialogueGraph.UI
             }
         }
 
-        public void SetupDialogueOptions(List<DialogueOption> dialogueOptions, UnityAction onCallBack)
+        public void SetupDialogueOptions(List<DialogueOption> dialogueOptions)
         {
+            _choicePanel.SetActive(true);
+
             DeleteChoiceManagerChildren();
 
             for (int i = 0; i < dialogueOptions.Count; i++)
             {
                 var button = Instantiate(_choiceButtonPrefab, _choiceManagerTransform);
 
-                if(button.TryGetComponent(out ChoiceButton choiceButton))
+                if (button.TryGetComponent(out ChoiceButton choiceButton))
                 {
-                    choiceButton.SetChoiceButton(dialogueOptions[i], OnChoiceButtonCallback);
+                    choiceButton.SetChoiceButton(dialogueOptions[i], OnChoiceButtonClick);
                 }
                 else
                 {
@@ -80,12 +110,32 @@ namespace Dennis.Tools.DialogueGraph.UI
             }
         }
 
-        private void OnChoiceButtonCallback()
+        public void OnChoiceButtonClick()
         {
-
+            _choicePanel.SetActive(false);
         }
 
         #endregion Choice Buttons
+
+        /// <summary>
+        /// Assigns an action to the continue button and makes it visible
+        /// </summary>
+        /// <param name="action">Action to execute when clicked</param>
+        public void ConfigureContinueButton(UnityAction action)
+        {
+            if (_continueButton == null || action == null)
+            {
+#if UNITY_EDITOR
+                Debug.LogWarning("[ConfigureContinueButton] Invalid parameters: either button or action is null.");
+#endif
+                return;
+            }
+
+            _continueButton.onClick.RemoveAllListeners();
+            _continueButton.onClick.AddListener(action);
+            _continueButton.gameObject.SetActive(true);
+        }
+
     }
 
 }

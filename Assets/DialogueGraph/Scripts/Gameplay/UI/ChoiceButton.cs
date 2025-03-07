@@ -10,6 +10,7 @@ namespace Dennis.UI
     {
         public string Text { get; set; }
         public bool ConditionCheck { get; set; }
+        public UnityAction OnChoiceSelected { get; set; }
         public ChoiceNodeFailAction FailAction { get; set; }
     }
 
@@ -19,6 +20,9 @@ namespace Dennis.UI
         [SerializeField] private TextMeshProUGUI _buttonText;
         [SerializeField] private Button _choiceButton;
 
+        private DialogueOption _dialogueOption;
+        private UnityAction _onCallBack;
+
         /// <summary>
         /// Sets the text and click event for the choice button
         /// </summary>
@@ -27,16 +31,16 @@ namespace Dennis.UI
         /// <param name="unityActionCallback">Callback for button click event</param>
         public void SetChoiceButton(DialogueOption dialogueOption, UnityAction unityActionCallback = null)
         {
+            _dialogueOption = dialogueOption;
+            _onCallBack = unityActionCallback;
+
             _buttonText.text = dialogueOption.Text;
 
-            if(!dialogueOption.ConditionCheck) SetButtonState(dialogueOption.FailAction);
+            if (!dialogueOption.ConditionCheck) SetButtonState(dialogueOption.FailAction);
 
             _choiceButton.onClick.RemoveAllListeners();
 
-            if (unityActionCallback != null)
-            {
-                _choiceButton.onClick.AddListener(unityActionCallback);
-            }
+            _choiceButton.onClick.AddListener(OnChoiceSelected);
         }
 
         private void SetButtonState(ChoiceNodeFailAction choiceNodeFailAction)
@@ -51,6 +55,13 @@ namespace Dennis.UI
                     _choiceButton.interactable = false;
                     break;
             }
+        }
+
+        private void OnChoiceSelected()
+        {
+            _dialogueOption.OnChoiceSelected?.Invoke();
+
+            _onCallBack?.Invoke();
         }
     }
 }
