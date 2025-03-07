@@ -232,6 +232,15 @@ namespace Dennis.Tools.DialogueGraph
                         });
                         break;
 
+                    case EventNode eventNode:
+                        dialogueContainer.EventNodesDatas.Add(new EventNodeData
+                        {
+                            NodeGuid = eventNode.GUID,
+                            Position = eventNode.GetPosition().position,
+                            VariableOperationDatas = eventNode.CurrentNodeData.VariableOperationDatas
+                        });
+                        break;
+
                     default:
                         Debug.LogWarning($"Unhandled node type: {node.GetType()} - Node GUID: {node.GUID}");
                         break;

@@ -79,7 +79,9 @@ namespace Dennis.Tools.DialogueGraph.Utilities
             {
                 NodeGuid = original.NodeGuid,
                 Position = original.Position,
-                VariableOperationDatas = original.VariableOperationDatas.Select(CloneVariableOperation).ToList()
+                VariableOperationDatas = original.VariableOperationDatas != null
+                    ? new List<VariableOperationData>(original.VariableOperationDatas.Select(CloneVariableOperation))
+                    : new List<VariableOperationData>()
             };
         }
 
@@ -141,6 +143,12 @@ namespace Dennis.Tools.DialogueGraph.Utilities
         /// </summary>
         public static VariableOperationData CloneVariableOperation(VariableOperationData operation)
         {
+            if (operation == null)
+            {
+                Debug.LogError(" CloneVariableOperation() received NULL `VariableOperationData`!");
+                return null;
+            }
+
             return new VariableOperationData
             {
                 VariableName = operation.VariableName,
