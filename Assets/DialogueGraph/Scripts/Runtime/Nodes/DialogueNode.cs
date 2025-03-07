@@ -17,6 +17,8 @@ namespace Dennis.Tools.DialogueGraph
 
         private List<VisualElement> _dialogueElements = new List<VisualElement>();
 
+        private Port _outputPort;
+
         public DialogueNode() { }
 
         public DialogueNode(Vector2 position, DialogueGraphWindow editorWindow, DialogueView graphView)
@@ -36,7 +38,8 @@ namespace Dennis.Tools.DialogueGraph
             guid = Guid.NewGuid().ToString();
 
             AddInputPort("Previous", Port.Capacity.Multi);
-            AddOutputPort("Next");
+            _outputPort = AddOutputPort("Next");
+            _outputPort.SetEnabled(true);
 
             AddChoiceButton();
             AddDropdownMenu();
@@ -71,6 +74,8 @@ namespace Dennis.Tools.DialogueGraph
                 PortGuid = Guid.NewGuid().ToString()
             };
 
+            _outputPort.SetEnabled(false);
+
             // Call the method to create and configure the port
             return CreateAndConfigurePort(baseNode, newDialoguePort, true);
         }
@@ -89,6 +94,9 @@ namespace Dennis.Tools.DialogueGraph
                 Debug.LogWarning("SetChoicePort called with null DialogueDataPort.");
                 return null;
             }
+
+            // If there is a dialogueDataPort, the output port will be enabled for use
+            _outputPort.SetEnabled(false);
 
             return CreateAndConfigurePort(baseNode, dialogueDataPort, false);
         }
@@ -145,6 +153,11 @@ namespace Dennis.Tools.DialogueGraph
             // Remove Data
             DialogueDataPort tmp = CurrentNodeData.DialogueDataPorts.Find(findPort => findPort.PortGuid == port.portName);
             CurrentNodeData.DialogueDataPorts.Remove(tmp);
+
+            if(CurrentNodeData.DialogueDataPorts.Count == 0)
+            {
+                _outputPort.SetEnabled(true);
+            }
 
             // Remove Port
             IEnumerable<Edge> portEdge = graphView.edges.ToList().Where(edge => edge.output == port);
