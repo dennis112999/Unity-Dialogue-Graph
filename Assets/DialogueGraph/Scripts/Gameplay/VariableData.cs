@@ -42,6 +42,11 @@ namespace Dennis.Tools.DialogueGraph.Data
 #endif
             }
         }
+
+        public Dictionary<string, float> GetAllVariables()
+        {
+            return new Dictionary<string, float>(_variableDict);
+        }
     }
 
     [System.Serializable]

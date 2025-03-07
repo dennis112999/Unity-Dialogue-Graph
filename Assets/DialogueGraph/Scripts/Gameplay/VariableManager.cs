@@ -73,5 +73,22 @@ namespace Dennis.Tools.DialogueGraph
 
             return ConditionProcessor.Evaluate(currentValue, data);
         }
+
+        /// <summary>
+        /// Retrieves all variable data.
+        /// </summary>
+        public static VariableData GetAllData()
+        {
+            if (_variableDataSO == null)
+            {
+#if UNITY_EDITOR
+                Debug.LogError("[VariableManager] VariableDataSO is not initialized. Call Initialize() first.");
+#endif
+                return null;
+            }
+
+            return _variableDataSO;
+        }
+
     }
 }

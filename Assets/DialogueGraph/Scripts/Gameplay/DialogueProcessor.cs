@@ -129,10 +129,7 @@ namespace Dennis.Tools.DialogueGraph
 
         private void ExecuteDialogueNode(DialogueNodeData dialogueNodeData)
         {
-            _currentDialogueNodeData = dialogueNodeData;
-
-            _baseContainers = dialogueNodeData.AllDialogueElements;
-            _currentIndex = 0;
+            InitDialogueData(dialogueNodeData);
 
             _baseContainers.Sort(delegate (DialogueElementBase x, DialogueElementBase y)
             {
@@ -141,6 +138,15 @@ namespace Dennis.Tools.DialogueGraph
 
             ProcessDialogue();
         }
+
+        private void InitDialogueData(DialogueNodeData dialogueNodeData)
+        {
+            _currentDialogueNodeData = dialogueNodeData;
+
+            _baseContainers = dialogueNodeData.AllDialogueElements;
+            _currentIndex = 0;
+        }
+
 
         private void ProcessDialogue()
         {
@@ -162,7 +168,7 @@ namespace Dennis.Tools.DialogueGraph
                     DialogueBoxData tmp = _baseContainers[i] as DialogueBoxData;
                     _dialogueControllerUI.SetContentText(tmp.Text);
 
-                    // TODO - Audio
+                    // TODO - Play Audio
                     HandleDialogueFlow();
                     break;
                 }
