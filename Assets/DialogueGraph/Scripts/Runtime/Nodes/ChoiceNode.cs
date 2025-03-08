@@ -33,6 +33,8 @@ namespace Dennis.Tools.DialogueGraph
             // Set up ports
             Port inputPort = AddInputPort("Input", Port.Capacity.Multi);
             inputPort.portColor = Color.yellow;
+            inputPort.userData = "InputPort";
+
             AddOutputPort("Output", Port.Capacity.Single);
 
             // Create UI Components

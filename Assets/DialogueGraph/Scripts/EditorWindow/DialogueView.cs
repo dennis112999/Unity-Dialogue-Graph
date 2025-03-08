@@ -55,21 +55,46 @@ namespace Dennis.Tools.DialogueGraph
         #region Port
 
         /// <summary>
-        /// Connect the ports
+        /// Defines port compatibility rules for the graph
+        /// Ensures that certain nodes can only connect to specific ports
         /// </summary>
-        /// <param name="startPort"></param>
-        /// <param name="nodeAdapter"></param>
-        /// <returns></returns>
+        /// <param name="startPort">The port that initiates the connection</param>
+        /// <param name="nodeAdapter">Adapter used for node operations</param>
+        /// <returns>A list of compatible ports that can be connected</returns>
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {
-            var compatiblePorts = new List<Port>();
-            ports.ForEach(port =>
+            List<Port> compatiblePorts = new List<Port>();
+
+            foreach (Port port in ports)
             {
-                if (startPort != port && startPort.node != port.node)
+                // Prevent self-connections and connections between ports of the same node
+                if (startPort == port || startPort.node == port.node)
+                    continue;
+
+                // Ensure that DialogueNode's ChoicePort can only connect to a ChoiceNode
+                if (startPort.userData is string userData && userData == "ChoicePort")
                 {
-                    compatiblePorts.Add(port);
+                    if (port.node is not ChoiceNode)
+                        continue;
                 }
-            });
+
+                // Ensure that ChoiceNode's InputPort can only connect to DialogueNode's ChoicePort
+                if (startPort.userData is string inputUserData && inputUserData == "InputPort" && startPort.node is ChoiceNode)
+                {
+                    if (port.userData is not string portUserData || portUserData != "ChoicePort")
+                        continue;
+                }
+
+                // Restrict StartNode, EndNode, EventNode, and BranchNode from connecting to DialogueNode's ChoicePort
+                if (startPort.node is StartNode || startPort.node is EndNode || startPort.node is EventNode || startPort.node is BranchNode)
+                {
+                    if (port.node is DialogueNode && port.userData is string data && data == "ChoicePort")
+                        continue;
+                }
+
+                // If none of the restrictions apply, allow the connection
+                compatiblePorts.Add(port);
+            }
 
             return compatiblePorts;
         }

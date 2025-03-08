@@ -111,6 +111,7 @@ namespace Dennis.Tools.DialogueGraph
         private Port CreateAndConfigurePort(BaseNode baseNode, DialogueDataPort dialogueDataPort, bool isNew)
         {
             Port port = GetPortInstance(Direction.Output);
+            port.userData = "ChoicePort";
 
             // Delete button
             Button deleteButton = UIHelper.CreateButton("Remove", () =>
