@@ -109,6 +109,19 @@ namespace Dennis.Tools.DialogueGraph
                 return false;
             }
 
+            // Ensure each DialogueNode has a `DialogueBoxData` as its last element
+            foreach (var dialogueNodeData in dialogueContainer.DialogueNodesDatas)
+            {
+                if (!dialogueNodeData.AllDialogueElements.Any() ||
+                    !(dialogueNodeData.AllDialogueElements.Last() is DialogueBoxData))
+                {
+#if UNITY_EDITOR
+                    EditorUtility.DisplayDialog("Save Warning", "Each DialogueNode must end with a DialogueBoxData.", "OK");
+#endif
+                    return false;
+                }
+            }
+
             return true;
         }
 
