@@ -29,64 +29,15 @@ namespace Dennis.Tools.DialogueGraph
 
         #region Save
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fileName"></param>
-        public void SaveGraph(string fileName)
+        public void SaveGraph(DialogueContainer dialogueContainer)
         {
-            var dialogueContainer = ScriptableObject.CreateInstance<DialogueContainer>();
             if (!SaveNodes(dialogueContainer)) return;
-
-            // Validate graph before saving
             if (!ValidateGraphBeforeSaving(dialogueContainer)) return;
 
-            // Auto Create folder
-            if (!AssetDatabase.IsValidFolder("Assets/Resources"))
-            {
-                AssetDatabase.CreateFolder("Assets", "Resources");
-            }
+            EditorUtility.SetDirty(dialogueContainer);
+            AssetDatabase.SaveAssets();
 
-            string assetPath = $"Assets/Resources/{fileName}.asset";
-
-            DialogueContainer tempDialogueContainer = AssetDatabase.LoadAssetAtPath<DialogueContainer>(assetPath);
-
-            if (dialogueContainer != null)
-            {
-                if (AssetDatabase.LoadAssetAtPath<ScriptableObject>(assetPath) != null)
-                {
-                    tempDialogueContainer.NodeLinkDatas.Clear();
-                    tempDialogueContainer.StartNodeData = null;
-                    tempDialogueContainer.EndNodesDatas.Clear();
-                    tempDialogueContainer.DialogueNodesDatas.Clear();
-                    tempDialogueContainer.ChoiceNodesDatas.Clear();
-                    tempDialogueContainer.BranchNodes.Clear();
-                    tempDialogueContainer.EventNodesDatas.Clear();
-
-                    tempDialogueContainer.NodeLinkDatas = dialogueContainer.NodeLinkDatas;
-                    tempDialogueContainer.StartNodeData = dialogueContainer.StartNodeData;
-                    tempDialogueContainer.EndNodesDatas = dialogueContainer.EndNodesDatas;
-                    tempDialogueContainer.DialogueNodesDatas = dialogueContainer.DialogueNodesDatas;
-                    tempDialogueContainer.ChoiceNodesDatas = dialogueContainer.ChoiceNodesDatas;
-                    tempDialogueContainer.BranchNodes = dialogueContainer.BranchNodes;
-                    tempDialogueContainer.EventNodesDatas = dialogueContainer.EventNodesDatas;
-
-                    EditorUtility.SetDirty(tempDialogueContainer);
-                }
-                else
-                {
-                    AssetDatabase.CreateAsset(dialogueContainer, assetPath);
-                }
-                AssetDatabase.SaveAssets();
-
-                EditorUtility.DisplayDialog("Save Successful", $"File '{fileName}.asset' has been saved successfully!", "OK");
-            }
-            else
-            {
-#if UNITY_EDITOR
-                Debug.LogError("Asset not found. Cannot modify the data.");
-#endif
-            }
+            EditorUtility.DisplayDialog("Save Successful", $"File '{dialogueContainer.name}.asset' has been saved successfully!", "OK");
         }
 
         private bool ValidateGraphBeforeSaving(DialogueContainer dialogueContainer)
@@ -312,15 +263,9 @@ namespace Dennis.Tools.DialogueGraph
 
         #region Load
 
-        public void LoadGraph(string fileName)
+        public void LoadGraphByDialogueContainer(DialogueContainer dialogueContainer)
         {
-            _containerCache = Resources.Load<DialogueContainer>(fileName);
-
-            if (_containerCache == null)
-            {
-                EditorUtility.DisplayDialog("File not Found!", "Target dialogue graph file does not exists!", "OK");
-                return;
-            }
+            _containerCache = dialogueContainer;
 
             ClearGraph();
             GenerateNodes(_containerCache);

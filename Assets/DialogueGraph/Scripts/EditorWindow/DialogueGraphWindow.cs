@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.Callbacks;
 
 using System;
 
@@ -13,16 +14,52 @@ namespace Dennis.Tools.DialogueGraph
 {
     public class DialogueGraphWindow : EditorWindow
     {
+        private DialogueContainer _currentDialogueContainer;
+
         private DialogueView _dialogueView;
-        private string _fileName = "New Narrative";
+
+        private Label _nameOfDialougeContainer;
 
         private Blackboard _blackBoard;
 
-        [MenuItem("Graph/Dialogue Graph")]
-        public static void OpenDialogueGraphWindow()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="instanceID"></param>
+        /// <param name="line"></param>
+        /// <returns></returns>
+        [OnOpenAsset(0)]
+        public static bool OpenDialogueGraph(int instanceID, int line)
         {
-            var window = GetWindow<DialogueGraphWindow>();
-            window.titleContent = new GUIContent("Dialogue Graph");
+            UnityEngine.Object item = EditorUtility.InstanceIDToObject(instanceID);
+
+            if (item is DialogueContainer dialogueContainer)
+            {
+                // Make a unity editor window of type DialogueEditorWindow
+                DialogueGraphWindow window = (DialogueGraphWindow)GetWindow(typeof(DialogueGraphWindow));
+                window.titleContent = new GUIContent("Dialogue Editor");
+                window.minSize = new Vector2(500, 250);
+
+                // Load in DialogueContainer data in to the editor window
+                window.Load(dialogueContainer);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Will load in current selected dialogue container
+        /// </summary>
+        private void Load(DialogueContainer dialogueContainer)
+        {
+            _currentDialogueContainer = dialogueContainer;
+
+            _nameOfDialougeContainer.text = "Name:  " + _currentDialogueContainer.name;
+
+            var saveUtility = GraphSaveUtility.GetInstance(_dialogueView);
+            saveUtility.LoadGraphByDialogueContainer(dialogueContainer);
         }
 
         private void OnEnable()
@@ -56,12 +93,17 @@ namespace Dennis.Tools.DialogueGraph
         {
             var toolbar = new Toolbar();
 
-            // Create FileNameText
-            var fileNameTextField = new TextField("File Name :");
-            fileNameTextField.SetValueWithoutNotify(_fileName);
-            fileNameTextField.MarkDirtyRepaint();
-            fileNameTextField.RegisterValueChangedCallback(evt => _fileName = evt.newValue);
-            toolbar.Add(fileNameTextField);
+            // Create a container for spacing adjustments
+            var nameContainer = new VisualElement();
+            nameContainer.style.flexDirection = FlexDirection.Row;
+            nameContainer.style.alignItems = Align.Center;
+            nameContainer.style.marginTop = 4;
+
+            // Create Name Label
+            _nameOfDialougeContainer = UIHelper.CreateLabel("Name:  ");
+            nameContainer.Add(_nameOfDialougeContainer);
+
+            toolbar.Add(nameContainer);
 
             // Add Save Data Button and Load Data Button
             Button SaveDataButton = UIHelper.CreateButton("Save Data", () => RequestDataOperation(true));
@@ -79,16 +121,13 @@ namespace Dennis.Tools.DialogueGraph
         private void GenerateMiniMap()
         {
             var miniMap = new MiniMap { anchored = true };
+            miniMap.SetPosition(new Rect(10, 10, 200, 140));
 
             Action updateMiniMapPosition = () =>
             {
                 float windowWidth = _dialogueView.contentContainer.layout.width;
 
-                if (float.IsNaN(windowWidth))
-                {
-                    Debug.LogError("Window width is NaN. Layout may not be updated.");
-                }
-                else
+                if (!float.IsNaN(windowWidth))
                 {
                     var cards = _dialogueView.contentViewContainer.WorldToLocal(new Vector2(windowWidth - 210, 50));
                     miniMap.SetPosition(new Rect(cards.x, cards.y, 200, 140));
@@ -163,23 +202,14 @@ namespace Dennis.Tools.DialogueGraph
 
         private void RequestDataOperation(bool save)
         {
-            if (string.IsNullOrEmpty(_fileName))
-            {
-                EditorUtility.DisplayDialog("Invalid file name!", "Please enter a valid file name", "OK");
-            }
-            else
-            {
-                var saveUtility = GraphSaveUtility.GetInstance(_dialogueView);
+            var saveUtility = GraphSaveUtility.GetInstance(_dialogueView);
 
-                if(save)
-                {
-                    saveUtility.SaveGraph(_fileName);
-                }
-                else
-                {
-                    saveUtility.LoadGraph(_fileName);
-                }
+            if (save)
+            {
+                saveUtility.SaveGraph(_currentDialogueContainer);
             }
+
+            saveUtility.LoadGraphByDialogueContainer(_currentDialogueContainer);
         }
 
         private void ClearNode()
