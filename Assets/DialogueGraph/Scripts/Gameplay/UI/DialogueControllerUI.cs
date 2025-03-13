@@ -6,6 +6,9 @@ using TMPro;
 using Dennis.UI;
 using UnityEngine.Events;
 
+using Dennis.Tools.Dialogue;
+using System;
+
 namespace Dennis.Tools.DialogueGraph.UI
 {
     public class DialogueControllerUI : MonoBehaviour
@@ -16,6 +19,7 @@ namespace Dennis.Tools.DialogueGraph.UI
         [Header("Text")]
         [SerializeField] private TextMeshProUGUI _nameText;
         [SerializeField] private TextMeshProUGUI _contentText;
+        [SerializeField] private TextAnimation _contentTextAnimation;
 
         [Header("Image")]
         [SerializeField] private Image _leftImage;
@@ -28,6 +32,8 @@ namespace Dennis.Tools.DialogueGraph.UI
 
         [Header("Continue")]
         [SerializeField] private Button _continueButton;
+
+        public event Action OnAnimationComplete;
 
         public void ShowDialogueUI(bool show)
         {
@@ -75,6 +81,9 @@ namespace Dennis.Tools.DialogueGraph.UI
             }
 
             _contentText.text = text;
+            _contentTextAnimation.StartAnimation(OnAnimationCompleteEvent);
+
+            _continueButton.gameObject.SetActive(false);
         }
 
         #region Choice Buttons
@@ -136,6 +145,10 @@ namespace Dennis.Tools.DialogueGraph.UI
             _continueButton.gameObject.SetActive(true);
         }
 
+        private void OnAnimationCompleteEvent()
+        {
+            OnAnimationComplete?.Invoke();
+        }
     }
 
 }
