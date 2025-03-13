@@ -6,7 +6,7 @@ namespace Dennis.Tools.DialogueGraph
 {
     public class DialogueFlowHandler : MonoBehaviour
     {
-        [SerializeField] protected DialogueContainer DialogueContainer;
+        protected DialogueContainer DialogueContainer;
 
         /// <summary>
         /// Finds a node in the dialogue container by its GUID

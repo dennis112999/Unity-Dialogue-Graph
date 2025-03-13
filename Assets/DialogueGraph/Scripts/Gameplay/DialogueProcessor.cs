@@ -20,12 +20,43 @@ namespace Dennis.Tools.DialogueGraph
         private List<DialogueElementBase> _baseContainers;
         private int _currentIndex = 0;
 
-        private void Awake()
+        public void Initialize()
         {
-            StartDialogue();
+            DialogueContainerLoader.PreloadAllDialogueContainers();
+
+            _dialogueControllerUI.OnAnimationComplete += HandleDialogueFlow;
+            Events.OnDialogueTriggered.Add(LoadAndStartDialogue);
         }
 
-        public void StartDialogue()
+        private void OnDestroy()
+        {
+            _dialogueControllerUI.OnAnimationComplete -= HandleDialogueFlow;
+            Events.OnDialogueTriggered.Remove(LoadAndStartDialogue);
+        }
+
+        /// <summary>
+        /// Loads a DialogueContainer by its ID and starts the dialogue
+        /// </summary>
+        /// <param name="dialogueContainerId">The ID of the DialogueContainer to load</param>
+        public void LoadAndStartDialogue(string dialogueContainerId)
+        {
+            // Load the dialogue container from resources
+            DialogueContainer = DialogueContainerLoader.LoadDialogueContainer(dialogueContainerId);
+
+            // Start the dialogue only if the container is successfully loaded
+            if (DialogueContainer != null)
+            {
+                StartDialogue();
+            }
+            else
+            {
+#if UNITY_EDITOR
+                Debug.LogWarning($"Failed to load DialogueContainer with ID: {dialogueContainerId}");
+#endif
+            }
+        }
+
+        private void StartDialogue()
         {
             _dialogueControllerUI.ShowDialogueUI(true);
             ProcessNodeType(GetNextNode(DialogueContainer.StartNodeData));
@@ -169,7 +200,6 @@ namespace Dennis.Tools.DialogueGraph
                     _dialogueControllerUI.SetContentText(tmp.Text);
 
                     // TODO - Play Audio
-                    HandleDialogueFlow();
                     break;
                 }
             }

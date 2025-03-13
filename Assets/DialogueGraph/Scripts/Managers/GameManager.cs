@@ -8,7 +8,11 @@ namespace Dennis.Tools.DialogueGraph.Sample
     /// </summary>
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] VariableData _variableData;
+        [Header("Dialogue")]
+        [SerializeField] private DialogueProcessor _dialogueProcessor;
+
+        [Header("Data")]
+        [SerializeField] private VariableData _variableData;
 
         public static GameManager Instance { get; private set; }
 
@@ -31,6 +35,8 @@ namespace Dennis.Tools.DialogueGraph.Sample
         private void Initialize()
         {
             VariableManager.Initialize(_variableData);
+
+            _dialogueProcessor.Initialize();
         }
 
         private void OnDestroy()
