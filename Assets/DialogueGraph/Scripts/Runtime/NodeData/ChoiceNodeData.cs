@@ -9,7 +9,14 @@ namespace Dennis.Tools.DialogueGraph.Data
         public string Text;
         public AudioClip AudioClip;
         public ChoiceNodeFailAction ChoiceNodeFailAction = ChoiceNodeFailAction.Hide;
-        public List<ConditionData> ConditionDatas { get; set; } = new List<ConditionData>();
+
+        [SerializeField] private List<ConditionData> conditionDatas = new List<ConditionData>();
+
+        public List<ConditionData> ConditionDatas
+        {
+            get => conditionDatas;
+            set => conditionDatas = value ?? new List<ConditionData>();
+        }
     }
 
     [System.Serializable]

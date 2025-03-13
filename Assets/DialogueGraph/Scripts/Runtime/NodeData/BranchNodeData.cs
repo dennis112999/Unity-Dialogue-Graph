@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System;
 
+using UnityEngine;
+
 namespace Dennis.Tools.DialogueGraph.Data
 {
     [Serializable]
@@ -8,6 +10,14 @@ namespace Dennis.Tools.DialogueGraph.Data
     {
         public string TrueGuidNode;
         public string FalseGuidNode;
-        public List<ConditionData> ConditionDatas { get; set; } = new List<ConditionData>();
+
+        [SerializeField] private List<ConditionData> conditionDatas = new List<ConditionData>();
+
+        public List<ConditionData> ConditionDatas
+        {
+            get => conditionDatas;
+            set => conditionDatas = value ?? new List<ConditionData>();
+        }
+
     }
 }
