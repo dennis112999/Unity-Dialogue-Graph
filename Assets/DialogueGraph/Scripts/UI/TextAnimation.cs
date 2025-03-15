@@ -13,6 +13,11 @@ namespace Dennis.Tools.Dialogue
     {
         FadeAndScale,
         RotateAndColor,
+        WaveEffect,
+        TypewriterEffect,
+        PixelShake,
+        TypewriterSmooth,
+        TypewriterScramble
     }
 
     /// <summary>
@@ -37,7 +42,27 @@ namespace Dennis.Tools.Dialogue
                 case TextAnimationType.RotateAndColor:
                     RotateAndColorAnimation(OnAnimationCompleteCallback);
                     break;
-                
+
+                case TextAnimationType.WaveEffect:
+                    WaveEffectAnimation(OnAnimationCompleteCallback);
+                    break;
+
+                case TextAnimationType.TypewriterEffect:
+                    TypewriterEffectAnimation(OnAnimationCompleteCallback);
+                    break;
+
+                case TextAnimationType.PixelShake:
+                    PixelShakeAnimation(OnAnimationCompleteCallback);
+                    break;
+
+                case TextAnimationType.TypewriterSmooth:
+                    TypewriterSmoothAnimation(OnAnimationCompleteCallback);
+                    break;
+
+                case TextAnimationType.TypewriterScramble:
+                    TypewriterScrambleAnimation(OnAnimationCompleteCallback);
+                    break;
+
                 default:
 #if UNITY_EDITOR
                     Debug.LogError($"Unknown animation type: {_animationType}. Cannot start animation.");
@@ -86,6 +111,77 @@ namespace Dennis.Tools.Dialogue
 
             DOTween.Sequence()
                 .AppendInterval(0.07f * tmproAnimator.textInfo.characterCount + 1.5f)
+                .OnComplete(() => OnAnimationCompleteCallback?.Invoke());
+        }
+
+        private void WaveEffectAnimation(Action OnAnimationCompleteCallback)
+        {
+            DOTweenTMPAnimator tmproAnimator = new DOTweenTMPAnimator(_text);
+            float duration = 0.5f;
+
+            for (int i = 0; i < tmproAnimator.textInfo.characterCount; ++i)
+            {
+                Vector3 initialOffset = tmproAnimator.GetCharOffset(i);
+                DOTween.Sequence()
+                    .Append(tmproAnimator.DOOffsetChar(i, initialOffset + new Vector3(0, 10, 0), duration).SetEase(Ease.InOutSine))
+                    .Append(tmproAnimator.DOOffsetChar(i, initialOffset, duration).SetEase(Ease.InOutSine))
+                    .SetLoops(-1, LoopType.Yoyo)
+                    .SetDelay(0.05f * i);
+            }
+
+            DOTween.Sequence()
+                .AppendInterval(duration * 2 + 1.0f)
+                .OnComplete(() => OnAnimationCompleteCallback?.Invoke());
+        }
+
+        private void TypewriterEffectAnimation(Action OnAnimationCompleteCallback)
+        {
+            _text.maxVisibleCharacters = 0;
+            int totalCharacters = _text.textInfo.characterCount;
+
+            DOTween.To(() => _text.maxVisibleCharacters, x => _text.maxVisibleCharacters = x, totalCharacters, totalCharacters * 0.07f)
+                .SetEase(Ease.Linear)
+                .OnComplete(() => OnAnimationCompleteCallback?.Invoke());
+        }
+
+        private void PixelShakeAnimation(Action OnAnimationCompleteCallback)
+        {
+            DOTweenTMPAnimator tmproAnimator = new DOTweenTMPAnimator(_text);
+            float duration = 0.1f;
+            float shakeAmount = 2f;
+
+            for (int i = 0; i < tmproAnimator.textInfo.characterCount; ++i)
+            {
+                Vector3 initialOffset = tmproAnimator.GetCharOffset(i);
+                DOTween.Sequence()
+                    .Append(tmproAnimator.DOOffsetChar(i, initialOffset + new Vector3(UnityEngine.Random.Range(-shakeAmount, shakeAmount), UnityEngine.Random.Range(-shakeAmount, shakeAmount), 0), duration).SetEase(Ease.InOutQuad))
+                    .Append(tmproAnimator.DOOffsetChar(i, initialOffset, duration).SetEase(Ease.InOutQuad))
+                    .SetLoops(5, LoopType.Yoyo)
+                    .SetDelay(0.02f * i);
+            }
+
+            DOTween.Sequence()
+                .AppendInterval(duration * 10 + 0.5f)
+                .OnComplete(() => OnAnimationCompleteCallback?.Invoke());
+        }
+
+        private void TypewriterSmoothAnimation(Action OnAnimationCompleteCallback)
+        {
+            string targetText = _text.text;
+            float animationDuration = 2.0f;
+
+            _text.text = "";
+            _text.DOText(targetText, animationDuration).SetEase(Ease.Linear)
+                .OnComplete(() => OnAnimationCompleteCallback?.Invoke());
+        }
+
+        private void TypewriterScrambleAnimation(Action OnAnimationCompleteCallback)
+        {
+            string targetText = _text.text;
+            float animationDuration = 2.0f;
+
+            _text.text = "";
+            _text.DOText(targetText, animationDuration, false, ScrambleMode.Uppercase).SetEase(Ease.Linear)
                 .OnComplete(() => OnAnimationCompleteCallback?.Invoke());
         }
 
