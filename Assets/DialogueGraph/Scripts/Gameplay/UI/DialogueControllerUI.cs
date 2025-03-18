@@ -9,6 +9,8 @@ using UnityEngine.Events;
 using Dennis.Tools.Dialogue;
 using System;
 
+using DG.Tweening;
+
 namespace Dennis.Tools.DialogueGraph.UI
 {
     public class DialogueControllerUI : MonoBehaviour
@@ -17,6 +19,11 @@ namespace Dennis.Tools.DialogueGraph.UI
         [SerializeField] private GameObject _dialogueControllerUI;
 
         [Header("Text")]
+        [SerializeField] RectTransform _dialoguePanel;
+        [SerializeField] private float animationDuration = 0.5f;
+        private float _hiddenPosY;
+        private float _visiblePosY;
+
         [SerializeField] private TextMeshProUGUI _nameText;
         [SerializeField] private TextMeshProUGUI _contentText;
         [SerializeField] private TextAnimation _contentTextAnimation;
@@ -35,9 +42,37 @@ namespace Dennis.Tools.DialogueGraph.UI
 
         public event Action OnAnimationComplete;
 
+        private void Awake()
+        {
+            InitUI();
+        }
+
+        private void InitUI()
+        {
+            _visiblePosY = _dialoguePanel.anchoredPosition.y;
+            _hiddenPosY = _visiblePosY - 650f;
+
+            _dialoguePanel.anchoredPosition = new Vector2(_dialoguePanel.anchoredPosition.x, _hiddenPosY);
+        }
+
         public void ShowDialogueUI(bool show)
         {
-            _dialogueControllerUI.SetActive(show);
+            if (show)
+            {
+                _dialogueControllerUI.SetActive(true);
+            }
+            else
+            {
+                SetImage(null, null);
+            }
+
+            float targetY = show ? _visiblePosY : _hiddenPosY;
+            _dialoguePanel.DOAnchorPosY(targetY, animationDuration)
+                .SetEase(show ? Ease.OutCubic : Ease.InCubic)
+                .OnComplete(() =>
+                {
+                    if (!show) _dialogueControllerUI.SetActive(false);
+            });
         }
 
         public void SetName(string name)
@@ -60,6 +95,9 @@ namespace Dennis.Tools.DialogueGraph.UI
             if (leftSprite != null)
             {
                 _leftImage.sprite = leftSprite;
+
+                // If Need
+                _leftImage.rectTransform.localEulerAngles = new Vector3(0, 180, 0);
             }
 
             // Handle right image
@@ -69,7 +107,6 @@ namespace Dennis.Tools.DialogueGraph.UI
                 _rightImage.sprite = rightSprite;
             }
         }
-
         public void SetContentText(string text)
         {
             if (string.IsNullOrEmpty(text))
@@ -142,6 +179,7 @@ namespace Dennis.Tools.DialogueGraph.UI
 
             _continueButton.onClick.RemoveAllListeners();
             _continueButton.onClick.AddListener(action);
+            _continueButton.onClick.AddListener(() => _continueButton.gameObject.SetActive(false));
             _continueButton.gameObject.SetActive(true);
         }
 
