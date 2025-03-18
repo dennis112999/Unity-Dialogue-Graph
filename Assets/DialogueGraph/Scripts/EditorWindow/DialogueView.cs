@@ -17,13 +17,15 @@ namespace Dennis.Tools.DialogueGraph
 
         private bool _hasStartNode = false;
 
+        public static float s_maxZoomScale = 10.0f;
+
         public DialogueView(EditorWindow editorWindow)
         {
             // Load the style Sheets
             styleSheets.Add(Resources.Load<StyleSheet>("DialogueGraph"));
 
             // SetUp Zoom
-            SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
+            SetupZoom(ContentZoomer.DefaultMinScale, s_maxZoomScale);
 
             // Add Manipulator - selectionDragger...etc.
             this.AddManipulator(new ContentDragger());
