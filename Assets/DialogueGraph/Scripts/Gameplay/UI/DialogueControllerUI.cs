@@ -10,6 +10,7 @@ using Dennis.Tools.Dialogue;
 using System;
 
 using DG.Tweening;
+using Dennis.Tools.DialogueGraph.Data;
 
 namespace Dennis.Tools.DialogueGraph.UI
 {
@@ -88,16 +89,15 @@ namespace Dennis.Tools.DialogueGraph.UI
             _nameText.text = name;
         }
 
-        public void SetImage(Sprite leftSprite, Sprite rightSprite)
+        public void SetImage(Sprite leftSprite, Sprite rightSprite, SpeakerType leftType = SpeakerType.None, SpeakerType rightType = SpeakerType.None)
         {
             // Handle left image
             _leftImage.gameObject.SetActive(leftSprite != null);
             if (leftSprite != null)
             {
                 _leftImage.sprite = leftSprite;
-
-                // If Need
                 _leftImage.rectTransform.localEulerAngles = new Vector3(0, 180, 0);
+                _leftImage.color = GetImageColorBySpeakerType(leftType);
             }
 
             // Handle right image
@@ -105,8 +105,20 @@ namespace Dennis.Tools.DialogueGraph.UI
             if (rightSprite != null)
             {
                 _rightImage.sprite = rightSprite;
+                _rightImage.color = GetImageColorBySpeakerType(rightType);
             }
         }
+
+        /// <summary>
+        /// Returns color based on SpeakerType (white if speaking, dark gray if not)
+        /// </summary>
+        private Color GetImageColorBySpeakerType(SpeakerType type)
+        {
+            return type == SpeakerType.Speaking
+                ? Color.white
+                : new Color(0.5f, 0.5f, 0.5f, 1f);
+        }
+
         public void SetContentText(string text)
         {
             if (string.IsNullOrEmpty(text))

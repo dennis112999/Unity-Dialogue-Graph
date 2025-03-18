@@ -187,7 +187,7 @@ namespace Dennis.Tools.DialogueGraph
                 if (_baseContainers[i] is DialogueImagesData)
                 {
                     DialogueImagesData tmp = _baseContainers[i] as DialogueImagesData;
-                    _dialogueControllerUI.SetImage(tmp.Sprite_Left, tmp.Sprite_Right);
+                    _dialogueControllerUI.SetImage(tmp.Sprite_Left, tmp.Sprite_Right, tmp.SpeakerTypeLeft, tmp.SpeakerTypeRight);
                 }
                 else if (_baseContainers[i] is DialogueNameData)
                 {
