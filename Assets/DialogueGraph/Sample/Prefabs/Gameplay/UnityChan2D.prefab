@@ -200,10 +200,7 @@ MonoBehaviour:
   BackwardForce: {x: -4.5, y: 5.4}
   WhatIsGround:
     serializedVersion: 2
-    m_Bits: 256
-  _animatorController: {fileID: 1927534735389847168}
-  _boxCollider2D: {fileID: 6100000}
-  _rigidbody2D: {fileID: 5000000}
+    m_Bits: 0
 --- !u!114 &1927534735389847168
 MonoBehaviour:
   m_ObjectHideFlags: 0
