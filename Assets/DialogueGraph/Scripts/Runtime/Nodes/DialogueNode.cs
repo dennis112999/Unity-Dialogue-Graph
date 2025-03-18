@@ -260,42 +260,88 @@ namespace Dennis.Tools.DialogueGraph
 
         private void CreateDialogueImagePreview(DialogueImagesData imagesData, Box boxContainer)
         {
-            // Set up the Image Preview Box
+            // Create a box to show the left and right preview images
             Box imagePreviewBox = UIHelper.CreateBox("ImagePreviewBox");
             Box imagesBox = UIHelper.CreateBox("ImagesBox");
 
-            // Left and right image previews
+            // Create left image preview
             Image leftImage = UIHelper.CreateImage("ImagePreview");
             leftImage.AddToClassList("ImagePreviewLeft");
             imagePreviewBox.Add(leftImage);
 
+            // Create right image preview
             Image rightImage = UIHelper.CreateImage("ImagePreview");
             rightImage.AddToClassList("ImagePreviewRight");
             imagePreviewBox.Add(rightImage);
 
-            // Sprite selection fields
-            ObjectField objectField_Left = GetNewObjectFieldForSprite(
+            // Create container for the left side with sprite field and speaker type enum
+            Box leftContainer = CreateImageSideContainer(
                 () => imagesData.Sprite_Left,
-                (newSprite) => imagesData.Sprite_Left = newSprite,
+                (sprite) => imagesData.Sprite_Left = sprite,
                 leftImage,
-                "SpriteLeft"
+                imagesData.SpeakerTypeLeft,
+                speakerType => imagesData.SpeakerTypeLeft = speakerType,
+                "SpriteLeft",
+                "SpeakerTypeFieldLeft"
             );
 
-            ObjectField objectField_Right = GetNewObjectFieldForSprite(
+            Debug.Log($"SpeakerTypeLeft : {imagesData.SpeakerTypeLeft}");
+
+            // Create container for the right side with sprite field and speaker type enum
+            Box rightContainer = CreateImageSideContainer(
                 () => imagesData.Sprite_Right,
-                (newSprite) => imagesData.Sprite_Right = newSprite,
+                (sprite) => imagesData.Sprite_Right = sprite,
                 rightImage,
-                "SpriteRight"
+                imagesData.SpeakerTypeRight,
+                speakerType => imagesData.SpeakerTypeRight = speakerType,
+                "SpriteRight",
+                "SpeakerTypeFieldRight"
             );
 
-            objectField_Left.AddToClassList("SpriteLeft");
-            objectField_Right.AddToClassList("SpriteRight");
+            Debug.Log($"SpeakerTypeRight : {imagesData.SpeakerTypeRight}");
 
-            imagesBox.Add(objectField_Left);
-            imagesBox.Add(objectField_Right);
+            // Add both containers to the imagesBox
+            imagesBox.Add(leftContainer);
+            imagesBox.Add(rightContainer);
 
+            // Add preview and control boxes to the main container
             boxContainer.Add(imagePreviewBox);
             boxContainer.Add(imagesBox);
+        }
+
+        private Box CreateImageSideContainer(
+            Func<Sprite> getSprite,
+            Action<Sprite> setSprite,
+            Image previewImage,
+            SpeakerType currentSpeakerType,
+            Action<SpeakerType> onSpeakerChanged,
+            string spriteClass,
+            string speakerClass)
+        {
+            // Create a vertical container for this image side
+            Box container = UIHelper.CreateBox("ImageContainer");
+            container.style.flexDirection = FlexDirection.Column;
+
+            // Use GetNewObjectFieldForSprite() to create the object field with automatic preview update
+            ObjectField spriteField = GetNewObjectFieldForSprite(
+                getSprite,
+                setSprite,
+                previewImage,
+                spriteClass
+            );
+
+            // Create the speaker type enum field
+            EnumField speakerField = UIHelper.CreateEnumField<SpeakerType>(
+                currentSpeakerType,
+                onSpeakerChanged,
+                speakerClass
+            );
+
+            // Add both fields to the container
+            container.Add(spriteField);
+            container.Add(speakerField);
+
+            return container;
         }
 
         private ObjectField GetNewObjectFieldForSprite(Func<Sprite> getCurrentSprite, Action<Sprite> updateSprite, Image previewImage, string primaryStyle = "", string additionalStyle = "")

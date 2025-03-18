@@ -99,7 +99,10 @@ namespace Dennis.Tools.DialogueGraph.Utilities
                     return new DialogueNameData { OrderIndex = name.OrderIndex, Name = name.Name };
 
                 case DialogueImagesData images:
-                    return new DialogueImagesData { OrderIndex = images.OrderIndex, Sprite_Left = images.Sprite_Left, Sprite_Right = images.Sprite_Right };
+                    return new DialogueImagesData { OrderIndex = images.OrderIndex, 
+                                                    Sprite_Left = images.Sprite_Left, Sprite_Right = images.Sprite_Right, 
+                                                    SpeakerTypeLeft = images.SpeakerTypeLeft, 
+                                                    SpeakerTypeRight = images.SpeakerTypeRight };
 
                 default:
                     throw new ArgumentException($"Unknown dialogue element type: {element.GetType().Name}");

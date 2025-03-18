@@ -53,6 +53,9 @@ namespace Dennis.Tools.DialogueGraph.Data
     {
         public Sprite Sprite_Left;
         public Sprite Sprite_Right;
+
+        public SpeakerType SpeakerTypeLeft;
+        public SpeakerType SpeakerTypeRight;
     }
 
     [Serializable]
@@ -61,5 +64,11 @@ namespace Dennis.Tools.DialogueGraph.Data
         public string PortGuid;
         public string InputGuid;
         public string OutputGuid;
+    }
+
+    public enum SpeakerType
+    {
+        None,
+        Speaking
     }
 }

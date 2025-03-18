@@ -78,8 +78,22 @@
 }
 
 .SpriteLeft, .SpriteRight {
-    width: 45%;
+    width: 100%;
+    margin-bottom: 5px;
 }
+
+.SpeakerTypeFieldLeft, .SpeakerTypeFieldRight {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.ImageContainer {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+    padding: 5px;
+}
+
 
 /* ----------------- Name Row ----------------- */
 .NameRow {
