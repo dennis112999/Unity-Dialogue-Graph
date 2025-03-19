@@ -90,5 +90,22 @@ namespace Dennis.Tools.DialogueGraph
             return _variableDataSO;
         }
 
+        public static float TryGetValue(string id)
+        {
+            if (!_variableDataSO.TryGetValue(id, out float currentValue))
+            {
+#if UNITY_EDITOR
+                Debug.LogError($"[VariableManager] Variable '{id}' does not exist. Please check the VariableData SO.");
+#endif
+                return 0f;
+            }
+
+            return currentValue;
+        }
+
+        public static bool TryGetBoolValue(string id)
+        {
+            return TryGetValue(id) == 1f;
+        }
     }
 }

@@ -7,6 +7,7 @@ using Dennis.UI;
 using UnityEngine.Events;
 
 using Dennis.Tools.Dialogue;
+using Dennis.Tools.DialogueGraph.Event;
 using System;
 
 using DG.Tweening;
@@ -72,7 +73,13 @@ namespace Dennis.Tools.DialogueGraph.UI
                 .SetEase(show ? Ease.OutCubic : Ease.InCubic)
                 .OnComplete(() =>
                 {
-                    if (!show) _dialogueControllerUI.SetActive(false);
+                    if (!show)
+                    {
+                        _dialogueControllerUI.SetActive(false);
+
+                        // OnDialogueCompleted Event
+                        Events.OnDialogueCompleted.Publish();
+                    }
             });
         }
 

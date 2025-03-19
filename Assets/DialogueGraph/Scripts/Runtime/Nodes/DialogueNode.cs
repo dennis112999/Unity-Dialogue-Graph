@@ -285,8 +285,6 @@ namespace Dennis.Tools.DialogueGraph
                 "SpeakerTypeFieldLeft"
             );
 
-            Debug.Log($"SpeakerTypeLeft : {imagesData.SpeakerTypeLeft}");
-
             // Create container for the right side with sprite field and speaker type enum
             Box rightContainer = CreateImageSideContainer(
                 () => imagesData.Sprite_Right,

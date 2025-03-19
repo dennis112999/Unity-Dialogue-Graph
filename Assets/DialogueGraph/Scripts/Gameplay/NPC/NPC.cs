@@ -1,26 +1,14 @@
-using UnityEngine;
-
 using Dennis.Tools.DialogueGraph.Event;
 
 namespace Dennis.Tools.DialogueGraph.Sample
 {
-    public class NPC : MonoBehaviour
+    public class NPCInteractable : BaseInteractable
     {
-        [SerializeField] private string _dialogueId = "DialogueId";
-
-#if UNITY_EDITOR
-
-        void OnGUI()
+        public override void Interact()
         {
-            GUIStyle style = new GUIStyle(GUI.skin.button);
-            style.fontSize = 20;
+            if (HasInteracted) return;
 
-            if (GUI.Button(new Rect(10, 10, 200, 50), "Trigger Dialogue", style))
-            {
-                Events.OnDialogueTriggered.Publish(_dialogueId);
-            }
+            Events.OnDialogueTriggered.Publish(interactionId);
         }
-
-#endif
     }
 }

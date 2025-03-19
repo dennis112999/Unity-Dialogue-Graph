@@ -1,6 +1,9 @@
 using UnityEngine;
 using Dennis.Tools.DialogueGraph.Data;
 
+using Dennis.Tools.DialogueGraph.Event;
+using System;
+
 namespace Dennis.Tools.DialogueGraph.Sample
 {
     /// <summary>
@@ -13,6 +16,9 @@ namespace Dennis.Tools.DialogueGraph.Sample
 
         [Header("Data")]
         [SerializeField] private VariableData _variableData;
+
+        [Header("Player")]
+        [SerializeField] private UnityChan2DController _unityChan2DController;
 
         public static GameManager Instance { get; private set; }
 
@@ -37,11 +43,19 @@ namespace Dennis.Tools.DialogueGraph.Sample
             VariableManager.Initialize(_variableData);
 
             _dialogueProcessor.Initialize();
+            Events.OnDialogueCompleted.Add(OnDialogueCompletedEvent);
         }
 
         private void OnDestroy()
         {
             VariableManager.Cleanup();
+
+            Events.OnDialogueCompleted.Remove(OnDialogueCompletedEvent);
+        }
+
+        private void OnDialogueCompletedEvent()
+        {
+            _unityChan2DController.SetState(new NormalState());
         }
 
 #if UNITY_EDITOR

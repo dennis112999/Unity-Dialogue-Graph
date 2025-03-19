@@ -62,4 +62,28 @@ namespace Dennis.Tools.DialogueGraph.Sample
         public void ExitState(UnityChan2DController character) { }
     }
 
+    public class DialogueState : ICharacterState
+    {
+        public void EnterState(UnityChan2DController character)
+        {
+            character.GetRigidbody2D().velocity = Vector2.zero;
+            character.Move(0, false);
+        }
+
+        public void UpdateState(UnityChan2DController character)
+        {
+
+        }
+
+        public void FixedUpdateState(UnityChan2DController character)
+        {
+            character.CheckGroundStatus();
+        }
+
+        public void ExitState(UnityChan2DController character)
+        {
+
+        }
+    }
+
 }

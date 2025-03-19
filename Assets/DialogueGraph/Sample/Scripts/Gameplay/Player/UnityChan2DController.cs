@@ -26,8 +26,16 @@ namespace Dennis.Tools.DialogueGraph.Sample
         private BoxCollider2D _boxCollider2D;
         private Rigidbody2D _rigidbody2D;
 
+        public Rigidbody2D GetRigidbody2D()
+        {
+            return _rigidbody2D;
+        }
+
+        [SerializeField] private PlayerInteraction _playerInteraction;
+
         private bool _isGround;
         private StateMachine _stateMachine;
+        public StateMachine StateMachine { get { return _stateMachine; } }
 
         #region MonoBehaviour
 
@@ -60,6 +68,8 @@ namespace Dennis.Tools.DialogueGraph.Sample
         {
             _stateMachine = new StateMachine();
             _stateMachine.Initialize(new NormalState(), this);
+
+            _playerInteraction.Init(this);
 
             // References Initialize
             _animatorController = GetComponent<UnityChan2DAnimator>();

@@ -6,5 +6,7 @@ namespace Dennis.Tools.DialogueGraph.Event
     {
         public static readonly GameEvent<string> OnDialogueTriggered = new GameEvent<string>();
         public static readonly GameEvent<VariableOperationData> OnVariableOperationEvents = new GameEvent<VariableOperationData>();
+
+        public static readonly GameEvent OnDialogueCompleted = new GameEvent();
     }
 }
