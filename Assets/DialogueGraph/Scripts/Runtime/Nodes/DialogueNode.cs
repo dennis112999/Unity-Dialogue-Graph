@@ -296,8 +296,6 @@ namespace Dennis.Tools.DialogueGraph
                 "SpeakerTypeFieldRight"
             );
 
-            Debug.Log($"SpeakerTypeRight : {imagesData.SpeakerTypeRight}");
-
             // Add both containers to the imagesBox
             imagesBox.Add(leftContainer);
             imagesBox.Add(rightContainer);

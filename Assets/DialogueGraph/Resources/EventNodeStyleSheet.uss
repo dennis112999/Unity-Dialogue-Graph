@@ -6,6 +6,22 @@
 	color: white;
 }
 
+/* ----------------- Dialogue EventSO ----------------- */
+.DialogueEventSOContainer {
+    width: 100%;
+    padding: 10px;
+    background-color: #1a1a1a;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+}
+
+.ObjectField {
+    flex-grow: 1;
+    margin-right: 10px;
+    height: 24px;
+}
+
 /* ----------------- Choice Condition ----------------- */
 .ConditionContainer {
     width: 100%;

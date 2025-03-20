@@ -7,9 +7,11 @@ namespace Dennis.Tools.DialogueGraph.Data
     public class EventNodeData : BaseData
     {
         public List<VariableOperationData> VariableOperationDatas = new List<VariableOperationData>();
+
+        public List<DialogueEventSO> DialogueEventSOs = new List<DialogueEventSO>();
     }
 
-    [System.Serializable]
+    [Serializable]
     public class VariableOperationData
     {
         public string VariableName = "Variable Name";

@@ -201,7 +201,10 @@ namespace Dennis.Tools.DialogueGraph
                         {
                             NodeGuid = eventNode.GUID,
                             Position = eventNode.GetPosition().position,
-                            VariableOperationDatas = eventNode.CurrentNodeData.VariableOperationDatas
+                            VariableOperationDatas = eventNode.CurrentNodeData.VariableOperationDatas,
+                            DialogueEventSOs = eventNode.CurrentNodeData.DialogueEventSOs
+                                    .Where(e => e != null && AssetDatabase.Contains(e))
+                                    .ToList()
                         });
                         break;
 
@@ -294,7 +297,7 @@ namespace Dennis.Tools.DialogueGraph
         private void GenerateNodes(DialogueContainer dialogueContainer)
         {
             // Start Node
-            if(dialogueContainer.StartNodeData != null)
+            if (dialogueContainer.StartNodeData != null)
                 _dialogueView.CreateStartNode(dialogueContainer.StartNodeData.Position, dialogueContainer.StartNodeData.NodeGuid);
 
             // End Node 

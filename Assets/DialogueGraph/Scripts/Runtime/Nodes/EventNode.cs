@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 using System;
+using UnityEditor;
 
 namespace Dennis.Tools.DialogueGraph
 {
@@ -23,7 +24,7 @@ namespace Dennis.Tools.DialogueGraph
             _currentNodeData = new EventNodeData();
 
             // Load style sheet
-            StyleSheet styleSheet = Resources.Load<StyleSheet>("ChoiceNodeStyleSheet");
+            StyleSheet styleSheet = Resources.Load<StyleSheet>("EventNodeStyleSheet");
             styleSheets.Add(styleSheet);
 
             // Initialize node
@@ -46,9 +47,69 @@ namespace Dennis.Tools.DialogueGraph
         private void AddDropdownMenu()
         {
             ToolbarMenu menu = new ToolbarMenu { text = "Add Content" };
+            menu.menu.AppendAction("Add Event", _ => AddDialogueEvent());
             menu.menu.AppendAction("Add Condition", _ => AddCondition());
             titleButtonContainer.Add(menu);
         }
+
+        #region Dialogue Event
+
+        private void AddDialogueEvent()
+        {
+            DialogueEventSO dialogueEventSO = null;
+            CreateDialogueEventBox(dialogueEventSO, newDialogueEventSO =>
+            {
+                _currentNodeData.DialogueEventSOs.Add(newDialogueEventSO);
+            });
+        }
+
+        private void RestoreDialogueEvent(DialogueEventSO dialogueEventSO)
+        {
+            CreateDialogueEventBox(dialogueEventSO, newDialogueEventSO => dialogueEventSO = newDialogueEventSO);
+        }
+
+        private void CreateDialogueEventBox(DialogueEventSO dialogueEventSO, Action<DialogueEventSO> onValueChanged)
+        {
+            Box boxContainer = UIHelper.CreateBox("DialogueEventSOContainer");
+
+            // DialogueEventSO selection field
+            ObjectField dialogueEventSOField = UIHelper.CreateObjectField<DialogueEventSO>(
+                dialogueEventSO, newDialogueEventSO =>
+                {
+#if UNITY_EDITOR
+                    if (newDialogueEventSO != null && !AssetDatabase.Contains(newDialogueEventSO))
+                    {
+                        Debug.LogWarning($"The selected object '{newDialogueEventSO.name}' is not an asset and has been ignored.");
+                        return;
+                    }
+#endif
+                    onValueChanged(newDialogueEventSO);
+                },
+                "ObjectField"
+            );
+            boxContainer.Add(dialogueEventSOField);
+
+            // Right side: Remove button
+            Button removeButton = UIHelper.CreateButton("Remove", () =>
+            {
+                OnRemoveButtonClick(boxContainer, dialogueEventSO);
+            }, "RemoveButton");
+
+            boxContainer.Add(removeButton);
+
+            // Add to UI
+            mainContainer.Add(boxContainer);
+        }
+
+        private void OnRemoveButtonClick(Box boxContainer, DialogueEventSO dialogueEventSO)
+        {
+            _currentNodeData.DialogueEventSOs.Remove(dialogueEventSO);
+            mainContainer.Remove(boxContainer);
+        }
+
+        #endregion Dialogue Event
+
+        #region Conditions
 
         private void AddCondition()
         {
@@ -137,6 +198,8 @@ namespace Dennis.Tools.DialogueGraph
             }
         }
 
+        #endregion Conditions
+
         public void Init(EventNodeData eventNodeData)
         {
             _currentNodeData = eventNodeData;
@@ -145,6 +208,12 @@ namespace Dennis.Tools.DialogueGraph
             foreach (var condition in _currentNodeData.VariableOperationDatas)
             {
                 RestoreCondition(condition);
+            }
+
+            // Restore all dialogue Events
+            foreach (var dialogueEventSO in _currentNodeData.DialogueEventSOs)
+            {
+                RestoreDialogueEvent(dialogueEventSO);
             }
 
             // Refresh Node

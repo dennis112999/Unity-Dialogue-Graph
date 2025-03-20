@@ -81,7 +81,8 @@ namespace Dennis.Tools.DialogueGraph.Utilities
                 Position = original.Position,
                 VariableOperationDatas = original.VariableOperationDatas != null
                     ? new List<VariableOperationData>(original.VariableOperationDatas.Select(CloneVariableOperation))
-                    : new List<VariableOperationData>()
+                    : new List<VariableOperationData>(),
+                DialogueEventSOs = new List<DialogueEventSO>(original.DialogueEventSOs)
             };
         }
 
