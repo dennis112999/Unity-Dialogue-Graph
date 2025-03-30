@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6696131786040068579}
   - component: {fileID: 3152895590063241240}
   - component: {fileID: 3189812366382463176}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Story Event Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}

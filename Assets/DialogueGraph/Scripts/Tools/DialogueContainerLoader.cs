@@ -1,57 +1,28 @@
-using UnityEngine;
-using System.Collections.Generic;
-
 using Dennis.Tools.DialogueGraph.Data;
+using UnityEngine;
 
 namespace Dennis.Tools.DialogueGraph
 {
     public static class DialogueContainerLoader
     {
-        private static Dictionary<string, DialogueContainer> loadedContainers = new Dictionary<string, DialogueContainer>();
+        private static DialogueContainerDatabase database;
 
-        // Define the base path for dialogue containers
-        private const string DialogueResourcesPath = "DialogueGraphDatas/";
-
-        /// <summary>
-        /// Preloads all DialogueContainers from Resources/DialogueGraphDatas at startup
-        /// </summary>
-        public static void PreloadAllDialogueContainers()
+        public static void Initialize(DialogueContainerDatabase db)
         {
-            DialogueContainer[] containers = Resources.LoadAll<DialogueContainer>(DialogueResourcesPath.TrimEnd('/'));
-
-            foreach (var container in containers)
-            {
-                if (!loadedContainers.ContainsKey(container.name))
-                {
-                    loadedContainers[container.name] = container;
-                }
-            }
+            database = db;
         }
 
-        /// <summary>
-        /// Loads a specific DialogueContainer by ID (uses cache if already loaded)
-        /// </summary>
         public static DialogueContainer LoadDialogueContainer(string dialogueContainerId)
         {
-            if (loadedContainers.TryGetValue(dialogueContainerId, out DialogueContainer container))
-            {
-                return container; // Return cached container if already loaded.
-            }
-
-            container = Resources.Load<DialogueContainer>($"{DialogueResourcesPath}{dialogueContainerId}");
-
-            if (container != null)
-            {
-                loadedContainers[dialogueContainerId] = container; // Cache the loaded container.
-                return container;
-            }
-            else
+            if (database == null)
             {
 #if UNITY_EDITOR
-                Debug.LogWarning($"DialogueContainer '{dialogueContainerId}' not found in Resources/{DialogueResourcesPath}.");
+                Debug.LogError("DialogueContainerDatabase not initialized.");
 #endif
                 return null;
             }
+
+            return database.GetContainerById(dialogueContainerId);
         }
     }
 }

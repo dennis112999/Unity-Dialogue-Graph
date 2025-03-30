@@ -1,10 +1,9 @@
-using Dennis.Tools.DialogueGraph.Data;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 using Dennis.Tools.DialogueGraph.UI;
-
+using Dennis.Tools.DialogueGraph.Data;
 using Dennis.Tools.DialogueGraph.Event;
 
 using Dennis.UI;
@@ -13,6 +12,8 @@ namespace Dennis.Tools.DialogueGraph
 {
     public class DialogueProcessor : DialogueFlowHandler
     {
+        [SerializeField] private DialogueContainerDatabase _database;
+
         [SerializeField] private DialogueControllerUI _dialogueControllerUI;
 
         private DialogueNodeData _currentDialogueNodeData;
@@ -22,7 +23,7 @@ namespace Dennis.Tools.DialogueGraph
 
         public void Initialize()
         {
-            DialogueContainerLoader.PreloadAllDialogueContainers();
+            DialogueContainerLoader.Initialize(_database);
 
             _dialogueControllerUI.OnAnimationComplete += HandleDialogueFlow;
             Events.OnDialogueTriggered.Add(LoadAndStartDialogue);
@@ -53,6 +54,8 @@ namespace Dennis.Tools.DialogueGraph
 #if UNITY_EDITOR
                 Debug.LogWarning($"Failed to load DialogueContainer with ID: {dialogueContainerId}");
 #endif
+                // OnDialogueCompleted Event
+                Events.OnDialogueCompleted.Publish();
             }
         }
 

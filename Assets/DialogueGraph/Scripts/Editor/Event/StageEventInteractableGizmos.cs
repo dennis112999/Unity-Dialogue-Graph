@@ -32,7 +32,7 @@ namespace Dennis.Tools.DialogueGraph.Sample
         {
             if (_labelBackgroundTex == null)
             {
-                _labelBackgroundTex = MakeTex(1, 1, new Color(1f, 0.85f, 1.0f));
+                _labelBackgroundTex = MakeTex(1, 1, new Color(1f, 0.85f, 1.0f, 1.0f));
             }
 
             if (_labelStyle == null)
