@@ -23,6 +23,7 @@ For detailed setup, usage, and advanced configurations, please refer to the [Wik
 
 ## **💡 Optional: UI Text Animation**
 If you want to animate text during dialogue (e.g. typewriter effect or fade-in), DOTween Pro is required.
+
 テキストアニメーション（タイプライター効果やフェードインなど）を使用したい場合は、DOTween Pro が必要です。
 
 # Unity Version
