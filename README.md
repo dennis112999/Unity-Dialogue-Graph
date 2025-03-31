@@ -1,9 +1,13 @@
-# 🗨️ DialogueGraph - A Visual Node-Based Dialogue System for Unity
+# 🗨️ DialogueGraph - A Visual Node-Based Dialogue System for Unity (DialogueGraph - Unity用ノードベースの対話システム)
+
 
 ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg) 
 ![Unity](https://img.shields.io/badge/Unity-2021.3%2B-orange)
 
 DialogueGraph is a visual node-based dialogue editor for Unity. It allows you to create complex dialogue trees with branching logic, variable manipulation, and quest triggers – all editable via a user-friendly graph interface.
+
+
+DialogueGraph は、Unity 向けの視覚的なノードベース対話エディターです。分岐のある会話や、変数処理、クエストトリガーなどをグラフで直感的に編集できます。
 
 ![image](https://github.com/user-attachments/assets/1abb376d-82ad-48ca-a0a3-0fc0b2f34b44)
 
@@ -18,7 +22,7 @@ DialogueGraph is a visual node-based dialogue editor for Unity. It allows you to
 For detailed setup, usage, and advanced configurations, please refer to the [Wiki](https://github.com/dennis112999/Dialogue-Graph/wiki).
 
 # Unity Version
-    - 2021.3.36f1 or later.
+    - 2022.3.36f1 or later.
 
 ## 🤝 Contributing
 
