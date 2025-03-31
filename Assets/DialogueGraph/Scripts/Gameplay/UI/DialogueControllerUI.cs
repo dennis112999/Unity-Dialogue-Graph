@@ -31,6 +31,7 @@ namespace Dennis.Tools.DialogueGraph.UI
         [SerializeField] private TextAnimation _contentTextAnimation;
 
         [Header("Image")]
+        [SerializeField] private GameObject _imagePanel;
         [SerializeField] private Image _leftImage;
         [SerializeField] private Image _rightImage;
 
@@ -55,6 +56,7 @@ namespace Dennis.Tools.DialogueGraph.UI
             _hiddenPosY = _visiblePosY - 650f;
 
             _dialoguePanel.anchoredPosition = new Vector2(_dialoguePanel.anchoredPosition.x, _hiddenPosY);
+            _imagePanel.SetActive(false);
         }
 
         public void ShowDialogueUI(bool show)
@@ -98,6 +100,13 @@ namespace Dennis.Tools.DialogueGraph.UI
 
         public void SetImage(Sprite leftSprite, Sprite rightSprite, SpeakerType leftType = SpeakerType.None, SpeakerType rightType = SpeakerType.None)
         {
+            if (leftSprite == null && rightSprite == null)
+            {
+                _imagePanel.SetActive(false);
+                return;
+            }
+
+
             // Handle left image
             _leftImage.gameObject.SetActive(leftSprite != null);
             if (leftSprite != null)
@@ -114,6 +123,8 @@ namespace Dennis.Tools.DialogueGraph.UI
                 _rightImage.sprite = rightSprite;
                 _rightImage.color = GetImageColorBySpeakerType(rightType);
             }
+
+            _imagePanel.SetActive(true);
         }
 
         /// <summary>
