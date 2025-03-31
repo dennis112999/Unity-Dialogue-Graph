@@ -118,6 +118,14 @@ namespace Dennis.Tools.DialogueGraph
                 Events.OnVariableOperationEvents.Publish(operation);
             }
 
+            List<DialogueEventSO> dialogueEvents = eventNodeData.DialogueEventSOs;
+
+            // all DialogueEventSOs execute Event
+            foreach (DialogueEventSO eventSO in dialogueEvents)
+            {
+                eventSO.ExecuteEvent();
+            }
+
             // Determine the next event node and process it
             ProcessNodeType(GetNextNode(eventNodeData));
         }
