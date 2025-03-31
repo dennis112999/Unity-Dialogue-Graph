@@ -62,6 +62,15 @@ namespace Dennis.Tools.DialogueGraph.Sample
             }
         }
 
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            IPickupable pickupable = other.GetComponent<IPickupable>();
+            if (pickupable != null)
+            {
+                pickupable.OnPickup();
+            }
+        }
+
         #endregion MonoBehaviour
 
         private void Initialize()

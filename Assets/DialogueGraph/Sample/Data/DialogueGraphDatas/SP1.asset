@@ -1,0 +1,173 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5abe630b8e5873f42baee0c904a1ac4d, type: 3}
+  m_Name: SP1
+  m_EditorClassIdentifier: 
+  NodeLinkDatas:
+  - BaseNodeGuid: 
+    BasePortName: Next
+    TargetNodeGuid: 173bbbc2-b57b-48fd-acab-63da5c809084
+    TargetPortName: Previous
+  - BaseNodeGuid: 5bfd98af-e4c2-444e-b5e8-86acda7ac53c
+    BasePortName: Next
+    TargetNodeGuid: 29a95a55-545b-49a3-94eb-af0182d1e5ec
+    TargetPortName: Input
+  - BaseNodeGuid: 5589690c-9131-4359-b96a-61516b71b9db
+    BasePortName: Next
+    TargetNodeGuid: 29a95a55-545b-49a3-94eb-af0182d1e5ec
+    TargetPortName: Input
+  - BaseNodeGuid: b646e9ab-7252-4439-9647-e0739ca99082
+    BasePortName: Next
+    TargetNodeGuid: 29a95a55-545b-49a3-94eb-af0182d1e5ec
+    TargetPortName: Input
+  - BaseNodeGuid: 173bbbc2-b57b-48fd-acab-63da5c809084
+    BasePortName: bb46982d-19b5-4aba-86f1-638f478222fe
+    TargetNodeGuid: 9a95bd72-f944-45ac-ad9e-e8d2fb81f7ed
+    TargetPortName: Input
+  - BaseNodeGuid: 173bbbc2-b57b-48fd-acab-63da5c809084
+    BasePortName: 0e9f48c0-d72d-46e0-bf6f-e263519586ef
+    TargetNodeGuid: 703e0f9d-27d0-43e4-a7d0-7ace7fb55d77
+    TargetPortName: Input
+  - BaseNodeGuid: 173bbbc2-b57b-48fd-acab-63da5c809084
+    BasePortName: d35a0333-d40d-46a1-bb3f-02e1bbd6ab41
+    TargetNodeGuid: 74202d32-4447-4173-a78d-70b83f91c843
+    TargetPortName: Input
+  - BaseNodeGuid: 9a95bd72-f944-45ac-ad9e-e8d2fb81f7ed
+    BasePortName: Output
+    TargetNodeGuid: 5bfd98af-e4c2-444e-b5e8-86acda7ac53c
+    TargetPortName: Previous
+  - BaseNodeGuid: 703e0f9d-27d0-43e4-a7d0-7ace7fb55d77
+    BasePortName: Output
+    TargetNodeGuid: 5589690c-9131-4359-b96a-61516b71b9db
+    TargetPortName: Previous
+  - BaseNodeGuid: 74202d32-4447-4173-a78d-70b83f91c843
+    BasePortName: Output
+    TargetNodeGuid: b646e9ab-7252-4439-9647-e0739ca99082
+    TargetPortName: Previous
+  - BaseNodeGuid: 29a95a55-545b-49a3-94eb-af0182d1e5ec
+    BasePortName: Output
+    TargetNodeGuid: 16affbf4-ff3b-4d36-92e8-cfd7eabb4cd9
+    TargetPortName: Input
+  StartNodeData:
+    NodeGuid: 
+    Position: {x: 27, y: 1}
+  EndNodesDatas:
+  - NodeGuid: 16affbf4-ff3b-4d36-92e8-cfd7eabb4cd9
+    Position: {x: 2050, y: 28}
+    EndNodeType: 0
+  DialogueNodesDatas:
+  - NodeGuid: 5bfd98af-e4c2-444e-b5e8-86acda7ac53c
+    Position: {x: 1177, y: -250}
+    AllDialogueElements:
+    - rid: 4994289268285243576
+    DialogueDataPorts: []
+  - NodeGuid: 5589690c-9131-4359-b96a-61516b71b9db
+    Position: {x: 1180, y: 21}
+    AllDialogueElements:
+    - rid: 4994289268285243577
+    DialogueDataPorts: []
+  - NodeGuid: b646e9ab-7252-4439-9647-e0739ca99082
+    Position: {x: 1182, y: 365}
+    AllDialogueElements:
+    - rid: 4994289268285243578
+    DialogueDataPorts: []
+  - NodeGuid: 173bbbc2-b57b-48fd-acab-63da5c809084
+    Position: {x: 272, y: 2}
+    AllDialogueElements:
+    - rid: 4994289268285243579
+    - rid: 4994289268285243580
+    - rid: 4994289268285243581
+    - rid: 4994289268285243582
+    DialogueDataPorts:
+    - PortGuid: bb46982d-19b5-4aba-86f1-638f478222fe
+      InputGuid: 9a95bd72-f944-45ac-ad9e-e8d2fb81f7ed
+      OutputGuid: 173bbbc2-b57b-48fd-acab-63da5c809084
+    - PortGuid: 0e9f48c0-d72d-46e0-bf6f-e263519586ef
+      InputGuid: 703e0f9d-27d0-43e4-a7d0-7ace7fb55d77
+      OutputGuid: 173bbbc2-b57b-48fd-acab-63da5c809084
+    - PortGuid: d35a0333-d40d-46a1-bb3f-02e1bbd6ab41
+      InputGuid: 74202d32-4447-4173-a78d-70b83f91c843
+      OutputGuid: 173bbbc2-b57b-48fd-acab-63da5c809084
+  ChoiceNodesDatas:
+  - NodeGuid: 9a95bd72-f944-45ac-ad9e-e8d2fb81f7ed
+    Position: {x: 871, y: -57}
+    Text: "\u843D\u3061\u7740\u3044\u3066\u5468\u308A\u3092\u78BA\u8A8D\u3057\u3088\u3046  "
+    AudioClip: {fileID: 0}
+    ChoiceNodeFailAction: 0
+    conditionDatas: []
+  - NodeGuid: 703e0f9d-27d0-43e4-a7d0-7ace7fb55d77
+    Position: {x: 869, y: 98}
+    Text: "\u6016\u3044\u2026\u4F55\u304C\u8D77\u304D\u305F\u306E\uFF1F  "
+    AudioClip: {fileID: 0}
+    ChoiceNodeFailAction: 0
+    conditionDatas: []
+  - NodeGuid: 74202d32-4447-4173-a78d-70b83f91c843
+    Position: {x: 870, y: 280}
+    Text: "\u4F55\u304B\u624B\u304C\u304B\u308A\u304C\u3042\u308B\u304B\u3082\u3057\u308C\u306A\u3044\u2026"
+    AudioClip: {fileID: 0}
+    ChoiceNodeFailAction: 0
+    conditionDatas: []
+  BranchNodes: []
+  EventNodesDatas:
+  - NodeGuid: 29a95a55-545b-49a3-94eb-af0182d1e5ec
+    Position: {x: 1640, y: 27}
+    VariableOperationDatas:
+    - VariableName: SP1
+      OperationType: 0
+      Value: 0
+    DialogueEventSOs: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 4994289268285243576
+      type: {class: DialogueBoxData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
+      data:
+        OrderIndex: 0
+        Text: "\u843D\u3061\u7740\u3051\u2026\u6DF1\u547C\u5438\u3057\u3066\u3001\u72B6\u6CC1\u3092\u628A\u63E1\u3057\u3088\u3046\u3002  "
+        AudioClip: {fileID: 0}
+    - rid: 4994289268285243577
+      type: {class: DialogueBoxData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
+      data:
+        OrderIndex: 0
+        Text: "\u30C0\u30E1\u2026\u5FC3\u81D3\u304C\u30C9\u30AD\u30C9\u30AD\u3057\u3066\u308B\u2026\u3053\u3093\u306A\u306E\u521D\u3081\u3066\u2026  "
+        AudioClip: {fileID: 0}
+    - rid: 4994289268285243578
+      type: {class: DialogueBoxData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
+      data:
+        OrderIndex: 0
+        Text: "\u307E\u305A\u306F\u63A2\u7D22\u3060\u3002\u4F55\u304B\u308F\u304B\u308B\u304B\u3082\u3057\u308C\u306A\u3044\u3002"
+        AudioClip: {fileID: 0}
+    - rid: 4994289268285243579
+      type: {class: DialogueNameData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
+      data:
+        OrderIndex: 0
+        Name: UnityChan
+    - rid: 4994289268285243580
+      type: {class: DialogueImagesData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
+      data:
+        OrderIndex: 1
+        Sprite_Left: {fileID: 21300000, guid: 4ca3e5d4cff37184b9f1dddd8410a9d5, type: 3}
+        Sprite_Right: {fileID: 0}
+        SpeakerTypeLeft: 1
+        SpeakerTypeRight: 0
+    - rid: 4994289268285243581
+      type: {class: DialogueBoxData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
+      data:
+        OrderIndex: 2
+        Text: "\u2026\u2026\u3053\u3053\u306F\u3069\u3053\u2026\uFF1F"
+        AudioClip: {fileID: 0}
+    - rid: 4994289268285243582
+      type: {class: DialogueBoxData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
+      data:
+        OrderIndex: 3
+        Text: "\u3069\u3046\u3057\u3066\u79C1\u306F\u3053\u3053\u306B\u3044\u308B\u306E\u2026\uFF1F"
+        AudioClip: {fileID: 0}

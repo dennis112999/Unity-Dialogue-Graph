@@ -9,6 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0c05b5238962ad49b93324f5d5fcccc, type: 3}
-  m_Name: DialogueEventSO
+  m_Script: {fileID: 11500000, guid: 4390f38450af46d40bad7f95daa01bfa, type: 3}
+  m_Name: ActivateGameObjectsEventSO - NPC2
   m_EditorClassIdentifier: 
+  _targetIDs:
+  - Book
+  - Crystal

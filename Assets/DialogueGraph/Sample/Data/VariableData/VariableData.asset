@@ -13,17 +13,29 @@ MonoBehaviour:
   m_Name: VariableData
   m_EditorClassIdentifier: 
   Variables:
-  - Name: HP
-    Value: 10
-  - Name: ATK
-    Value: 5
-  - Name: IsTalked
+  - Name: hasWokenUp
     Value: 0
-  - Name: HasSword
+  - Name: canSeeKey
     Value: 0
-  - Name: QuestAccepted
+  - Name: hasKey
     Value: 0
-  - Name: QuestCompleted
+  - Name: quest_findSeals
     Value: 0
-  - Name: NPC
+  - Name: hasBook
+    Value: 0
+  - Name: hasCrystal
+    Value: 0
+  - Name: canOpenGate
+    Value: 0
+  - Name: trustNPC1
+    Value: 0
+  - Name: trustNPC2
+    Value: 0
+  - Name: SP1
+    Value: 0
+  - Name: NPC1
+    Value: 0
+  - Name: NPC2
+    Value: 0
+  - Name: Door
     Value: 0

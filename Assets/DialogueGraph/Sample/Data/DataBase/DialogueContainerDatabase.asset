@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2508f8fd22db514f9e4f6680430e1b0, type: 3}
+  m_Name: DialogueContainerDatabase
+  m_EditorClassIdentifier: 
+  dialogueEntries:
+  - Id: SP1
+    Container: {fileID: 11400000, guid: 116072481a34a9445902f18f491b273d, type: 2}
+  - Id: NPC1
+    Container: {fileID: 11400000, guid: 39709381a0a39eb4fb009902b88af8c0, type: 2}
+  - Id: NPC2
+    Container: {fileID: 11400000, guid: 3f763d169585bd546a5ed62d028781e7, type: 2}
+  - Id: Door
+    Container: {fileID: 11400000, guid: 3488d1cafac23c04abf98e1d7cdfbdc9, type: 2}

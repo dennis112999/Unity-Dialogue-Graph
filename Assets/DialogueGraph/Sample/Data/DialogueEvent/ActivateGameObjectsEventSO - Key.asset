@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2508f8fd22db514f9e4f6680430e1b0, type: 3}
-  m_Name: DialogueContainerDatabase
+  m_Script: {fileID: 11500000, guid: 4390f38450af46d40bad7f95daa01bfa, type: 3}
+  m_Name: ActivateGameObjectsEventSO - Key
   m_EditorClassIdentifier: 
-  dialogueEntries:
-  - Id: NPC
-    Container: {fileID: 11400000, guid: 18f816d441aad424a8c786fd5314fecd, type: 2}
+  _targetIDs:
+  - Key
