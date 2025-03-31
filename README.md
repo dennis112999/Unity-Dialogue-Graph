@@ -21,6 +21,10 @@ DialogueGraph は、Unity 向けの視覚的なノードベース対話エディ
 
 For detailed setup, usage, and advanced configurations, please refer to the [Wiki](https://github.com/dennis112999/Dialogue-Graph/wiki).
 
+## **💡 Optional: UI Text Animation**
+If you want to animate text during dialogue (e.g. typewriter effect or fade-in), DOTween Pro is required.
+テキストアニメーション（タイプライター効果やフェードインなど）を使用したい場合は、DOTween Pro が必要です。
+
 # Unity Version
     - 2022.3.36f1 or later.
 
