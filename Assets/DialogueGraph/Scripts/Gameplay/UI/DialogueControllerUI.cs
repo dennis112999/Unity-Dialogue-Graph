@@ -26,6 +26,7 @@ namespace Dennis.Tools.DialogueGraph.UI
         private float _hiddenPosY;
         private float _visiblePosY;
 
+        [SerializeField] private GameObject _namePanel;
         [SerializeField] private TextMeshProUGUI _nameText;
         [SerializeField] private TextMeshProUGUI _contentText;
         [SerializeField] private TextAnimation _contentTextAnimation;
@@ -57,6 +58,8 @@ namespace Dennis.Tools.DialogueGraph.UI
 
             _dialoguePanel.anchoredPosition = new Vector2(_dialoguePanel.anchoredPosition.x, _hiddenPosY);
             _imagePanel.SetActive(false);
+
+            _namePanel.SetActive(false);
         }
 
         public void ShowDialogueUI(bool show)
@@ -78,6 +81,7 @@ namespace Dennis.Tools.DialogueGraph.UI
                     if (!show)
                     {
                         _dialogueControllerUI.SetActive(false);
+                        _namePanel.SetActive(false);
 
                         // OnDialogueCompleted Event
                         Events.OnDialogueCompleted.Publish();
@@ -96,6 +100,7 @@ namespace Dennis.Tools.DialogueGraph.UI
             }
 
             _nameText.text = name;
+            _namePanel.SetActive(true);
         }
 
         public void SetImage(Sprite leftSprite, Sprite rightSprite, SpeakerType leftType = SpeakerType.None, SpeakerType rightType = SpeakerType.None)
