@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: NPC2
   m_EditorClassIdentifier: 
   NodeLinkDatas:
+  - BaseNodeGuid: 
+    BasePortName: Next
+    TargetNodeGuid: c24b9067-9315-4de9-b4a0-a40a182d187f
+    TargetPortName: Previous
   - BaseNodeGuid: 027b0448-a344-4210-84ce-f69baa0cf9f1
     BasePortName: Next
     TargetNodeGuid: e167ed00-11da-40fc-9aeb-e540af7b91b0
@@ -49,6 +53,14 @@ MonoBehaviour:
     BasePortName: Next
     TargetNodeGuid: 6ab82896-50ee-437e-8c8e-791ad722d5c6
     TargetPortName: Input
+  - BaseNodeGuid: 4c53f185-fdb0-49a6-b9cb-68615ce107e1
+    BasePortName: Next
+    TargetNodeGuid: 800d52e8-fdbb-4b27-ad34-af99b3ce6692
+    TargetPortName: Input
+  - BaseNodeGuid: 7243f345-a096-4de1-9cd8-73babb947561
+    BasePortName: Next
+    TargetNodeGuid: cf441e46-2e89-45a6-9d17-b2fdb93c9daf
+    TargetPortName: Input
   - BaseNodeGuid: 9bbc62ca-7734-4f0f-9844-2a117fe5c7ec
     BasePortName: Output
     TargetNodeGuid: 8995b90e-279e-4f1e-8db4-6d9cb2652120
@@ -81,22 +93,6 @@ MonoBehaviour:
     BasePortName: True
     TargetNodeGuid: 3767ca84-e30f-449c-95ae-18d032fc31ac
     TargetPortName: Previous
-  - BaseNodeGuid: fdde8980-58cc-4a6e-82a0-041e7a8fefc0
-    BasePortName: Output
-    TargetNodeGuid: 202139bf-5de1-4ab2-8720-fd28f69b9911
-    TargetPortName: Input
-  - BaseNodeGuid: 4c53f185-fdb0-49a6-b9cb-68615ce107e1
-    BasePortName: Next
-    TargetNodeGuid: 800d52e8-fdbb-4b27-ad34-af99b3ce6692
-    TargetPortName: Input
-  - BaseNodeGuid: 800d52e8-fdbb-4b27-ad34-af99b3ce6692
-    BasePortName: Output
-    TargetNodeGuid: ccbcc80c-c137-4acf-96e7-6add87cd474b
-    TargetPortName: Input
-  - BaseNodeGuid: 
-    BasePortName: Next
-    TargetNodeGuid: c24b9067-9315-4de9-b4a0-a40a182d187f
-    TargetPortName: Previous
   - BaseNodeGuid: c24b9067-9315-4de9-b4a0-a40a182d187f
     BasePortName: False
     TargetNodeGuid: e4adf956-e9ae-4e45-a61c-87fb869288d6
@@ -105,9 +101,13 @@ MonoBehaviour:
     BasePortName: True
     TargetNodeGuid: 7243f345-a096-4de1-9cd8-73babb947561
     TargetPortName: Previous
-  - BaseNodeGuid: 7243f345-a096-4de1-9cd8-73babb947561
-    BasePortName: Next
-    TargetNodeGuid: cf441e46-2e89-45a6-9d17-b2fdb93c9daf
+  - BaseNodeGuid: fdde8980-58cc-4a6e-82a0-041e7a8fefc0
+    BasePortName: Output
+    TargetNodeGuid: 202139bf-5de1-4ab2-8720-fd28f69b9911
+    TargetPortName: Input
+  - BaseNodeGuid: 800d52e8-fdbb-4b27-ad34-af99b3ce6692
+    BasePortName: Output
+    TargetNodeGuid: ccbcc80c-c137-4acf-96e7-6add87cd474b
     TargetPortName: Input
   StartNodeData:
     NodeGuid: 
@@ -129,42 +129,42 @@ MonoBehaviour:
     Position: {x: 144, y: -849}
     EndNodeType: 0
   DialogueNodesDatas:
+  - NodeGuid: bc87074f-728c-431e-a3d6-4e643d1097ec
+    Position: {x: 548, y: 145}
+    AllDialogueElements:
+    - rid: 4994289268285243951
+    - rid: 4994289268285243952
+    - rid: 4994289268285243953
+    DialogueDataPorts: []
   - NodeGuid: 027b0448-a344-4210-84ce-f69baa0cf9f1
     Position: {x: 1396, y: -647}
     AllDialogueElements:
-    - rid: 4994289268285243862
-    - rid: 4994289268285243863
-    - rid: 4994289268285243864
-    DialogueDataPorts: []
-  - NodeGuid: 8995b90e-279e-4f1e-8db4-6d9cb2652120
-    Position: {x: 1387, y: -1391}
-    AllDialogueElements:
-    - rid: 4994289268285243865
-    - rid: 4994289268285243866
-    - rid: 4994289268285243867
+    - rid: 4994289268285243954
+    - rid: 4994289268285243955
+    - rid: 4994289268285243956
     DialogueDataPorts: []
   - NodeGuid: e167ed00-11da-40fc-9aeb-e540af7b91b0
     Position: {x: 1990, y: -1086}
     AllDialogueElements:
-    - rid: 4994289268285243868
-    - rid: 4994289268285243869
-    - rid: 4994289268285243870
+    - rid: 4994289268285243957
+    - rid: 4994289268285243958
+    - rid: 4994289268285243959
     DialogueDataPorts: []
-  - NodeGuid: bc87074f-728c-431e-a3d6-4e643d1097ec
-    Position: {x: 548, y: 145}
+  - NodeGuid: 8995b90e-279e-4f1e-8db4-6d9cb2652120
+    Position: {x: 1387, y: -1391}
     AllDialogueElements:
-    - rid: 4994289268285243871
-    - rid: 4994289268285243872
-    - rid: 4994289268285243873
+    - rid: 4994289268285243960
+    - rid: 4994289268285243961
+    - rid: 4994289268285243962
     DialogueDataPorts: []
   - NodeGuid: 821a708f-7a12-4c37-ad53-27ee8111c168
     Position: {x: 651, y: -1129}
     AllDialogueElements:
-    - rid: 4994289268285243874
-    - rid: 4994289268285243875
-    - rid: 4994289268285243876
-    - rid: 4994289268285243877
-    - rid: 4994289268285243878
+    - rid: 4994289268285243963
+    - rid: 4994289268285243964
+    - rid: 4994289268285243965
+    - rid: 4994289268285243966
+    - rid: 4994289268285243967
     DialogueDataPorts:
     - PortGuid: c693aa56-6d45-4a69-9074-809de8be6b32
       InputGuid: 9bbc62ca-7734-4f0f-9844-2a117fe5c7ec
@@ -175,9 +175,9 @@ MonoBehaviour:
   - NodeGuid: 3767ca84-e30f-449c-95ae-18d032fc31ac
     Position: {x: 655, y: -2260}
     AllDialogueElements:
-    - rid: 4994289268285243879
-    - rid: 4994289268285243880
-    - rid: 4994289268285243881
+    - rid: 4994289268285243968
+    - rid: 4994289268285243969
+    - rid: 4994289268285243970
     DialogueDataPorts:
     - PortGuid: a18913e6-74e8-4059-bda0-d098ef33b93c
       InputGuid: 7273bf66-4992-47c4-afff-d5bbe0416bf9
@@ -185,26 +185,26 @@ MonoBehaviour:
     - PortGuid: 26d35561-3fdc-4695-b9b0-d7c80ba96105
       InputGuid: 4fbe0f0d-5b58-41ac-9a38-35f54555f2d5
       OutputGuid: 3767ca84-e30f-449c-95ae-18d032fc31ac
-  - NodeGuid: bed87db2-f02c-4078-b134-40115e227be9
-    Position: {x: 1676, y: -2769}
-    AllDialogueElements:
-    - rid: 4994289268285243882
-    - rid: 4994289268285243883
-    - rid: 4994289268285243884
-    DialogueDataPorts: []
   - NodeGuid: 4c53f185-fdb0-49a6-b9cb-68615ce107e1
     Position: {x: 1684, y: -2092}
     AllDialogueElements:
-    - rid: 4994289268285243885
-    - rid: 4994289268285243886
-    - rid: 4994289268285243887
+    - rid: 4994289268285243971
+    - rid: 4994289268285243972
+    - rid: 4994289268285243973
+    DialogueDataPorts: []
+  - NodeGuid: bed87db2-f02c-4078-b134-40115e227be9
+    Position: {x: 1676, y: -2769}
+    AllDialogueElements:
+    - rid: 4994289268285243974
+    - rid: 4994289268285243975
+    - rid: 4994289268285243976
     DialogueDataPorts: []
   - NodeGuid: 7243f345-a096-4de1-9cd8-73babb947561
-    Position: {x: -373, y: -848}
+    Position: {x: -374, y: -847}
     AllDialogueElements:
-    - rid: 4994289268285243888
-    - rid: 4994289268285243889
-    - rid: 4994289268285243890
+    - rid: 4994289268285243977
+    - rid: 4994289268285243978
+    - rid: 4994289268285243979
     DialogueDataPorts: []
   ChoiceNodesDatas:
   - NodeGuid: 9bbc62ca-7734-4f0f-9844-2a117fe5c7ec
@@ -281,12 +281,31 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 4994289268285243862
+    - rid: 4994289268285243951
       type: {class: DialogueNameData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 0
         Name: "\u30E6\u30CA"
-    - rid: 4994289268285243863
+    - rid: 4994289268285243952
+      type: {class: DialogueImagesData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
+      data:
+        OrderIndex: 1
+        Sprite_Left: {fileID: 21300000, guid: 2722d790c4da97047a38ec6815473d25, type: 3}
+        Sprite_Right: {fileID: 21300000, guid: 2c4d734f49722194d9f87f9aaacc17ce, type: 3}
+        SpeakerTypeLeft: 0
+        SpeakerTypeRight: 1
+    - rid: 4994289268285243953
+      type: {class: DialogueBoxData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
+      data:
+        OrderIndex: 2
+        Text: "\u2026\u2026\u307E\u305A\u306F\u9375\u3092\u624B\u306B\u5165\u308C\u3066\u3002"
+        AudioClip: {fileID: 8300000, guid: e77b411c7ceca07489df4325964e55c1, type: 3}
+    - rid: 4994289268285243954
+      type: {class: DialogueNameData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
+      data:
+        OrderIndex: 0
+        Name: "\u30E6\u30CA"
+    - rid: 4994289268285243955
       type: {class: DialogueImagesData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 0
@@ -294,37 +313,18 @@ MonoBehaviour:
         Sprite_Right: {fileID: 21300000, guid: 4cd71e983ccf7c0469fd12b85f830d6b, type: 3}
         SpeakerTypeLeft: 0
         SpeakerTypeRight: 1
-    - rid: 4994289268285243864
+    - rid: 4994289268285243956
       type: {class: DialogueBoxData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 0
         Text: "\u5371\u967A\u3067\u306F\u306A\u3044\u3051\u3069\u2026\u8A18\u61B6\u306B\u89E6\u308C\u308B\u53EF\u80FD\u6027\u304C\u3042\u308B\u308F\u3002"
-        AudioClip: {fileID: 0}
-    - rid: 4994289268285243865
+        AudioClip: {fileID: 8300000, guid: 044a31f608996954ba4a34d6bae55be6, type: 3}
+    - rid: 4994289268285243957
       type: {class: DialogueNameData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 0
         Name: "\u30E6\u30CA"
-    - rid: 4994289268285243866
-      type: {class: DialogueImagesData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
-      data:
-        OrderIndex: 1
-        Sprite_Left: {fileID: 21300000, guid: 2722d790c4da97047a38ec6815473d25, type: 3}
-        Sprite_Right: {fileID: 21300000, guid: af8bd8f81a75f254c952e69f155d776b, type: 3}
-        SpeakerTypeLeft: 0
-        SpeakerTypeRight: 1
-    - rid: 4994289268285243867
-      type: {class: DialogueBoxData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
-      data:
-        OrderIndex: 2
-        Text: "\u53E4\u3044\u672C\u3068\u3001\u6C34\u6676\u306E\u304B\u3051\u3089\u3002\u3069\u3061\u3089\u3082\u3053\u306E\u8FBA\u308A\u306B\u3042\u308B\u306F\u305A\u3088\u3002"
-        AudioClip: {fileID: 0}
-    - rid: 4994289268285243868
-      type: {class: DialogueNameData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
-      data:
-        OrderIndex: 0
-        Name: "\u30E6\u30CA"
-    - rid: 4994289268285243869
+    - rid: 4994289268285243958
       type: {class: DialogueImagesData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 1
@@ -332,37 +332,37 @@ MonoBehaviour:
         Sprite_Right: {fileID: 21300000, guid: af8bd8f81a75f254c952e69f155d776b, type: 3}
         SpeakerTypeLeft: 0
         SpeakerTypeRight: 1
-    - rid: 4994289268285243870
+    - rid: 4994289268285243959
       type: {class: DialogueBoxData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 2
         Text: "\u898B\u3064\u3051\u305F\u3089\u3001\u307E\u305F\u3053\u3053\u306B\u6765\u3066\u3002"
-        AudioClip: {fileID: 0}
-    - rid: 4994289268285243871
+        AudioClip: {fileID: 8300000, guid: 7455b51ad86a39d4993ef55d5afc6ac8, type: 3}
+    - rid: 4994289268285243960
       type: {class: DialogueNameData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 0
         Name: "\u30E6\u30CA"
-    - rid: 4994289268285243872
+    - rid: 4994289268285243961
       type: {class: DialogueImagesData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 1
         Sprite_Left: {fileID: 21300000, guid: 2722d790c4da97047a38ec6815473d25, type: 3}
-        Sprite_Right: {fileID: 21300000, guid: 2c4d734f49722194d9f87f9aaacc17ce, type: 3}
+        Sprite_Right: {fileID: 21300000, guid: af8bd8f81a75f254c952e69f155d776b, type: 3}
         SpeakerTypeLeft: 0
         SpeakerTypeRight: 1
-    - rid: 4994289268285243873
+    - rid: 4994289268285243962
       type: {class: DialogueBoxData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 2
-        Text: "\u2026\u2026\u307E\u305A\u306F\u9375\u3092\u624B\u306B\u5165\u308C\u3066\u3002"
-        AudioClip: {fileID: 0}
-    - rid: 4994289268285243874
+        Text: "\u53E4\u3044\u672C\u3068\u3001\u6C34\u6676\u306E\u304B\u3051\u3089\u3002\u3069\u3061\u3089\u3082\u3053\u306E\u8FBA\u308A\u306B\u3042\u308B\u306F\u305A\u3088\u3002"
+        AudioClip: {fileID: 8300000, guid: d9efe9e58996f3c4b9e067d34a2c3bd9, type: 3}
+    - rid: 4994289268285243963
       type: {class: DialogueNameData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 0
         Name: "\u30E6\u30CA"
-    - rid: 4994289268285243875
+    - rid: 4994289268285243964
       type: {class: DialogueImagesData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 1
@@ -370,13 +370,13 @@ MonoBehaviour:
         Sprite_Right: {fileID: 21300000, guid: 6fe593fc82c825b42b8d5ee3d3288b10, type: 3}
         SpeakerTypeLeft: 0
         SpeakerTypeRight: 1
-    - rid: 4994289268285243876
+    - rid: 4994289268285243965
       type: {class: DialogueBoxData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 2
         Text: "\u305D\u306E\u9375\u2026\u2026\u3084\u3063\u3068\u898B\u3064\u3051\u305F\u306E\u306D\u3002"
-        AudioClip: {fileID: 0}
-    - rid: 4994289268285243877
+        AudioClip: {fileID: 8300000, guid: 092e5037ed5e46b4285a2a3afc2072e6, type: 3}
+    - rid: 4994289268285243966
       type: {class: DialogueImagesData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 3
@@ -384,18 +384,18 @@ MonoBehaviour:
         Sprite_Right: {fileID: 21300000, guid: 2c4d734f49722194d9f87f9aaacc17ce, type: 3}
         SpeakerTypeLeft: 0
         SpeakerTypeRight: 1
-    - rid: 4994289268285243878
+    - rid: 4994289268285243967
       type: {class: DialogueBoxData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 4
         Text: "\u3067\u3082\u6B8B\u5FF5\u306A\u304C\u3089\u3001\u305D\u308C\u3060\u3051\u3058\u3083\u30C9\u30A2\u306F\u958B\u304B\u306A\u3044\u308F\u3002"
-        AudioClip: {fileID: 0}
-    - rid: 4994289268285243879
+        AudioClip: {fileID: 8300000, guid: 86332cb7885a75649a92509579f89bf8, type: 3}
+    - rid: 4994289268285243968
       type: {class: DialogueNameData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 0
         Name: "\u30E6\u30CA"
-    - rid: 4994289268285243880
+    - rid: 4994289268285243969
       type: {class: DialogueImagesData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 1
@@ -403,37 +403,18 @@ MonoBehaviour:
         Sprite_Right: {fileID: 21300000, guid: 5586baaa9b50a5d48a0e76c056b37b01, type: 3}
         SpeakerTypeLeft: 0
         SpeakerTypeRight: 1
-    - rid: 4994289268285243881
+    - rid: 4994289268285243970
       type: {class: DialogueBoxData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 2
         Text: "\u63A2\u3057\u7269\u306F\u898B\u3064\u304B\u3063\u305F\uFF1F"
-        AudioClip: {fileID: 0}
-    - rid: 4994289268285243882
+        AudioClip: {fileID: 8300000, guid: 7add742376cbc08418b6e3ed29e8c970, type: 3}
+    - rid: 4994289268285243971
       type: {class: DialogueNameData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 0
         Name: "\u30E6\u30CA"
-    - rid: 4994289268285243883
-      type: {class: DialogueImagesData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
-      data:
-        OrderIndex: 1
-        Sprite_Left: {fileID: 21300000, guid: 2722d790c4da97047a38ec6815473d25, type: 3}
-        Sprite_Right: {fileID: 21300000, guid: 5586baaa9b50a5d48a0e76c056b37b01, type: 3}
-        SpeakerTypeLeft: 0
-        SpeakerTypeRight: 1
-    - rid: 4994289268285243884
-      type: {class: DialogueBoxData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
-      data:
-        OrderIndex: 2
-        Text: "\u6025\u304C\u306A\u304F\u3066\u3082\u3044\u3044\u3002\u3067\u3082\u2026\u6642\u9593\u306F\u9650\u3089\u308C\u3066\u3044\u308B\u304B\u3082\u3057\u308C\u306A\u3044\u308F\u3088\u3002"
-        AudioClip: {fileID: 0}
-    - rid: 4994289268285243885
-      type: {class: DialogueNameData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
-      data:
-        OrderIndex: 0
-        Name: "\u30E6\u30CA"
-    - rid: 4994289268285243886
+    - rid: 4994289268285243972
       type: {class: DialogueImagesData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 1
@@ -441,18 +422,37 @@ MonoBehaviour:
         Sprite_Right: {fileID: 21300000, guid: 6fe593fc82c825b42b8d5ee3d3288b10, type: 3}
         SpeakerTypeLeft: 0
         SpeakerTypeRight: 1
-    - rid: 4994289268285243887
+    - rid: 4994289268285243973
       type: {class: DialogueBoxData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 2
         Text: "\u3075\u3080\u2026\u3088\u304F\u3084\u3063\u305F\u308F\u306D\u3002\u3058\u3083\u3042\u3001\u5C01\u5370\u304C\u89E3\u3051\u3092\u59CB\u3081\u307E\u3057\u3087\u3046\u3002"
-        AudioClip: {fileID: 0}
-    - rid: 4994289268285243888
+        AudioClip: {fileID: 8300000, guid: 4a8a206a461e1e948bc7a2fe6db11148, type: 3}
+    - rid: 4994289268285243974
       type: {class: DialogueNameData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 0
         Name: "\u30E6\u30CA"
-    - rid: 4994289268285243889
+    - rid: 4994289268285243975
+      type: {class: DialogueImagesData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
+      data:
+        OrderIndex: 1
+        Sprite_Left: {fileID: 21300000, guid: 2722d790c4da97047a38ec6815473d25, type: 3}
+        Sprite_Right: {fileID: 21300000, guid: 5586baaa9b50a5d48a0e76c056b37b01, type: 3}
+        SpeakerTypeLeft: 0
+        SpeakerTypeRight: 1
+    - rid: 4994289268285243976
+      type: {class: DialogueBoxData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
+      data:
+        OrderIndex: 2
+        Text: "\u6025\u304C\u306A\u304F\u3066\u3082\u3044\u3044\u3002\u3067\u3082\u2026\u6642\u9593\u306F\u9650\u3089\u308C\u3066\u3044\u308B\u304B\u3082\u3057\u308C\u306A\u3044\u308F\u3088\u3002"
+        AudioClip: {fileID: 8300000, guid: 1b6397284a4fcc84b94bbfcab57a1880, type: 3}
+    - rid: 4994289268285243977
+      type: {class: DialogueNameData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
+      data:
+        OrderIndex: 0
+        Name: "\u30E6\u30CA"
+    - rid: 4994289268285243978
       type: {class: DialogueImagesData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 0
@@ -460,9 +460,9 @@ MonoBehaviour:
         Sprite_Right: {fileID: 21300000, guid: 5d82310a7193cd84c80e214af30613b6, type: 3}
         SpeakerTypeLeft: 0
         SpeakerTypeRight: 1
-    - rid: 4994289268285243890
+    - rid: 4994289268285243979
       type: {class: DialogueBoxData, ns: Dennis.Tools.DialogueGraph.Data, asm: Assembly-CSharp}
       data:
         OrderIndex: 0
         Text: "\u5C01\u5370\u89E3\u3051\u305F"
-        AudioClip: {fileID: 0}
+        AudioClip: {fileID: 8300000, guid: df3ae6ed3b115ec4f84ffec7e19b8baf, type: 3}

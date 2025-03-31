@@ -214,7 +214,11 @@ namespace Dennis.Tools.DialogueGraph.UI
 
             _continueButton.onClick.RemoveAllListeners();
             _continueButton.onClick.AddListener(action);
-            _continueButton.onClick.AddListener(() => _continueButton.gameObject.SetActive(false));
+            _continueButton.onClick.AddListener(() =>
+            {
+                SoundManager.Instance.StopSE();
+                _continueButton.gameObject.SetActive(false);
+            });
             _continueButton.gameObject.SetActive(true);
         }
 

@@ -7,6 +7,7 @@ using Dennis.Tools.DialogueGraph.Data;
 using Dennis.Tools.DialogueGraph.Event;
 
 using Dennis.UI;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 namespace Dennis.Tools.DialogueGraph
 {
@@ -192,6 +193,8 @@ namespace Dennis.Tools.DialogueGraph
 
         private void ProcessDialogue()
         {
+            SoundManager.Instance.StopSE();
+
             for (int i = _currentIndex; i < _baseContainers.Count; i++)
             {
                 _currentIndex = i + 1;
@@ -210,7 +213,8 @@ namespace Dennis.Tools.DialogueGraph
                     DialogueBoxData tmp = _baseContainers[i] as DialogueBoxData;
                     _dialogueControllerUI.SetContentText(tmp.Text);
 
-                    // TODO - Play Audio
+                    // TODO: Refactor Manager to handle audio playback more effectively
+                    SoundManager.Instance.PlaySE(tmp.AudioClip);
                     break;
                 }
             }
@@ -218,6 +222,8 @@ namespace Dennis.Tools.DialogueGraph
 
         private void HandleDialogueFlow()
         {
+            SoundManager.Instance.StopSE();
+
             bool isDialogueEnd = _currentIndex == _baseContainers.Count && _currentDialogueNodeData.DialogueDataPorts.Count == 0;
             bool hasChoices = _currentIndex == _baseContainers.Count;
 
