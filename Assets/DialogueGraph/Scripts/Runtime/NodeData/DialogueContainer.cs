@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Dennis.Tools.DialogueGraph.Data
 {
     [Serializable]
+    [CreateAssetMenu(fileName = "DialogueContainer", menuName = "DialogueGraph/DialogueContainer")]
     public class DialogueContainer : ScriptableObject
     {
         public List<NodeLinkData>  NodeLinkDatas = new List<NodeLinkData>();
