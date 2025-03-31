@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -220,3 +222,5 @@ namespace Dennis.Tools.DialogueGraph
     }
 
 }
+
+#endif

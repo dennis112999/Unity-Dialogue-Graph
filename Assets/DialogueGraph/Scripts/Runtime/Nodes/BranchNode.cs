@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using UnityEngine;
 using UnityEditor.Experimental.GraphView;
 using Dennis.Tools.DialogueGraph.Data;
@@ -62,3 +64,5 @@ namespace Dennis.Tools.DialogueGraph
         }
     }
 }
+
+#endif

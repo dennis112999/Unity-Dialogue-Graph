@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using UnityEngine;
 
 using UnityEditor;
@@ -213,3 +215,5 @@ namespace Dennis.Tools.DialogueGraph
         #endregion NodeType
     }
 }
+
+#endif

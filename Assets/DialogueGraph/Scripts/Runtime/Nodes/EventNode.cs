@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using Dennis.Tools.DialogueGraph.Data;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
@@ -222,3 +224,5 @@ namespace Dennis.Tools.DialogueGraph
     }
 
 }
+
+#endif

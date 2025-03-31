@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -24,3 +26,5 @@ namespace Dennis.Tools.DialogueGraph
         }
     }
 }
+
+#endif

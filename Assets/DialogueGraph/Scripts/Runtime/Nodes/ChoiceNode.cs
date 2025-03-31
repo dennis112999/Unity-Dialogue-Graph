@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using UnityEngine;
 using Dennis.Tools.DialogueGraph.Data;
 using UnityEngine.UIElements;
@@ -87,7 +89,7 @@ namespace Dennis.Tools.DialogueGraph
 
             // Audio selection field
             ObjectField audioClipField = UIHelper.CreateObjectField<AudioClip>(
-                null, newAudioClip => _currentNodeData.AudioClip = newAudioClip
+                _currentNodeData.AudioClip, newAudioClip => _currentNodeData.AudioClip = newAudioClip
             );
             boxContainer.Add(audioClipField);
 
@@ -116,3 +118,5 @@ namespace Dennis.Tools.DialogueGraph
         }
     }
 }
+
+#endif
